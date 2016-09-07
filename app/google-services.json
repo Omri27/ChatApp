@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1076446942062",
+    "firebase_url": "https://chatapp-d3713.firebaseio.com",
+    "project_id": "chatapp-d3713",
+    "storage_bucket": "chatapp-d3713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076446942062:android:35c88d454ffcd835",
+        "android_client_info": {
+          "package_name": "com.example.omri.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076446942062-050j7ptng1rh9ntidcujna3s6t4ks4vd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMgia_AEK7LR9PwolmMtd-oGFylYNdLJU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
