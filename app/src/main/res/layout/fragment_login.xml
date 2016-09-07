@@ -2,16 +2,18 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="fill_parent"
+
         >
 
         <EditText
             android:layout_marginTop="60dp"
-            android:hint="Email"
+            android:hint=" Email"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/login_email"
+            android:drawableRight="@drawable/ic_email_black_24dp"
 
             />
         <EditText
@@ -23,6 +25,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:id="@+id/login_password"
+            android:drawableRight="@drawable/ic_vpn_key_black_24dp"
 
             />
 
