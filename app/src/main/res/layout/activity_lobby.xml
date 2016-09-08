@@ -9,9 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.omri.chatapp.LobbyActivity">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="HALO"/>
+        android:id="@+id/chat_recycler_view"></android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
