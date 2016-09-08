@@ -9,9 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.omri.chatapp.LobbyActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container_lobby"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/chat_recycler_view"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
