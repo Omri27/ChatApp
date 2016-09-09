@@ -23,7 +23,7 @@ import org.w3c.dom.Text;
  * A simple {@link Fragment} subclass.
  */
 public class ChatFragment extends Fragment {
-    public static final String CHATS = "chats/"+ FirebaseAuth.getInstance().getCurrentUser().getUid();
+    public static final String CHATS = "chats/";
     private RecyclerView messageRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
@@ -59,12 +59,12 @@ public class ChatFragment extends Fragment {
         messageRecyclerView= (RecyclerView)view.findViewById(R.id.chat_recycler_view);
         linearLayoutManager= new LinearLayoutManager(getActivity());
         ref= FirebaseDatabase.getInstance().getReference();
-
+        String chatRef = CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + chatId + "/messages";
         firebaseRecyclerAdapter= new FirebaseRecyclerAdapter<Message, MessageViewHolder>(
                 Message.class,
                 R.layout.message_template,
                 MessageViewHolder.class,
-                ref.child(CHATS + "/" + chatId + "/messages")) {
+                ref.child(chatRef)) {
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {
                 viewHolder.messageText.setText(model.getMessage());

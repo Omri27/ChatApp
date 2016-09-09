@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
             auth.signInWithEmailAndPassword("omer@gmail.com", "123456");
             auth.signOut();
             if (auth.getCurrentUser() != null) {
-
+                Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
+                startActivity(intent);
+                finish();
             } else {
                 LoginFragment loginFragment = new LoginFragment();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, loginFragment).commit();
@@ -59,19 +61,17 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
     }
 
     @Override
-    public void login(final String email,final String password) {
+    public void login(final String email, final String password) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                if(!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     Toast.makeText(MainActivity.this, task.getException().getMessage(),
                             Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Intent intent = new Intent(MainActivity.this,LobbyActivity.class);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -94,13 +94,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
 
                             Toast.makeText(MainActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            User user = new User(name,email);
+                        } else {
+                            User user = new User(name, email);
                             FirebaseDatabase db = FirebaseDatabase.getInstance();
                             DatabaseReference ref = db.getReference();
                             ref.child("users").child(task.getResult().getUser().getUid()).setValue(user);
-                            login(email,password);
+                            login(email, password);
 
 
                         }

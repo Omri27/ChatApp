@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * A simple {@link Fragment} subclass.
  */
 public class ChatListFragment extends Fragment {
-    public static final String CHATS= "chats/"+ FirebaseAuth.getInstance().getCurrentUser().getUid();
+    public static final String CHATS= "chats/";
     private RecyclerView chatRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
@@ -53,7 +53,7 @@ public class ChatListFragment extends Fragment {
                 Chat.class,
                 R.layout.chat_template,
                 ChatViewHolder.class,
-                ref.child(CHATS )) {
+                ref.child(CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             @Override
             protected void populateViewHolder(ChatViewHolder viewHolder, Chat model, final int position) {
                 viewHolder.chatName.setText(model.getName());
