@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
             }
 
             FirebaseAuth auth = FirebaseAuth.getInstance();
-            auth.signInWithEmailAndPassword("omer@gmail.com", "123456");
-            auth.signOut();
             if (auth.getCurrentUser() != null) {
                 Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
                 startActivity(intent);
