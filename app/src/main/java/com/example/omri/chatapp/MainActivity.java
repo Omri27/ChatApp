@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
     @Override
     public void startSignUp() {
         SignUpFragment signUpFragment = new SignUpFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, signUpFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, signUpFragment).addToBackStack(null).commit();
     }
 
     @Override

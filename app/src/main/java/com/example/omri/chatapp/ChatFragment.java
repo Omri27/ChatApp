@@ -9,12 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -27,7 +32,8 @@ public class ChatFragment extends Fragment {
     private RecyclerView messageRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
-
+    private EditText textMessage;
+    private ImageButton sendButton;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -51,11 +57,23 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat,container,false);
+        textMessage= (EditText) view.findViewById(R.id.messageEditText);
+        sendButton= (ImageButton) view.findViewById(R.id.sendMessageButton);
 
         //get data from activity
         String chatId = getArguments().getString("chatId");
-        Log.w("TAG",chatId);
-        getActivity().setTitle("Chat");
+        FirebaseDatabase.getInstance().getReference().child("users").child(chatId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getActivity().setTitle("Chat with " +  ((String)dataSnapshot.getValue()).split(" ")[0]);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         messageRecyclerView= (RecyclerView)view.findViewById(R.id.chat_recycler_view);
         linearLayoutManager= new LinearLayoutManager(getActivity());
         ref= FirebaseDatabase.getInstance().getReference();
@@ -86,8 +104,20 @@ public class ChatFragment extends Fragment {
         });
         messageRecyclerView.setLayoutManager(linearLayoutManager);
         messageRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!textMessage.getText().toString().equals("")) {
+                    ((Communicate) (getActivity())).sendMessage(textMessage.getText().toString());
+                    textMessage.setText("");
+                }
 
+
+            }
+        });
         return view;
 }
-
+    interface Communicate{
+        void sendMessage(String messageText);
+    }
 }

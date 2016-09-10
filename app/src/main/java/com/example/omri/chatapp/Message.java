@@ -14,7 +14,7 @@ public class Message {
     public Message() {
     }
 
-    public Message(SimpleDateFormat time, String message, String sender) {
+    public Message(String message, String sender) {
         this.time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
         this.message = message;
         this.sender = sender;

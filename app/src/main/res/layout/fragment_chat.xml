@@ -1,13 +1,51 @@
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.omri.chatapp.ChatFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/chat_recycler_view"></android.support.v7.widget.RecyclerView>
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/chat_recycler_view"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#dbdbdb">
+
+
+            <EditText
+                android:id="@+id/messageEditText"
+                android:layout_width="252dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_weight="0.72"
+                android:ems="10"
+                android:maxHeight="80dp"
+                />
+
+            <ImageButton
+                android:id="@+id/sendMessageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_send_black_24dp"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
 </FrameLayout>

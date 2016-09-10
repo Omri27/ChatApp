@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 
 /**
@@ -29,6 +31,7 @@ public class PeopleFragment extends Fragment {
     private RecyclerView peopleRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
+    private int index;
 
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
@@ -49,24 +52,35 @@ public class PeopleFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_people,container,false);
         getActivity().setTitle("Find People");
+        final String currentUserId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         peopleRecyclerView = (RecyclerView)view.findViewById(R.id.people_recycler_view);
         linearLayoutManager= new LinearLayoutManager(getActivity());
         ref= FirebaseDatabase.getInstance().getReference();
+
         firebaseRecyclerAdapter= new FirebaseRecyclerAdapter<User, UserViewHolder>(
                 User.class,
                 R.layout.user_template,
                 UserViewHolder.class,
-                ref.child(USERS )) {
+                ref.child(USERS)) {
             @Override
-            protected void populateViewHolder(UserViewHolder viewHolder, User model, final int position) {
-                viewHolder.userName.setText(model.getName());
-                viewHolder.userName.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((Communicate)getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey());
-                    }
-                });
+            protected void populateViewHolder(UserViewHolder viewHolder, final User model, final int position) {
+
+                if( !firebaseRecyclerAdapter.getRef(position).getKey().equals(currentUserId)) {
+                    viewHolder.userName.setText(model.getName());
+                    viewHolder.userName.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((Communicate) getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey(),model.getName());
+                        }
+                    });
+                }
+                else
+                {
+                    peopleRecyclerView.removeView(viewHolder.itemView);
+                }
             }
+
+
 
         };
         firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
@@ -80,8 +94,11 @@ public class PeopleFragment extends Fragment {
                 }
             }
         });
+
         peopleRecyclerView.setLayoutManager(linearLayoutManager);
         peopleRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+
 
 
 
@@ -89,6 +106,6 @@ public class PeopleFragment extends Fragment {
         return view;
     }
     interface Communicate{
-        void startChat(String uid);
+        void startChat(String receiverId,String receiverName);
     }
 }
