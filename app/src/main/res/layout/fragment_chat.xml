@@ -26,6 +26,7 @@
             <EditText
                 android:id="@+id/messageEditText"
                 android:layout_width="252dp"
+
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="false"
                 android:layout_weight="0.72"
@@ -40,7 +41,8 @@
 
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/ic_send_black_24dp"
+                android:src="@drawable/ic_send_black_24dp"
+                android:background="?android:attr/selectableItemBackground"
                 />
         </LinearLayout>
 

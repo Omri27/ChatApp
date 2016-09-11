@@ -1,13 +1,13 @@
 package com.example.omri.chatapp;
 
 import android.content.Intent;
-import android.os.*;
-import android.os.Message;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,8 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
-public class LobbyActivity extends AppCompatActivity implements PeopleFragment.Communicate, ChatListFragment.Communicate,ChatFragment.Communicate{
+public class LobbyActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, PeopleFragment.Communicate, ChatListFragment.Communicate,ChatFragment.Communicate {
 
     private String currentUserName;
     private String currentChatId;
@@ -26,65 +26,96 @@ public class LobbyActivity extends AppCompatActivity implements PeopleFragment.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lobby);
+        setContentView(R.layout.activity_drawer_lobby);
         getCurrentUserName();
-        if (findViewById(R.id.fragment_container_lobby) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-            ChatListFragment chatListFragment = new ChatListFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
-
-        }
-        //chatRecyclerView= (RecyclerView)findViewById(R.id.chat_recycler_view);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ChatListFragment chatListFragment = new ChatListFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
     }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.active_chats) {
+            ChatListFragment chatListFragment = new ChatListFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatListFragment).commit();
+
+        } else if (id == R.id.find_people) {
+            PeopleFragment peopleFragment = new PeopleFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby,peopleFragment).addToBackStack(null).commit();
+
+        } else if (id == R.id.logout_button) {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.signOut();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.logout:
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.signOut();
-                Intent intent = new Intent(LobbyActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            case R.id.find_people:
-                PeopleFragment peopleFragment = new PeopleFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby,peopleFragment).addToBackStack(null).commit();
 
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    private void getCurrentUserName(){
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("name");
+        currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUserName = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
-private void getCurrentUserName(){
-    String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("name");
-    currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            currentUserName = dataSnapshot.getValue(String.class);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    });
-}
     @Override
     public void startChat(final String receiverId, final String receiverName) {
 

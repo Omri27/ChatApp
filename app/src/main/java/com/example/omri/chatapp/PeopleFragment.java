@@ -83,6 +83,8 @@ public class PeopleFragment extends Fragment {
 
 
         };
+
+
         firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
             @Override
             public void onItemRangeInserted(int positionStart,int itemCount){

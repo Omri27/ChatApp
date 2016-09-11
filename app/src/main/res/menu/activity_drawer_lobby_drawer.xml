@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/find_people"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:title="Find People" />
+        <item
+            android:id="@+id/active_chats"
+            android:icon="@drawable/ic_send_black_24dp"
+            android:title="Chats" />
+        <item
+            android:id="@+id/logout_button"
+            android:icon="@drawable/ic_input_black_24dp"
+            android:title="Logout" />
+
+    </group>
+
+
+
+</menu>
