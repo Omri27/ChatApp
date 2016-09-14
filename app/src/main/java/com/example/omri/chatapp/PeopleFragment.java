@@ -3,6 +3,7 @@ package com.example.omri.chatapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,10 +39,12 @@ public class PeopleFragment extends Fragment {
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         public TextView userName;
+        public CardView userCardView;
 
         public UserViewHolder(View itemView) {
             super(itemView);
             userName = (TextView)itemView.findViewById(R.id.user_name);
+            userCardView = (CardView) itemView.findViewById(R.id.user_card_view);
         }
 
         public void setVisibility(boolean isVisible){
@@ -54,6 +57,7 @@ public class PeopleFragment extends Fragment {
                 itemView.setVisibility(View.GONE);
                 param.height = 0;
                 param.width = 0;
+                param.setMargins(0, 0, 0, 0);
             }
             itemView.setLayoutParams(param);
         }
@@ -83,7 +87,7 @@ public class PeopleFragment extends Fragment {
 
                 if( !firebaseRecyclerAdapter.getRef(position).getKey().equals(currentUserId)) {
                     viewHolder.userName.setText(model.getName());
-                    viewHolder.userName.setOnClickListener(new View.OnClickListener() {
+                    viewHolder.userCardView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             ((Communicate) getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey(),model.getName());
