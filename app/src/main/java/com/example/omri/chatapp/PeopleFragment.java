@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -23,7 +24,8 @@ import com.google.firebase.database.Query;
  */
 public class PeopleFragment extends Fragment {
 
-    public PeopleFragment(){
+    public PeopleFragment()
+    {
 
     }
 
@@ -40,6 +42,20 @@ public class PeopleFragment extends Fragment {
         public UserViewHolder(View itemView) {
             super(itemView);
             userName = (TextView)itemView.findViewById(R.id.user_name);
+        }
+
+        public void setVisibility(boolean isVisible){
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)itemView.getLayoutParams();
+            if (isVisible){
+                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                itemView.setVisibility(View.VISIBLE);
+            }else{
+                itemView.setVisibility(View.GONE);
+                param.height = 0;
+                param.width = 0;
+            }
+            itemView.setLayoutParams(param);
         }
     }
     private FirebaseRecyclerAdapter<User,UserViewHolder> firebaseRecyclerAdapter;
@@ -76,7 +92,7 @@ public class PeopleFragment extends Fragment {
                 }
                 else
                 {
-                    peopleRecyclerView.removeView(viewHolder.itemView);
+                    viewHolder.setVisibility(false);
                 }
             }
 
