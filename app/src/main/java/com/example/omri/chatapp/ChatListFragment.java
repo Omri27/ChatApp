@@ -3,6 +3,7 @@ package com.example.omri.chatapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,10 +29,12 @@ public class ChatListFragment extends Fragment {
 
     public static class ChatViewHolder extends RecyclerView.ViewHolder{
         public TextView chatName;
+        public CardView userCardView;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
             chatName= (TextView)itemView.findViewById(R.id.chat_name);
+            userCardView= (CardView)itemView.findViewById(R.id.chat_card_view);
         }
     }
     private FirebaseRecyclerAdapter<Chat,ChatViewHolder> firebaseRecyclerAdapter;
@@ -57,7 +60,7 @@ public class ChatListFragment extends Fragment {
             @Override
             protected void populateViewHolder(ChatViewHolder viewHolder, Chat model, final int position) {
                 viewHolder.chatName.setText(model.getName());
-                viewHolder.chatName.setOnClickListener(new View.OnClickListener() {
+                viewHolder.userCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ((Communicate)getActivity()).accessChat(firebaseRecyclerAdapter.getRef(position).getKey());
