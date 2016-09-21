@@ -1,8 +1,8 @@
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.omri.chatapp.ChatFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,32 +17,40 @@
             android:id="@+id/chat_recycler_view"/>
 
         <LinearLayout
+            android:id="@+id/footer_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#dbdbdb">
-
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/messageEditText"
-                android:layout_width="252dp"
-
+                android:hint="Type a message..."
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="false"
-                android:layout_weight="0.72"
-                android:ems="10"
-                android:maxHeight="80dp"
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false"
+                android:layout_weight="1"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:minLines="1"
+                android:textColor="@android:color/black"
                 />
 
-            <ImageButton
-                android:id="@+id/sendMessageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <!--<ImageView-->
+            <!--android:id="@+id/sendMessageButton"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_send_black_36dp"/>-->
 
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_send_black_24dp"
-                android:background="?android:attr/selectableItemBackground"
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_send_black_36dp"
+                android:clickable="true"
+                android:id="@+id/sendMessageButton"
+                app:elevation="0dp"
                 />
         </LinearLayout>
 

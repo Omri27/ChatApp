@@ -8,7 +8,7 @@
             android:title="Find People" />
         <item
             android:id="@+id/active_chats"
-            android:icon="@drawable/ic_send_black_24dp"
+            android:icon="@drawable/ic_send_black_36dp"
             android:title="Chats" />
         <item
             android:id="@+id/logout_button"

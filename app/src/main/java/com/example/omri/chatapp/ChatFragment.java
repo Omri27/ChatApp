@@ -2,6 +2,7 @@ package com.example.omri.chatapp;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -33,7 +35,7 @@ public class ChatFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private EditText textMessage;
-    private ImageButton sendButton;
+    private FloatingActionButton sendButton;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -58,7 +60,7 @@ public class ChatFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat,container,false);
         textMessage= (EditText) view.findViewById(R.id.messageEditText);
-        sendButton= (ImageButton) view.findViewById(R.id.sendMessageButton);
+        sendButton= (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
 
         //get data from activity
         String chatId = getArguments().getString("chatId");
@@ -108,6 +110,7 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!textMessage.getText().toString().equals("")) {
+                    //String replaced = textMessage.getText().toString().replaceAll("\n","\\n");
                     ((Communicate) (getActivity())).sendMessage(textMessage.getText().toString());
                     textMessage.setText("");
                 }
