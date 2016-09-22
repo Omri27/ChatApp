@@ -95,7 +95,8 @@ public class ChatFragment extends Fragment {
             protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {
                 viewHolder.messageText.setText(model.getMessage());
                 //viewHolder.messageText.setText("how r u doing???");
-                if(model.getSenderId() == FirebaseAuth.getInstance().getCurrentUser().getUid())
+                Log.w("current",model.getSenderId());
+                if(model.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
                 {
                     viewHolder.messageText.setBackgroundResource(R.drawable.bubble_in);
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.messageLayout.getLayoutParams();
