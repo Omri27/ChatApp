@@ -170,7 +170,7 @@ public class LobbyActivity extends AppCompatActivity
         DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId).child("messages");
         DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId).child("messages");
         String key = senderRef.push().getKey();
-        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText,currentUserName);
+        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText,currentUserName,senderId);
         senderRef.child(key).setValue(message);
         receiverRef.child(key).setValue(message);
     }

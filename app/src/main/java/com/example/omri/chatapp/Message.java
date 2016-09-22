@@ -10,14 +10,24 @@ public class Message {
     private String time;
     private String message;
     private String sender;
+    private String senderId;
 
     public Message() {
     }
 
-    public Message(String message, String sender) {
+    public Message(String message, String sender,String senderId) {
         this.time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
         this.message = message;
         this.sender = sender;
+        this.senderId = senderId;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
     public String getTime() {

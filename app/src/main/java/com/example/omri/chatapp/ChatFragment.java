@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -36,20 +38,24 @@ public class ChatFragment extends Fragment {
     private DatabaseReference ref;
     private EditText textMessage;
     private FloatingActionButton sendButton;
+    //private String currentUser;
+
 
     public ChatFragment() {
         // Required empty public constructor
     }
     public static class MessageViewHolder extends RecyclerView.ViewHolder{
         public TextView messageText;
-        public TextView sender;
-        public TextView timeStamp;
+        //public TextView sender;
+        //public TextView timeStamp;
+        public LinearLayout messageLayout;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
             messageText= (TextView)itemView.findViewById(R.id.message_text);
-            sender= (TextView)itemView.findViewById(R.id.sender);
-            timeStamp=(TextView)itemView.findViewById(R.id.time_stamp);
+            //sender= (TextView)itemView.findViewById(R.id.sender);
+            //timeStamp=(TextView)itemView.findViewById(R.id.time_stamp);
+            messageLayout = (LinearLayout)itemView.findViewById(R.id.message_layout);
         }
     }
     private FirebaseRecyclerAdapter<Message,MessageViewHolder> firebaseRecyclerAdapter;
@@ -75,7 +81,7 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
+        //currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         messageRecyclerView= (RecyclerView)view.findViewById(R.id.chat_recycler_view);
         linearLayoutManager= new LinearLayoutManager(getActivity());
         ref= FirebaseDatabase.getInstance().getReference();
@@ -88,8 +94,25 @@ public class ChatFragment extends Fragment {
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {
                 viewHolder.messageText.setText(model.getMessage());
-                viewHolder.sender.setText(model.getSender());
-                viewHolder.timeStamp.setText(model.getTime());
+                //viewHolder.messageText.setText("how r u doing???");
+                if(model.getSenderId() == FirebaseAuth.getInstance().getCurrentUser().getUid())
+                {
+                    viewHolder.messageText.setBackgroundResource(R.drawable.bubble_in);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.messageLayout.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    viewHolder.messageLayout.setLayoutParams(params);
+                }
+                else
+                {
+                    viewHolder.messageText.setBackgroundResource(R.drawable.bubble_out);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.messageLayout.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                    viewHolder.messageLayout.setLayoutParams(params);
+
+                }
+
+                //.viewHolder.sender.setText(model.getSender());
+                //viewHolder.timeStamp.setText(model.getTime());
             }
 
         };
