@@ -25,8 +25,7 @@ import com.google.firebase.database.Query;
  */
 public class PeopleFragment extends Fragment {
 
-    public PeopleFragment()
-    {
+    public PeopleFragment() {
 
     }
 
@@ -43,17 +42,17 @@ public class PeopleFragment extends Fragment {
 
         public UserViewHolder(View itemView) {
             super(itemView);
-            userName = (TextView)itemView.findViewById(R.id.user_name);
+            userName = (TextView) itemView.findViewById(R.id.user_name);
             userCardView = (CardView) itemView.findViewById(R.id.user_card_view);
         }
 
-        public void setVisibility(boolean isVisible){
-            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)itemView.getLayoutParams();
-            if (isVisible){
+        public void setVisibility(boolean isVisible) {
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+            if (isVisible) {
                 param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
                 param.width = LinearLayout.LayoutParams.MATCH_PARENT;
                 itemView.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 itemView.setVisibility(View.GONE);
                 param.height = 0;
                 param.width = 0;
@@ -62,22 +61,22 @@ public class PeopleFragment extends Fragment {
             itemView.setLayoutParams(param);
         }
     }
-    private FirebaseRecyclerAdapter<User,UserViewHolder> firebaseRecyclerAdapter;
 
+    private FirebaseRecyclerAdapter<User, UserViewHolder> firebaseRecyclerAdapter;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_people,container,false);
+        View view = inflater.inflate(R.layout.fragment_people, container, false);
         getActivity().setTitle("Find People");
-        final String currentUserId= FirebaseAuth.getInstance().getCurrentUser().getUid();
-        peopleRecyclerView = (RecyclerView)view.findViewById(R.id.people_recycler_view);
-        linearLayoutManager= new LinearLayoutManager(getActivity());
-        ref= FirebaseDatabase.getInstance().getReference();
+        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        peopleRecyclerView = (RecyclerView) view.findViewById(R.id.people_recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        ref = FirebaseDatabase.getInstance().getReference();
 
-        firebaseRecyclerAdapter= new FirebaseRecyclerAdapter<User, UserViewHolder>(
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<User, UserViewHolder>(
                 User.class,
                 R.layout.user_template,
                 UserViewHolder.class,
@@ -85,33 +84,30 @@ public class PeopleFragment extends Fragment {
             @Override
             protected void populateViewHolder(UserViewHolder viewHolder, final User model, final int position) {
 
-                if( !firebaseRecyclerAdapter.getRef(position).getKey().equals(currentUserId)) {
+                if (!firebaseRecyclerAdapter.getRef(position).getKey().equals(currentUserId)) {
                     viewHolder.userName.setText(model.getName());
                     viewHolder.userCardView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((Communicate) getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey(),model.getName());
+                            ((Communicate) getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey(), model.getName());
                         }
                     });
-                }
-                else
-                {
+                } else {
                     viewHolder.setVisibility(false);
                 }
             }
 
 
-
         };
 
 
-        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
-            public void onItemRangeInserted(int positionStart,int itemCount){
-                super.onItemRangeInserted(positionStart,itemCount);
-                int chatCount= firebaseRecyclerAdapter.getItemCount();
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int chatCount = firebaseRecyclerAdapter.getItemCount();
                 int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if(lastVisiblePosition== -1 || (positionStart>=(chatCount-1) && lastVisiblePosition==(positionStart-1))){
+                if (lastVisiblePosition == -1 || (positionStart >= (chatCount - 1) && lastVisiblePosition == (positionStart - 1))) {
                     peopleRecyclerView.scrollToPosition(positionStart);
                 }
             }
@@ -121,13 +117,10 @@ public class PeopleFragment extends Fragment {
         peopleRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
 
-
-
-
-
         return view;
     }
-    interface Communicate{
-        void startChat(String receiverId,String receiverName);
+
+    interface Communicate {
+        void startChat(String receiverId, String receiverName);
     }
 }

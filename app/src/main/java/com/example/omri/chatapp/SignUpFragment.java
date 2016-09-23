@@ -17,7 +17,6 @@ import android.widget.EditText;
 public class SignUpFragment extends Fragment implements View.OnClickListener {
 
 
-
     private Button signupBtn;
     private EditText nameText;
     private EditText emailText;
@@ -29,11 +28,11 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view =  inflater.inflate(R.layout.fragment_sign_up, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         nameText = (EditText) view.findViewById(R.id.signup_name);
         emailText = (EditText) view.findViewById(R.id.signup_email);
         passwordText = (EditText) view.findViewById(R.id.signup_password);
-        signupBtn = (Button)view.findViewById(R.id.signup_button);
+        signupBtn = (Button) view.findViewById(R.id.signup_button);
         signupBtn.setOnClickListener(this);
 
         return view;
@@ -41,23 +40,23 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.signup_button:
-                if(validateInput())
-                    ((Communicate)getActivity()).signUp(nameText.getText().toString(),emailText.getText().toString(),passwordText.getText().toString());
+                if (validateInput())
+                    ((Communicate) getActivity()).signUp(nameText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString());
         }
     }
 
     private boolean validateInput() {
-        if(nameText.getText().toString().equals("")){
+        if (nameText.getText().toString().equals("")) {
             nameText.setError("Please enter name!");
             return false;
         }
-        if(emailText.getText().toString().equals("")) {
+        if (emailText.getText().toString().equals("")) {
             emailText.setError("Please enter email!");
             return false;
         }
-        if(passwordText.getText().toString().equals("")){
+        if (passwordText.getText().toString().equals("")) {
             passwordText.setError("Please enter password!");
             return false;
         }
@@ -65,8 +64,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
 
     }
-    interface Communicate{
-         void signUp(String name, String email,String password);
+
+    interface Communicate {
+        void signUp(String name, String email, String password);
     }
 
 }

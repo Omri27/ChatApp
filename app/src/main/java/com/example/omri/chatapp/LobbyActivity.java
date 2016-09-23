@@ -18,11 +18,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LobbyActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PeopleFragment.Communicate, ChatListFragment.Communicate,ChatFragment.Communicate {
+        implements NavigationView.OnNavigationItemSelectedListener, PeopleFragment.Communicate, ChatListFragment.Communicate, ChatFragment.Communicate {
 
     private String currentUserName;
     private String currentChatId;
     private String currentRecevierId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,6 @@ public class LobbyActivity extends AppCompatActivity
         getCurrentUserName();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,7 +55,6 @@ public class LobbyActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
 
 
 //    @Override
@@ -85,7 +84,7 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.find_people) {
             PeopleFragment peopleFragment = new PeopleFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby,peopleFragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).addToBackStack(null).commit();
 
         } else if (id == R.id.logout_button) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -100,7 +99,7 @@ public class LobbyActivity extends AppCompatActivity
         return true;
     }
 
-    private void getCurrentUserName(){
+    private void getCurrentUserName() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("name");
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -116,6 +115,7 @@ public class LobbyActivity extends AppCompatActivity
             }
         });
     }
+
     @Override
     public void startChat(final String receiverId, final String receiverName) {
 
@@ -144,7 +144,7 @@ public class LobbyActivity extends AppCompatActivity
 
     }
 
-    private void createChatNodes(String receiverName, String currentUserName,String receiverId){
+    private void createChatNodes(String receiverName, String currentUserName, String receiverId) {
         String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
         DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(receiverId).child(senderId);
@@ -153,15 +153,16 @@ public class LobbyActivity extends AppCompatActivity
         receiverRef.setValue(new Chat(currentUserName));
 
     }
+
     @Override
     public void accessChat(String chatId) {
-        currentChatId=chatId;
-        currentRecevierId=chatId;
+        currentChatId = chatId;
+        currentRecevierId = chatId;
         ChatFragment chatFragment = new ChatFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("chatId",chatId);
+        bundle.putString("chatId", chatId);
         chatFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby,chatFragment).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatFragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -170,7 +171,7 @@ public class LobbyActivity extends AppCompatActivity
         DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId).child("messages");
         DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId).child("messages");
         String key = senderRef.push().getKey();
-        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText,currentUserName,senderId);
+        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
         senderRef.child(key).setValue(message);
         receiverRef.child(key).setValue(message);
     }

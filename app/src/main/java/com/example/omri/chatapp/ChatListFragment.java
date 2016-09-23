@@ -21,23 +21,25 @@ import com.google.firebase.database.FirebaseDatabase;
  * A simple {@link Fragment} subclass.
  */
 public class ChatListFragment extends Fragment {
-    public static final String CHATS= "chats/";
+    public static final String CHATS = "chats/";
     private RecyclerView chatRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
 
 
-    public static class ChatViewHolder extends RecyclerView.ViewHolder{
+    public static class ChatViewHolder extends RecyclerView.ViewHolder {
         public TextView chatName;
         public CardView userCardView;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
-            chatName= (TextView)itemView.findViewById(R.id.chat_name);
-            userCardView= (CardView)itemView.findViewById(R.id.chat_card_view);
+            chatName = (TextView) itemView.findViewById(R.id.chat_name);
+            userCardView = (CardView) itemView.findViewById(R.id.chat_card_view);
         }
     }
-    private FirebaseRecyclerAdapter<Chat,ChatViewHolder> firebaseRecyclerAdapter;
+
+    private FirebaseRecyclerAdapter<Chat, ChatViewHolder> firebaseRecyclerAdapter;
+
     public ChatListFragment() {
         // Required empty public constructor
     }
@@ -47,12 +49,12 @@ public class ChatListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_chat_list,container,false);
+        View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         getActivity().setTitle("Active Chats");
-        chatRecyclerView= (RecyclerView)view.findViewById(R.id.chat_list_recycler_view);
-        linearLayoutManager= new LinearLayoutManager(getActivity());
-        ref= FirebaseDatabase.getInstance().getReference();
-        firebaseRecyclerAdapter= new FirebaseRecyclerAdapter<Chat, ChatViewHolder>(
+        chatRecyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        ref = FirebaseDatabase.getInstance().getReference();
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Chat, ChatViewHolder>(
                 Chat.class,
                 R.layout.chat_template,
                 ChatViewHolder.class,
@@ -63,19 +65,19 @@ public class ChatListFragment extends Fragment {
                 viewHolder.userCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((Communicate)getActivity()).accessChat(firebaseRecyclerAdapter.getRef(position).getKey());
+                        ((Communicate) getActivity()).accessChat(firebaseRecyclerAdapter.getRef(position).getKey());
                     }
                 });
 
             }
         };
-        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
-            public void onItemRangeInserted(int positionStart,int itemCount){
-                super.onItemRangeInserted(positionStart,itemCount);
-                int chatCount= firebaseRecyclerAdapter.getItemCount();
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int chatCount = firebaseRecyclerAdapter.getItemCount();
                 int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if(lastVisiblePosition== -1 || (positionStart>=(chatCount-1) && lastVisiblePosition==(positionStart-1))){
+                if (lastVisiblePosition == -1 || (positionStart >= (chatCount - 1) && lastVisiblePosition == (positionStart - 1))) {
                     chatRecyclerView.scrollToPosition(positionStart);
                 }
             }
@@ -84,12 +86,10 @@ public class ChatListFragment extends Fragment {
         chatRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
 
-
-
         return view;
     }
 
-    interface Communicate{
+    interface Communicate {
         void accessChat(String chatId);
     }
 }

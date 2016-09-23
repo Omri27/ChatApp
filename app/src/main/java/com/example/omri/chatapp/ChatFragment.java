@@ -44,7 +44,8 @@ public class ChatFragment extends Fragment {
     public ChatFragment() {
         // Required empty public constructor
     }
-    public static class MessageViewHolder extends RecyclerView.ViewHolder{
+
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageText;
         //public TextView sender;
         //public TextView timeStamp;
@@ -52,28 +53,29 @@ public class ChatFragment extends Fragment {
 
         public MessageViewHolder(View itemView) {
             super(itemView);
-            messageText= (TextView)itemView.findViewById(R.id.message_text);
+            messageText = (TextView) itemView.findViewById(R.id.message_text);
             //sender= (TextView)itemView.findViewById(R.id.sender);
             //timeStamp=(TextView)itemView.findViewById(R.id.time_stamp);
-            messageLayout = (LinearLayout)itemView.findViewById(R.id.message_layout);
+            messageLayout = (LinearLayout) itemView.findViewById(R.id.message_layout);
         }
     }
-    private FirebaseRecyclerAdapter<Message,MessageViewHolder> firebaseRecyclerAdapter;
+
+    private FirebaseRecyclerAdapter<Message, MessageViewHolder> firebaseRecyclerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_chat,container,false);
-        textMessage= (EditText) view.findViewById(R.id.messageEditText);
-        sendButton= (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        textMessage = (EditText) view.findViewById(R.id.messageEditText);
+        sendButton = (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
 
         //get data from activity
         String chatId = getArguments().getString("chatId");
         FirebaseDatabase.getInstance().getReference().child("users").child(chatId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getActivity().setTitle("Chat with " +  ((String)dataSnapshot.getValue()).split(" ")[0]);
+                getActivity().setTitle("Chat with " + ((String) dataSnapshot.getValue()).split(" ")[0]);
             }
 
             @Override
@@ -82,11 +84,11 @@ public class ChatFragment extends Fragment {
             }
         });
         //currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        messageRecyclerView= (RecyclerView)view.findViewById(R.id.chat_recycler_view);
-        linearLayoutManager= new LinearLayoutManager(getActivity());
-        ref= FirebaseDatabase.getInstance().getReference();
+        messageRecyclerView = (RecyclerView) view.findViewById(R.id.chat_recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        ref = FirebaseDatabase.getInstance().getReference();
         String chatRef = CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + chatId + "/messages";
-        firebaseRecyclerAdapter= new FirebaseRecyclerAdapter<Message, MessageViewHolder>(
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(
                 Message.class,
                 R.layout.message_template,
                 MessageViewHolder.class,
@@ -95,18 +97,15 @@ public class ChatFragment extends Fragment {
             protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {
                 viewHolder.messageText.setText(model.getMessage());
                 //viewHolder.messageText.setText("how r u doing???");
-                Log.w("current",model.getSenderId());
-                if(model.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                {
+                Log.w("current", model.getSenderId());
+                if (model.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     viewHolder.messageText.setBackgroundResource(R.drawable.bubble_in);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.messageLayout.getLayoutParams();
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.messageLayout.getLayoutParams();
                     params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                     viewHolder.messageLayout.setLayoutParams(params);
-                }
-                else
-                {
+                } else {
                     viewHolder.messageText.setBackgroundResource(R.drawable.bubble_out);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.messageLayout.getLayoutParams();
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.messageLayout.getLayoutParams();
                     params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                     viewHolder.messageLayout.setLayoutParams(params);
 
@@ -117,13 +116,13 @@ public class ChatFragment extends Fragment {
             }
 
         };
-        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
-            public void onItemRangeInserted(int positionStart,int itemCount){
-                super.onItemRangeInserted(positionStart,itemCount);
-                int chatCount= firebaseRecyclerAdapter.getItemCount();
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int chatCount = firebaseRecyclerAdapter.getItemCount();
                 int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if(lastVisiblePosition== -1 || (positionStart>=(chatCount-1) && lastVisiblePosition==(positionStart-1))){
+                if (lastVisiblePosition == -1 || (positionStart >= (chatCount - 1) && lastVisiblePosition == (positionStart - 1))) {
                     messageRecyclerView.scrollToPosition(positionStart);
                 }
             }
@@ -133,7 +132,7 @@ public class ChatFragment extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!textMessage.getText().toString().equals("")) {
+                if (!textMessage.getText().toString().equals("")) {
                     //String replaced = textMessage.getText().toString().replaceAll("\n","\\n");
                     ((Communicate) (getActivity())).sendMessage(textMessage.getText().toString());
                     textMessage.setText("");
@@ -143,8 +142,9 @@ public class ChatFragment extends Fragment {
             }
         });
         return view;
-}
-    interface Communicate{
+    }
+
+    interface Communicate {
         void sendMessage(String messageText);
     }
 }

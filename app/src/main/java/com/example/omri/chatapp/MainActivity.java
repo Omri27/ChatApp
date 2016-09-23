@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
 
             FirebaseAuth auth = FirebaseAuth.getInstance();
             if (auth.getCurrentUser() != null) {
-                Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
-                startActivity(intent);
-                finish();
+                startLobbyActivity();
             } else {
                 LoginFragment loginFragment = new LoginFragment();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, loginFragment).commit();
@@ -49,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
         }
     }
 
+
+    public void startLobbyActivity() {
+        Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void startSignUp() {
@@ -67,9 +71,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
                     Toast.makeText(MainActivity.this, task.getException().getMessage(),
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
-                    startActivity(intent);
-                    finish();
+                    startLobbyActivity();
                 }
 
 
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
                             FirebaseDatabase db = FirebaseDatabase.getInstance();
                             DatabaseReference ref = db.getReference();
                             ref.child("users").child(task.getResult().getUser().getUid()).setValue(user);
-                            login(email, password);
+                            startLobbyActivity();
 
 
                         }
