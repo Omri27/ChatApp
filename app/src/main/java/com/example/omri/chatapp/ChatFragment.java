@@ -48,14 +48,14 @@ public class ChatFragment extends Fragment {
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageText;
         //public TextView sender;
-        //public TextView timeStamp;
+        public TextView timeStamp;
         public LinearLayout messageLayout;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.message_text);
             //sender= (TextView)itemView.findViewById(R.id.sender);
-            //timeStamp=(TextView)itemView.findViewById(R.id.time_stamp);
+            timeStamp=(TextView)itemView.findViewById(R.id.time_stamp);
             messageLayout = (LinearLayout) itemView.findViewById(R.id.message_layout);
         }
     }
@@ -66,9 +66,10 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        final View view = inflater.inflate(R.layout.fragment_chat, container, false);
         textMessage = (EditText) view.findViewById(R.id.messageEditText);
         sendButton = (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
+
 
         //get data from activity
         String chatId = getArguments().getString("chatId");
@@ -88,6 +89,7 @@ public class ChatFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
         String chatRef = CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + chatId + "/messages";
+        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(
                 Message.class,
                 R.layout.message_template,
@@ -96,23 +98,27 @@ public class ChatFragment extends Fragment {
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {
                 viewHolder.messageText.setText(model.getMessage());
-                //viewHolder.messageText.setText("how r u doing???");
-                Log.w("current", model.getSenderId());
-                if (model.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+
+                if (model.getSenderId().equals(currentUserId)) {
                     viewHolder.messageText.setBackgroundResource(R.drawable.bubble_in);
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.messageLayout.getLayoutParams();
                     params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
                     viewHolder.messageLayout.setLayoutParams(params);
+
                 } else {
                     viewHolder.messageText.setBackgroundResource(R.drawable.bubble_out);
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.messageLayout.getLayoutParams();
                     params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                    params.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                     viewHolder.messageLayout.setLayoutParams(params);
 
                 }
 
-                //.viewHolder.sender.setText(model.getSender());
-                //viewHolder.timeStamp.setText(model.getTime());
+
+
+                //viewHolder.sender.setText(model.getSender());
+                viewHolder.timeStamp.setText(model.getTime());
             }
 
         };
@@ -137,8 +143,6 @@ public class ChatFragment extends Fragment {
                     ((Communicate) (getActivity())).sendMessage(textMessage.getText().toString());
                     textMessage.setText("");
                 }
-
-
             }
         });
         return view;
