@@ -14,6 +14,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.Communicate, SignUpFragment.Communicate {
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
 
 
         }
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
     }
 
 
