@@ -1,6 +1,8 @@
 package com.example.omri.chatapp;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import java.net.URI;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -16,11 +23,13 @@ import android.widget.EditText;
  */
 public class SignUpFragment extends Fragment implements View.OnClickListener {
 
+    public static final int GALLERY_REQUEST_CODE = 1;
 
     private Button signupBtn;
     private EditText nameText;
     private EditText emailText;
     private EditText passwordText;
+    private ImageView selectProfilePic;
 
 
     @Override
@@ -33,6 +42,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         emailText = (EditText) view.findViewById(R.id.signup_email);
         passwordText = (EditText) view.findViewById(R.id.signup_password);
         signupBtn = (Button) view.findViewById(R.id.signup_button);
+        selectProfilePic = (ImageView)view.findViewById(R.id.select_profile_pic);
         signupBtn.setOnClickListener(this);
 
         return view;
@@ -44,6 +54,14 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             case R.id.signup_button:
                 if (validateInput())
                     ((Communicate) getActivity()).signUp(nameText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString());
+                    break;
+            case R.id.select_profile_pic:
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, GALLERY_REQUEST_CODE);
+
         }
     }
 
@@ -65,8 +83,25 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_REQUEST_CODE  && resultCode == RESULT_OK && data != null ) {
+
+            Uri uri = data.getData();
+
+
+
+
+        }
+
+    }
+
     interface Communicate {
         void signUp(String name, String email, String password);
+
+
     }
 
 }

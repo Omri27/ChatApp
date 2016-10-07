@@ -18,42 +18,42 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LobbyActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PeopleFragment.Communicate, ChatListFragment.Communicate, ChatFragment.Communicate {
+                implements NavigationView.OnNavigationItemSelectedListener, PeopleFragment.Communicate, ChatListFragment.Communicate, ChatFragment.Communicate {
 
-    private String currentUserName;
-    private String currentChatId;
-    private String currentRecevierId;
+            private String currentUserName;
+            private String currentChatId;
+            private String currentRecevierId;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer_lobby);
-        getCurrentUserName();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_drawer_lobby);
+                getCurrentUserName();
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                drawer.setDrawerListener(toggle);
+                toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                navigationView.setNavigationItemSelectedListener(this);
 
-        ChatListFragment chatListFragment = new ChatListFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
-    }
+                ChatListFragment chatListFragment = new ChatListFragment();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
+            }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+            @Override
+            public void onBackPressed() {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    super.onBackPressed();
+                }
     }
 
 
@@ -145,6 +145,7 @@ public class LobbyActivity extends AppCompatActivity
     }
 
     private void createChatNodes(String receiverName, String currentUserName, String receiverId) {
+
         String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
         DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(receiverId).child(senderId);

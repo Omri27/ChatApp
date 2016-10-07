@@ -3,8 +3,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="fill_parent"
     >
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/default_user"
+        android:id="@+id/select_profile_pic"
+        />
     <EditText
-        android:layout_marginTop="60dp"
+
         android:hint=" Full Name"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
