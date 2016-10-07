@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 import java.net.URI;
 
 import static android.app.Activity.RESULT_OK;
@@ -30,6 +34,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private EditText emailText;
     private EditText passwordText;
     private ImageView selectProfilePic;
+    private Uri profileImageUri;
 
 
     @Override
@@ -44,6 +49,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         signupBtn = (Button) view.findViewById(R.id.signup_button);
         selectProfilePic = (ImageView)view.findViewById(R.id.select_profile_pic);
         signupBtn.setOnClickListener(this);
+        selectProfilePic.setOnClickListener(this);
+
+
 
         return view;
     }
@@ -90,10 +98,23 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         if (requestCode == GALLERY_REQUEST_CODE  && resultCode == RESULT_OK && data != null ) {
 
             Uri uri = data.getData();
+            CropImage.activity(uri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .start(getContext(), this);
+        }
 
-
-
-
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                profileImageUri = result.getUri();
+                Picasso.with(getActivity().getApplicationContext())
+                        .load(profileImageUri)
+                        .fit()
+                        .into(selectProfilePic);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
         }
 
     }
