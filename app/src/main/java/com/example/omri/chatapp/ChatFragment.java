@@ -1,6 +1,7 @@
 package com.example.omri.chatapp;
 
 
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -24,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -38,6 +42,9 @@ public class ChatFragment extends Fragment {
     private DatabaseReference ref;
     private EditText textMessage;
     private FloatingActionButton sendButton;
+    private String chatId;
+
+
     //private String currentUser;
 
 
@@ -55,8 +62,9 @@ public class ChatFragment extends Fragment {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.message_text);
             //sender= (TextView)itemView.findViewById(R.id.sender);
-            timeStamp=(TextView)itemView.findViewById(R.id.time_stamp);
+            timeStamp = (TextView) itemView.findViewById(R.id.time_stamp);
             messageLayout = (LinearLayout) itemView.findViewById(R.id.message_layout);
+
         }
     }
 
@@ -65,6 +73,7 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_chat, container, false);
         textMessage = (EditText) view.findViewById(R.id.messageEditText);
@@ -72,7 +81,8 @@ public class ChatFragment extends Fragment {
 
 
         //get data from activity
-        String chatId = getArguments().getString("chatId");
+        chatId = getArguments().getString("chatId");
+
         FirebaseDatabase.getInstance().getReference().child("users").child(chatId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -98,6 +108,8 @@ public class ChatFragment extends Fragment {
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {
                 viewHolder.messageText.setText(model.getMessage());
+                Picasso.with(getActivity().getApplicationContext());
+
 
                 if (model.getSenderId().equals(currentUserId)) {
                     viewHolder.messageText.setBackgroundResource(R.drawable.bubble_in);
@@ -113,8 +125,8 @@ public class ChatFragment extends Fragment {
                     params.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                     viewHolder.messageLayout.setLayoutParams(params);
 
-                }
 
+                }
 
 
                 //viewHolder.sender.setText(model.getSender());
@@ -147,6 +159,9 @@ public class ChatFragment extends Fragment {
         });
         return view;
     }
+
+
+
 
     interface Communicate {
         void sendMessage(String messageText);

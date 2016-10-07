@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,19 +18,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class LobbyActivity extends AppCompatActivity
                 implements NavigationView.OnNavigationItemSelectedListener, PeopleFragment.Communicate, ChatListFragment.Communicate, ChatFragment.Communicate {
-
+                 private String currentUserPic=null;
             private String currentUserName;
             private String currentChatId;
             private String currentRecevierId;
+
+            private ImageView drawerHeaderPic;
 
             @Override
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_drawer_lobby);
+
                 getCurrentUserName();
+
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
 
@@ -42,6 +49,10 @@ public class LobbyActivity extends AppCompatActivity
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 navigationView.setNavigationItemSelectedListener(this);
 
+
+                View headerView = navigationView.getHeaderView(0);
+                drawerHeaderPic = (ImageView)headerView.findViewById(R.id.drawer_header_pic);
+                getCurrentUserPic();
                 ChatListFragment chatListFragment = new ChatListFragment();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
             }
@@ -115,7 +126,27 @@ public class LobbyActivity extends AppCompatActivity
             }
         });
     }
+    private void getCurrentUserPic() {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("picUrl");
+        if (currentUserRef != null){
+            currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue() != null) {
+                        currentUserPic = dataSnapshot.getValue(String.class);
+                        Picasso.with(getApplicationContext()).load(currentUserPic).fit().into(drawerHeaderPic);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
+    }
     @Override
     public void startChat(final String receiverId, final String receiverName) {
 

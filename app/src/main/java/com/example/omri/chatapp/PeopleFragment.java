@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -39,11 +41,13 @@ public class PeopleFragment extends Fragment {
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         public TextView userName;
         public CardView userCardView;
+        public ImageView peopleImage;
 
         public UserViewHolder(View itemView) {
             super(itemView);
             userName = (TextView) itemView.findViewById(R.id.user_name);
             userCardView = (CardView) itemView.findViewById(R.id.user_card_view);
+            peopleImage = (ImageView) itemView.findViewById(R.id.people_image);
         }
 
         public void setVisibility(boolean isVisible) {
@@ -92,6 +96,14 @@ public class PeopleFragment extends Fragment {
                             ((Communicate) getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey(), model.getName());
                         }
                     });
+
+                    if(model.getPicUrl() != null)
+                    {
+                        Picasso.with(getActivity().getApplicationContext())
+                                .load(model.getPicUrl())
+                                .fit()
+                                .into(viewHolder.peopleImage);
+                    }
                 } else {
                     viewHolder.setVisibility(false);
                 }

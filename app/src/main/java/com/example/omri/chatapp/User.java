@@ -6,10 +6,20 @@ package com.example.omri.chatapp;
 public class User {
     private String name;
     private String email;
+    private String picUrl;
 
-    public User(String name, String email) {
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+
+    public User(String name, String email,String picUrl) {
         this.name = name;
         this.email = email;
+        this.picUrl = picUrl;
     }
 
     public User() {
