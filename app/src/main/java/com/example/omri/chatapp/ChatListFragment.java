@@ -9,12 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -29,12 +35,14 @@ public class ChatListFragment extends Fragment {
 
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
         public TextView chatName;
-        public CardView userCardView;
+        public LinearLayout chatLayout;
+        public ImageView chatImage;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
             chatName = (TextView) itemView.findViewById(R.id.chat_name);
-            userCardView = (CardView) itemView.findViewById(R.id.chat_card_view);
+            chatLayout = (LinearLayout) itemView.findViewById(R.id.chat_layout);
+            chatImage = (ImageView) itemView.findViewById(R.id.chat_image);
         }
     }
 
@@ -61,13 +69,15 @@ public class ChatListFragment extends Fragment {
                 ref.child(CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             @Override
             protected void populateViewHolder(ChatViewHolder viewHolder, Chat model, final int position) {
+                final String key = firebaseRecyclerAdapter.getRef(position).getKey();
                 viewHolder.chatName.setText(model.getName());
-                viewHolder.userCardView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.chatLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((Communicate) getActivity()).accessChat(firebaseRecyclerAdapter.getRef(position).getKey());
+                        ((Communicate) getActivity()).accessChat(key);
                     }
                 });
+                loadUserImage(key,viewHolder.chatImage);
 
             }
         };
@@ -87,6 +97,28 @@ public class ChatListFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void loadUserImage(String userId, final ImageView imageView) {
+
+        ref.child("users").child(userId).child("picUrl").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
+                    Picasso.with(getActivity().getApplicationContext())
+                            .load(dataSnapshot.getValue().toString())
+                            .fit()
+                            .into(imageView);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     interface Communicate {
