@@ -6,25 +6,27 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
-    Button createBtn;
-    Button loginBtn;
+    AppCompatButton createBtn;
+    AppCompatButton loginBtn;
     EditText emailText;
     EditText passwordText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        createBtn = (Button) view.findViewById(R.id.create_button);
-        loginBtn = (Button) view.findViewById(R.id.login_button);
+        createBtn = (AppCompatButton) view.findViewById(R.id.create_button);
+        loginBtn = (AppCompatButton) view.findViewById(R.id.login_button);
         emailText = (EditText) view.findViewById(R.id.login_email);
         passwordText = (EditText) view.findViewById(R.id.login_password);
         createBtn.setOnClickListener(this);

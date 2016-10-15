@@ -107,6 +107,7 @@ public class ChatListFragment extends Fragment {
                 if(dataSnapshot.getValue() != null){
                     Picasso.with(getActivity().getApplicationContext())
                             .load(dataSnapshot.getValue().toString())
+                            .placeholder(R.drawable.default_user)
                             .fit()
                             .into(imageView);
                 }

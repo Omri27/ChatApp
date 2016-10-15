@@ -101,6 +101,7 @@ public class PeopleFragment extends Fragment {
                     {
                         Picasso.with(getActivity().getApplicationContext())
                                 .load(model.getPicUrl())
+                                .placeholder(R.drawable.default_user)
                                 .fit()
                                 .into(viewHolder.peopleImage);
                     }

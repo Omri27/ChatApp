@@ -35,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dialog = new ProgressDialog(this);
-        dialog.setTitle("Creating Profile...");
+        dialog = new ProgressDialog(this,R.style.AppTheme_Dark_Dialog);
+        dialog.setIndeterminate(true);
+
 
         storageRef = FirebaseStorage.getInstance().getReference();
         // Check that the activity is using the layout version with
@@ -79,14 +80,18 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
     @Override
     public void login(final String email, final String password) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        dialog.setTitle("Logging in...");
+        dialog.show();
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (!task.isSuccessful()) {
+                    dialog.dismiss();
                     Toast.makeText(MainActivity.this, task.getException().getMessage(),
                             Toast.LENGTH_SHORT).show();
                 } else {
+                    dialog.dismiss();
                     startLobbyActivity();
                 }
 
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Com
     public void signUp(final String name, final String email, final String password, final Uri uri) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        dialog.setTitle("Creating Profile...");
         dialog.show();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

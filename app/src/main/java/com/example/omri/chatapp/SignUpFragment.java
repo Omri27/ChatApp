@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +31,12 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     public static final int GALLERY_REQUEST_CODE = 1;
 
-    private Button signupBtn;
+    private AppCompatButton signupBtn;
     private EditText nameText;
     private EditText emailText;
     private EditText passwordText;
     private ImageView selectProfilePic;
+    private ImageView selectedProfilePic;
     private Uri profileImageUri;
 
 
@@ -46,8 +49,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         nameText = (EditText) view.findViewById(R.id.signup_name);
         emailText = (EditText) view.findViewById(R.id.signup_email);
         passwordText = (EditText) view.findViewById(R.id.signup_password);
-        signupBtn = (Button) view.findViewById(R.id.signup_button);
+        signupBtn = (AppCompatButton) view.findViewById(R.id.signup_button);
         selectProfilePic = (ImageView)view.findViewById(R.id.select_profile_pic);
+        selectedProfilePic = (ImageView)view.findViewById(R.id.selected_profile_pic);
         signupBtn.setOnClickListener(this);
         selectProfilePic.setOnClickListener(this);
 
@@ -111,7 +115,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 Picasso.with(getActivity().getApplicationContext())
                         .load(profileImageUri)
                         .fit()
-                        .into(selectProfilePic);
+                        .into(selectedProfilePic);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
