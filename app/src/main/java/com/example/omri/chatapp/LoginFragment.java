@@ -39,11 +39,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.create_button:
-                ((Communicate) getActivity()).startSignUp();
+                ((MainCommunicate) getActivity()).startSignUp();
                 break;
             case R.id.login_button:
                 if (validateInput())
-                    ((Communicate) getActivity()).login(emailText.getText().toString(), passwordText.getText().toString());
+                    ((MainCommunicate) getActivity()).login(emailText.getText().toString(), passwordText.getText().toString());
                 break;
         }
     }
@@ -62,9 +62,5 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    interface Communicate {
-        void startSignUp();
 
-        void login(String email, String password);
-    }
 }

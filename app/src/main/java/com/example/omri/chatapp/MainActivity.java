@@ -22,7 +22,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.Communicate, SignUpFragment.Communicate {
+public class MainActivity extends AppCompatActivity implements MainCommunicate {
 
 
 

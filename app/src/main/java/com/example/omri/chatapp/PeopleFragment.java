@@ -57,7 +57,7 @@ public class PeopleFragment extends Fragment {
                 param.width = LinearLayout.LayoutParams.MATCH_PARENT;
                 itemView.setVisibility(View.VISIBLE);
             } else {
-                itemView.setVisibility(View.GONE);
+                //itemView.setVisibility(View.GONE);
                 param.height = 0;
                 param.width = 0;
                 param.setMargins(0, 0, 0, 0);
@@ -84,7 +84,7 @@ public class PeopleFragment extends Fragment {
                 User.class,
                 R.layout.user_template,
                 UserViewHolder.class,
-                ref.child(USERS)) {
+                ref.child(USERS).orderByChild("name")) {
             @Override
             protected void populateViewHolder(UserViewHolder viewHolder, final User model, final int position) {
 
@@ -93,7 +93,7 @@ public class PeopleFragment extends Fragment {
                     viewHolder.userCardView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((Communicate) getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey(), model.getName());
+                            ((LobbyCommunicate) getActivity()).startChat(firebaseRecyclerAdapter.getRef(position).getKey(), model.getName());
                         }
                     });
 
@@ -133,7 +133,4 @@ public class PeopleFragment extends Fragment {
         return view;
     }
 
-    interface Communicate {
-        void startChat(String receiverId, String receiverName);
-    }
 }

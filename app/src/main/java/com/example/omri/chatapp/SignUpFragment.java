@@ -65,7 +65,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.signup_button:
                 if (validateInput())
-                    ((Communicate) getActivity()).signUp(nameText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString(),profileImageUri);
+                    ((MainCommunicate) getActivity()).signUp(nameText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString(),profileImageUri);
                     break;
             case R.id.select_profile_pic:
                 Intent i = new Intent(
@@ -123,10 +123,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    interface Communicate {
-        void signUp(String name, String email, String password,Uri uri);
 
-
-    }
 
 }

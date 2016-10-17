@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,13 +22,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class LobbyActivity extends AppCompatActivity
-                implements NavigationView.OnNavigationItemSelectedListener, PeopleFragment.Communicate, ChatListFragment.Communicate, ChatFragment.Communicate {
+                implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate {
                  private String currentUserPic=null;
             private String currentUserName;
             private String currentChatId;
             private String currentRecevierId;
 
             private ImageView drawerHeaderPic;
+
+            private ProgressBar progressBar;
 
             @Override
             protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,8 @@ public class LobbyActivity extends AppCompatActivity
                 drawerHeaderPic = (ImageView)headerView.findViewById(R.id.drawer_header_pic);
                 getCurrentUserPic();
                 ChatListFragment chatListFragment = new ChatListFragment();
+                progressBar = (ProgressBar)findViewById(R.id.lobby_progress_bar);
+
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
             }
 
@@ -151,7 +156,7 @@ public class LobbyActivity extends AppCompatActivity
     public void startChat(final String receiverId, final String receiverName) {
 
         String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("name");
+        //final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("name");
         final DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
 
         senderRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -195,6 +200,11 @@ public class LobbyActivity extends AppCompatActivity
         bundle.putString("chatId", chatId);
         chatFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void stopProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

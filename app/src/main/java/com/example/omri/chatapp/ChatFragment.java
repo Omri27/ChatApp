@@ -152,7 +152,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 if (!textMessage.getText().toString().equals("")) {
                     //String replaced = textMessage.getText().toString().replaceAll("\n","\\n");
-                    ((Communicate) (getActivity())).sendMessage(textMessage.getText().toString());
+                    ((LobbyCommunicate) (getActivity())).sendMessage(textMessage.getText().toString());
                     textMessage.setText("");
                 }
             }
@@ -163,7 +163,5 @@ public class ChatFragment extends Fragment {
 
 
 
-    interface Communicate {
-        void sendMessage(String messageText);
-    }
+
 }

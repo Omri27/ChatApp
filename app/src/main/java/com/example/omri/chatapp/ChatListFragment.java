@@ -1,6 +1,7 @@
 package com.example.omri.chatapp;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -31,6 +33,7 @@ public class ChatListFragment extends Fragment {
     private RecyclerView chatRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
+
 
 
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
@@ -62,6 +65,7 @@ public class ChatListFragment extends Fragment {
         chatRecyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
+
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Chat, ChatViewHolder>(
                 Chat.class,
                 R.layout.chat_template,
@@ -74,7 +78,7 @@ public class ChatListFragment extends Fragment {
                 viewHolder.chatLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((Communicate) getActivity()).accessChat(key);
+                        ((LobbyCommunicate) getActivity()).accessChat(key);
                     }
                 });
                 loadUserImage(key,viewHolder.chatImage);
@@ -85,11 +89,14 @@ public class ChatListFragment extends Fragment {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int chatCount = firebaseRecyclerAdapter.getItemCount();
-                int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if (lastVisiblePosition == -1 || (positionStart >= (chatCount - 1) && lastVisiblePosition == (positionStart - 1))) {
-                    chatRecyclerView.scrollToPosition(positionStart);
-                }
+                ((LobbyCommunicate)getActivity()).stopProgressBar();
+
+//                int chatCount = firebaseRecyclerAdapter.getItemCount();
+//                int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+//                if (lastVisiblePosition == -1 || (positionStart >= (chatCount - 1) && lastVisiblePosition == (positionStart - 1))) {
+//                    chatRecyclerView.scrollToPosition(positionStart);
+//                }
+
             }
         });
         chatRecyclerView.setLayoutManager(linearLayoutManager);
@@ -122,7 +129,5 @@ public class ChatListFragment extends Fragment {
 
     }
 
-    interface Communicate {
-        void accessChat(String chatId);
-    }
+
 }
