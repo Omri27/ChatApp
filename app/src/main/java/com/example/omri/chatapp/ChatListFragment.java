@@ -4,9 +4,11 @@ package com.example.omri.chatapp;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,7 @@ public class ChatListFragment extends Fragment {
     private RecyclerView chatRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
+    private LinearLayout emptyView;
 
 
 
@@ -64,13 +67,15 @@ public class ChatListFragment extends Fragment {
         getActivity().setTitle("Active Chats");
         chatRecyclerView = (RecyclerView) view.findViewById(R.id.chat_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
+        emptyView = (LinearLayout)view.findViewById(R.id.empty_view);
         ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = ref.child(CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Chat, ChatViewHolder>(
                 Chat.class,
                 R.layout.chat_template,
                 ChatViewHolder.class,
-                ref.child(CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                userRef) {
             @Override
             protected void populateViewHolder(ChatViewHolder viewHolder, Chat model, final int position) {
                 final String key = firebaseRecyclerAdapter.getRef(position).getKey();
@@ -85,22 +90,25 @@ public class ChatListFragment extends Fragment {
 
             }
         };
-        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                ((LobbyCommunicate)getActivity()).stopProgressBar();
 
-//                int chatCount = firebaseRecyclerAdapter.getItemCount();
-//                int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-//                if (lastVisiblePosition == -1 || (positionStart >= (chatCount - 1) && lastVisiblePosition == (positionStart - 1))) {
-//                    chatRecyclerView.scrollToPosition(positionStart);
-//                }
+        chatRecyclerView.setLayoutManager(linearLayoutManager);
+        chatRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ((LobbyCommunicate)getActivity()).stopProgressBar();
+                if(!dataSnapshot.hasChildren()){
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-        chatRecyclerView.setLayoutManager(linearLayoutManager);
-        chatRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
 
         return view;

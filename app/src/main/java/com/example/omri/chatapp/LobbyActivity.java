@@ -37,29 +37,33 @@ public class LobbyActivity extends AppCompatActivity
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_drawer_lobby);
 
-                getCurrentUserName();
-
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                setSupportActionBar(toolbar);
 
 
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                drawer.addDrawerListener(toggle);
-                toggle.syncState();
+                    getCurrentUserName();
 
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                navigationView.setNavigationItemSelectedListener(this);
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                    setSupportActionBar(toolbar);
 
 
-                View headerView = navigationView.getHeaderView(0);
-                drawerHeaderPic = (ImageView)headerView.findViewById(R.id.drawer_header_pic);
-                getCurrentUserPic();
-                ChatListFragment chatListFragment = new ChatListFragment();
-                progressBar = (ProgressBar)findViewById(R.id.lobby_progress_bar);
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                    drawer.addDrawerListener(toggle);
+                    toggle.syncState();
 
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    navigationView.setNavigationItemSelectedListener(this);
+                    navigationView.getMenu().getItem(1).setChecked(true);
+
+
+                    View headerView = navigationView.getHeaderView(0);
+                    drawerHeaderPic = (ImageView) headerView.findViewById(R.id.drawer_header_pic);
+                    getCurrentUserPic();
+                    ChatListFragment chatListFragment = new ChatListFragment();
+                    progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
+
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
+
             }
 
             @Override
@@ -68,12 +72,12 @@ public class LobbyActivity extends AppCompatActivity
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
                 } else {
-                    super.onBackPressed();
+                    moveTaskToBack(true);
+
                 }
     }
 
-
-//    @Override
+    //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        // Handle action bar item clicks here. The action bar will
 //        // automatically handle clicks on the Home/Up button, so long
@@ -100,7 +104,7 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.find_people) {
             PeopleFragment peopleFragment = new PeopleFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).commit();
 
         } else if (id == R.id.logout_button) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
