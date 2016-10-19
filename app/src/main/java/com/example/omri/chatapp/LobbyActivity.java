@@ -3,6 +3,7 @@ package com.example.omri.chatapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,59 +23,62 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class LobbyActivity extends AppCompatActivity
-                implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate {
-                 private String currentUserPic=null;
-            private String currentUserName;
-            private String currentChatId;
-            private String currentRecevierId;
+        implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate {
+    private String currentUserPic = null;
+    private String currentUserName;
+    private String currentChatId;
+    private String currentRecevierId;
 
-            private ImageView drawerHeaderPic;
+    private ImageView drawerHeaderPic;
 
-            private ProgressBar progressBar;
+    private ProgressBar progressBar;
 
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_drawer_lobby);
-
-
-
-                    getCurrentUserName();
-
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                    setSupportActionBar(toolbar);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_drawer_lobby);
 
 
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                    drawer.addDrawerListener(toggle);
-                    toggle.syncState();
+        getCurrentUserName();
 
-                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                    navigationView.setNavigationItemSelectedListener(this);
-                    navigationView.getMenu().getItem(1).setChecked(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
-                    View headerView = navigationView.getHeaderView(0);
-                    drawerHeaderPic = (ImageView) headerView.findViewById(R.id.drawer_header_pic);
-                    getCurrentUserPic();
-                    ChatListFragment chatListFragment = new ChatListFragment();
-                    progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(1).setChecked(true);
 
-            }
 
-            @Override
-            public void onBackPressed() {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                if (drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    moveTaskToBack(true);
+        View headerView = navigationView.getHeaderView(0);
+        drawerHeaderPic = (ImageView) headerView.findViewById(R.id.drawer_header_pic);
+        getCurrentUserPic();
+        ChatListFragment chatListFragment = new ChatListFragment();
+        progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
 
-                }
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container_lobby);
+            if (current instanceof ChatFragment)
+                super.onBackPressed();
+            else
+                moveTaskToBack(true);
+
+        }
     }
 
     //    @Override
@@ -135,15 +139,16 @@ public class LobbyActivity extends AppCompatActivity
             }
         });
     }
+
     private void getCurrentUserPic() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("picUrl");
-        if (currentUserRef != null){
+        if (currentUserRef != null) {
             currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.getValue() != null) {
                         currentUserPic = dataSnapshot.getValue(String.class);
                         Picasso.with(getApplicationContext()).load(currentUserPic).fit().into(drawerHeaderPic);
                     }
@@ -154,8 +159,9 @@ public class LobbyActivity extends AppCompatActivity
 
                 }
             });
+        }
     }
-    }
+
     @Override
     public void startChat(final String receiverId, final String receiverName) {
 
