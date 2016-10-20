@@ -1,52 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
-    <!--android:id="@+id/chat_card_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="3dp"-->
-    <!--card_view:cardCornerRadius="2dp"-->
-    <!--card_view:cardPreventCornerOverlap="false"-->
-    <!--card_view:contentPadding="10dp"-->
-    <!--&gt;-->
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/rel_chat"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/cardimage_chat"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:scaleType="fitCenter"-->
-            <!--android:src="@drawable/default_chat" />-->
-
-
-        <!--<TextView-->
-            <!--android:id="@+id/chat_name"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="title"-->
-            <!--android:textSize="16sp"-->
-            <!--android:textStyle="bold" />-->
-    <!--</LinearLayout>-->
-
-<!--</android.support.v7.widget.CardView>-->
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-
-
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_margin="5dp"
     android:id="@+id/chat_layout">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -55,11 +16,12 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:src="@drawable/default_user" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2sp"
         android:orientation="vertical"
+        android:layout_marginTop="3dp"
         android:paddingLeft="10dp">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -99,10 +61,6 @@
                 android:textColor="#18BB67"/>
 
         </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray"
-            android:paddingLeft="20dp" />
+
     </LinearLayout>
 </LinearLayout>

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 
 /**
@@ -62,6 +64,7 @@ public class ChatListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         getActivity().setTitle("Active Chats");
@@ -89,8 +92,14 @@ public class ChatListFragment extends Fragment {
                 loadUserImage(key,viewHolder.chatImage);
 
             }
+
+
         };
 
+
+        chatRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                .marginResId(R.dimen.chat_divider_left,R.dimen.chat_divider_right)
+                .build());
         chatRecyclerView.setLayoutManager(linearLayoutManager);
         chatRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
