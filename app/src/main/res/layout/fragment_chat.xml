@@ -44,13 +44,20 @@
             <!--android:layout_gravity="center_vertical"-->
             <!--android:src="@drawable/ic_send_black_36dp"/>-->
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@mipmap/ic_send_white_24dp"
-                android:clickable="true"
+            <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:layout_width="48dp"-->
+                <!--android:layout_height="48dp"-->
+                <!--android:src="@mipmap/ic_send_white_24dp"-->
+                <!--android:clickable="true"-->
+                <!--android:id="@+id/sendMessageButton"-->
+                <!--app:elevation="0dp"-->
+                <!--/>-->
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/sendMessageButton"
-                app:elevation="0dp"
+                android:text="send"
                 />
         </LinearLayout>
 

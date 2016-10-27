@@ -7,7 +7,8 @@ package com.example.omri.chatapp;
 public interface LobbyCommunicate {
     void accessChat(String chatId);
     void stopProgressBar();
+    void startProgressBar();
     void startChat(String receiverId, String receiverName);
-    void sendMessage(String messageText);
+    void sendMessage(String messageText,String token);
 
 }

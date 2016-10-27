@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 
 public class LobbyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate {
@@ -218,7 +228,12 @@ public class LobbyActivity extends AppCompatActivity
     }
 
     @Override
-    public void sendMessage(String messageText) {
+    public void startProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void sendMessage(String messageText, String token) {
         String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId).child("messages");
         DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId).child("messages");
@@ -226,6 +241,29 @@ public class LobbyActivity extends AppCompatActivity
         com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
         senderRef.child(key).setValue(message);
         receiverRef.child(key).setValue(message);
+        postRequest(token, messageText);
     }
 
+    private void postRequest(String token, String message) {
+        Log.w("TAG",token);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData(message, token));
+        call.enqueue(new Callback<API.HttpBinResponse>() {
+
+            @Override
+            public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<API.HttpBinResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
 }

@@ -5,6 +5,7 @@ import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,12 +14,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,9 +44,9 @@ public class ChatFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private EditText textMessage;
-    private FloatingActionButton sendButton;
+    private Button sendButton;
     private String chatId;
-
+    private String recieverToken;
 
     //private String currentUser;
 
@@ -69,24 +72,40 @@ public class ChatFragment extends Fragment {
     }
 
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> firebaseRecyclerAdapter;
-
+//    private void getRecieverToken(String reciverId ){
+//        ref.child("users").child(reciverId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                recieverToken = dataSnapshot.getValue().toString();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_chat, container, false);
         textMessage = (EditText) view.findViewById(R.id.messageEditText);
-        sendButton = (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
+        sendButton = (Button) view.findViewById(R.id.sendMessageButton);
 
-
+        ref = FirebaseDatabase.getInstance().getReference();
         //get data from activity
         chatId = getArguments().getString("chatId");
+        //getRecieverToken(chatId);
 
-        FirebaseDatabase.getInstance().getReference().child("users").child(chatId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("users").child(chatId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getActivity().setTitle("Chat with " + ((String) dataSnapshot.getValue()).split(" ")[0]);
+                getActivity().setTitle("Chat with " + ((String) dataSnapshot.child("name").getValue()).split(" ")[0]);
+                recieverToken = dataSnapshot.child("token").getValue().toString();
+
             }
 
             @Override
@@ -94,10 +113,13 @@ public class ChatFragment extends Fragment {
 
             }
         });
+
+
+
         //currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         messageRecyclerView = (RecyclerView) view.findViewById(R.id.chat_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ref = FirebaseDatabase.getInstance().getReference();
+
         String chatRef = CHATS + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + chatId + "/messages";
         final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(
@@ -152,7 +174,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 if (!textMessage.getText().toString().equals("")) {
                     //String replaced = textMessage.getText().toString().replaceAll("\n","\\n");
-                    ((LobbyCommunicate) (getActivity())).sendMessage(textMessage.getText().toString());
+                    ((LobbyCommunicate) (getActivity())).sendMessage(textMessage.getText().toString(),recieverToken);
                     textMessage.setText("");
                 }
             }

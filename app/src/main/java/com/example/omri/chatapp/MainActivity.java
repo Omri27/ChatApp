@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 
@@ -17,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements MainCommunicate {
 
         dialog = new ProgressDialog(this,R.style.AppTheme_Dark_Dialog);
         dialog.setIndeterminate(true);
-
-
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("RAASDASDA", "Refreshed token: " + refreshedToken);
         storageRef = FirebaseStorage.getInstance().getReference();
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -91,7 +93,10 @@ public class MainActivity extends AppCompatActivity implements MainCommunicate {
                     Toast.makeText(MainActivity.this, task.getException().getMessage(),
                             Toast.LENGTH_SHORT).show();
                 } else {
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                    ref.child("users").child(task.getResult().getUser().getUid()).child("token").setValue(FirebaseInstanceId.getInstance().getToken());
                     dialog.dismiss();
+
                     startLobbyActivity();
                 }
 
@@ -131,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainCommunicate {
                                                FirebaseDatabase db = FirebaseDatabase.getInstance();
                                                DatabaseReference ref = db.getReference();
                                                ref.child("users").child(currentUser).setValue(user);
+                                               ref.child("users").child(currentUser).child("token").setValue(FirebaseInstanceId.getInstance().getToken());
                                                dialog.dismiss();
                                                startLobbyActivity();
                                            }
