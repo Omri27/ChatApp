@@ -36,10 +36,12 @@ public class API {
     static class MessageData {
         String message;
         String registrationId;
+        String title;
 
-        public MessageData(String message, String token) {
+        public MessageData(String message, String token, String title) {
             this.message = message;
             this.registrationId = token;
+            this.title = title;
         }
     }
     public interface HttpBinService {

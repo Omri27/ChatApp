@@ -251,7 +251,7 @@ public class LobbyActivity extends AppCompatActivity
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData(message, token));
+        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData(message, token,currentUserName));
         call.enqueue(new Callback<API.HttpBinResponse>() {
 
             @Override

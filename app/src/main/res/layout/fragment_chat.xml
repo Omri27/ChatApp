@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.omri.chatapp.ChatFragment">
+    tools:context="com.example.omri.chatapp.ChatFragment"
+    android:layout_margin="3dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,27 +37,11 @@
                 android:textColor="@android:color/black"
                 />
 
-            <!--<ImageView-->
-            <!--android:id="@+id/sendMessageButton"-->
-            <!--android:layout_width="48dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:src="@drawable/ic_send_black_36dp"/>-->
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:layout_width="48dp"-->
-                <!--android:layout_height="48dp"-->
-                <!--android:src="@mipmap/ic_send_white_24dp"-->
-                <!--android:clickable="true"-->
-                <!--android:id="@+id/sendMessageButton"-->
-                <!--app:elevation="0dp"-->
-                <!--/>-->
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/ic_send_white_24dp"
                 android:id="@+id/sendMessageButton"
-                android:text="send"
                 />
         </LinearLayout>
 

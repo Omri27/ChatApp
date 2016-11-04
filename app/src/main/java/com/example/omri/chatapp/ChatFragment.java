@@ -1,27 +1,21 @@
 package com.example.omri.chatapp;
 
 
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,8 +25,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 
 /**
@@ -44,9 +36,9 @@ public class ChatFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private EditText textMessage;
-    private Button sendButton;
+    private FloatingActionButton sendButton;
     private String chatId;
-    private String recieverToken;
+    private String receiverToken;
 
     //private String currentUser;
 
@@ -76,7 +68,7 @@ public class ChatFragment extends Fragment {
 //        ref.child("users").child(reciverId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
-//                recieverToken = dataSnapshot.getValue().toString();
+//                receiverToken = dataSnapshot.getValue().toString();
 //            }
 //
 //            @Override
@@ -93,7 +85,7 @@ public class ChatFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_chat, container, false);
         textMessage = (EditText) view.findViewById(R.id.messageEditText);
-        sendButton = (Button) view.findViewById(R.id.sendMessageButton);
+        sendButton = (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
 
         ref = FirebaseDatabase.getInstance().getReference();
         //get data from activity
@@ -104,7 +96,7 @@ public class ChatFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getActivity().setTitle("Chat with " + ((String) dataSnapshot.child("name").getValue()).split(" ")[0]);
-                recieverToken = dataSnapshot.child("token").getValue().toString();
+                receiverToken = dataSnapshot.child("token").getValue().toString();
 
             }
 
@@ -174,7 +166,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 if (!textMessage.getText().toString().equals("")) {
                     //String replaced = textMessage.getText().toString().replaceAll("\n","\\n");
-                    ((LobbyCommunicate) (getActivity())).sendMessage(textMessage.getText().toString(),recieverToken);
+                    ((LobbyCommunicate) (getActivity())).sendMessage(textMessage.getText().toString(), receiverToken);
                     textMessage.setText("");
                 }
             }

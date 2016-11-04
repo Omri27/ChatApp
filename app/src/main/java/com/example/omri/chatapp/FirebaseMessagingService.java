@@ -25,11 +25,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated.
         //Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getData().get("message"));
-        sendNotification(remoteMessage.getData().get("message"));
+        //Log.d(TAG, "Notification Message Body: " + remoteMessage.getData().get("message"));
+        sendNotification(remoteMessage.getData().get("message"),remoteMessage.getData().get("title"));
     }
 
-    private void sendNotification(String message){
+    private void sendNotification(String message, String title){
         Intent intent = new Intent(this, LobbyActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0 /* request code */, intent,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -40,7 +40,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_input_black_24dp)
-                .setContentTitle("ChatApp")
+                .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setVibrate(pattern)
