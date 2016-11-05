@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="?android:attr/selectableItemBackground"
-    android:layout_margin="5dp"
+    android:layout_margin="2dp"
     android:id="@+id/chat_layout">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -50,6 +50,7 @@
 
             <TextView
                 android:textSize="9sp"
+                android:layout_marginRight="2dp"
                 android:id="@+id/chat_time_stamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

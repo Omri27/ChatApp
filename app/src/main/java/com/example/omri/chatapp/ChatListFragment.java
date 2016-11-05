@@ -99,6 +99,7 @@ public class ChatListFragment extends Fragment {
 
         chatRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
                 .marginResId(R.dimen.chat_divider_left,R.dimen.chat_divider_right)
+                .size(1)
                 .color(R.color.iron)
                 .build());
         chatRecyclerView.setLayoutManager(linearLayoutManager);
