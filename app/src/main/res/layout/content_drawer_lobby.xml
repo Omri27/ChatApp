@@ -9,13 +9,22 @@
     tools:showIn="@layout/app_bar_drawer_lobby"
     android:id="@+id/fragment_container_lobby">
 
-    <ProgressBar
-        android:id="@+id/lobby_progress_bar"
+    <!--<ProgressBar-->
+        <!--android:id="@+id/lobby_progress_bar"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:visibility="visible"/>-->
+
+    <com.bhargavms.dotloader.DotLoader
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/dot_loader"
+        app:color_array="@array/dot_colors"
+        app:dot_radius="10dp"
         android:layout_centerInParent="true"
+        app:number_of_dots="3"
         android:visibility="visible"/>
-
 
 
 </RelativeLayout>

@@ -15,4 +15,10 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+
+    <array name="dot_colors">
+        <item>#3F51B5</item>
+        <item>#E65100</item>
+        <item>#FFBB00</item>
+    </array>
 </resources>

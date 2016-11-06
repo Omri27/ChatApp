@@ -4,22 +4,19 @@ package com.example.omri.chatapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.net.URI;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -112,9 +109,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 profileImageUri = result.getUri();
-                Picasso.with(getActivity().getApplicationContext())
+                Glide.with(getActivity().getApplicationContext())
                         .load(profileImageUri)
-                        .fit()
+                        .fitCenter()
                         .into(selectedProfilePic);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();

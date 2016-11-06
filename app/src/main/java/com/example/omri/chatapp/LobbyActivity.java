@@ -13,15 +13,16 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
+import com.bhargavms.dotloader.DotLoader;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 
 import okhttp3.ResponseBody;
@@ -41,7 +42,8 @@ public class LobbyActivity extends AppCompatActivity
 
     private ImageView drawerHeaderPic;
 
-    private ProgressBar progressBar;
+   // private ProgressBar progressBar;
+    private DotLoader dotLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +72,9 @@ public class LobbyActivity extends AppCompatActivity
         drawerHeaderPic = (ImageView) headerView.findViewById(R.id.drawer_header_pic);
         getCurrentUserPic();
         ChatListFragment chatListFragment = new ChatListFragment();
-        progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
+       // progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
 
+        dotLoader = (DotLoader)findViewById(R.id.dot_loader);
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
 
     }
@@ -160,7 +163,7 @@ public class LobbyActivity extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         currentUserPic = dataSnapshot.getValue(String.class);
-                        Picasso.with(getApplicationContext()).load(currentUserPic).fit().into(drawerHeaderPic);
+                        Glide.with(getApplicationContext()).load(currentUserPic).fitCenter().crossFade().into(drawerHeaderPic);
                     }
                 }
 
@@ -224,12 +227,12 @@ public class LobbyActivity extends AppCompatActivity
 
     @Override
     public void stopProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        dotLoader.setVisibility(View.GONE);
     }
 
     @Override
     public void startProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        dotLoader.setVisibility(View.VISIBLE);
     }
 
     @Override
