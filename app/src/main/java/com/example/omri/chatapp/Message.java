@@ -7,7 +7,7 @@ import java.util.Calendar;
  * Created by Omri on 08/09/2016.
  */
 public class Message {
-    private String time;
+    private long time;
     private String message;
     private String sender;
     private String senderId;
@@ -16,7 +16,8 @@ public class Message {
     }
 
     public Message(String message, String sender, String senderId) {
-        this.time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+       // this.time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+        this.time= System.currentTimeMillis();
         this.message = message;
         this.sender = sender;
         this.senderId = senderId;
@@ -30,11 +31,11 @@ public class Message {
         this.senderId = senderId;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

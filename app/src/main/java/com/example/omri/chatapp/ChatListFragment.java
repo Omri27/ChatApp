@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 //import com.squareup.picasso.Picasso;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import java.text.SimpleDateFormat;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,12 +42,16 @@ public class ChatListFragment extends Fragment {
         public TextView chatName;
         public LinearLayout chatLayout;
         public ImageView chatImage;
+        public TextView lastMessage;
+        public TextView timeStamp;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
             chatName = (TextView) itemView.findViewById(R.id.chat_name);
             chatLayout = (LinearLayout) itemView.findViewById(R.id.chat_layout);
             chatImage = (ImageView) itemView.findViewById(R.id.chat_image);
+            lastMessage = (TextView)itemView.findViewById(R.id.chat_last_message);
+            timeStamp = (TextView)itemView.findViewById(R.id.chat_time_stamp);
         }
     }
 
@@ -73,17 +79,23 @@ public class ChatListFragment extends Fragment {
                 Chat.class,
                 R.layout.chat_template,
                 ChatViewHolder.class,
-                userRef) {
+                userRef.orderByChild("timeStamp")) {
             @Override
             protected void populateViewHolder(ChatViewHolder viewHolder, Chat model, final int position) {
                 final String key = firebaseRecyclerAdapter.getRef(position).getKey();
                 viewHolder.chatName.setText(model.getName());
+                if(model.getTimeStamp()!=0) {
+                    viewHolder.timeStamp.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(model.getTimeStamp()));
+                }else
+                    viewHolder.timeStamp.setText("");
+                viewHolder.lastMessage.setText(model.getLastMessage());
                 viewHolder.chatLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ((LobbyCommunicate) getActivity()).accessChat(key);
                     }
                 });
+
                 loadUserImage(key,viewHolder.chatImage);
 
             }
@@ -97,6 +109,8 @@ public class ChatListFragment extends Fragment {
                 .size(1)
                 .color(R.color.iron)
                 .build());
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setReverseLayout(true);
         chatRecyclerView.setLayoutManager(linearLayoutManager);
         chatRecyclerView.setAdapter(firebaseRecyclerAdapter);
 

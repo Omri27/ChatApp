@@ -3,7 +3,7 @@ package com.example.omri.chatapp;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-
+import java.text.SimpleDateFormat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -140,7 +140,7 @@ public class ChatFragment extends Fragment {
 
 
                 //viewHolder.sender.setText(model.getSender());
-                viewHolder.timeStamp.setText(model.getTime());
+                viewHolder.timeStamp.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(model.getTime()));
             }
 
         };

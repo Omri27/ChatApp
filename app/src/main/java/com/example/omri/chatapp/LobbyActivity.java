@@ -125,6 +125,7 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.logout_button) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser().getUid()).child("token").setValue("");
             auth.signOut();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -238,13 +239,20 @@ public class LobbyActivity extends AppCompatActivity
     @Override
     public void sendMessage(String messageText, String token) {
         String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId).child("messages");
-        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId).child("messages");
+        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId);
+        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
         String key = senderRef.push().getKey();
         com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
-        senderRef.child(key).setValue(message);
-        receiverRef.child(key).setValue(message);
-        postRequest(token, messageText);
+        senderRef.child("messages").child(key).setValue(message);
+        receiverRef.child("messages").child(key).setValue(message);
+        senderRef.child("lastMessage").setValue(messageText);
+        receiverRef.child("lastMessage").setValue(messageText);
+        senderRef.child("timeStamp").setValue(message.getTime());
+        receiverRef.child("timeStamp").setValue(message.getTime());
+
+
+        if(!token.equals(""))
+            postRequest(token, messageText);
     }
 
     private void postRequest(String token, String message) {
