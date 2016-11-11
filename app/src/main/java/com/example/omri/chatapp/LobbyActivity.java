@@ -25,6 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 //import com.squareup.picasso.Picasso;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -243,12 +246,26 @@ public class LobbyActivity extends AppCompatActivity
         DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
         String key = senderRef.push().getKey();
         com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
-        senderRef.child("messages").child(key).setValue(message);
-        receiverRef.child("messages").child(key).setValue(message);
-        senderRef.child("lastMessage").setValue(messageText);
-        receiverRef.child("lastMessage").setValue(messageText);
-        senderRef.child("timeStamp").setValue(message.getTime());
-        receiverRef.child("timeStamp").setValue(message.getTime());
+//        senderRef.child("messages").child(key).setValue(message);
+//        receiverRef.child("messages").child(key).setValue(message);
+//        senderRef.child("lastMessage").setValue(messageText);
+//        receiverRef.child("lastMessage").setValue(messageText);
+//        senderRef.child("timeStamp").setValue(message.getTime());
+//        receiverRef.child("timeStamp").setValue(message.getTime());
+        Map senderFanOut = new HashMap();
+        Map receiverFanOut = new HashMap();
+        senderFanOut.put("/messages/" + key,message);
+        senderFanOut.put("/lastMessage",messageText);
+        senderFanOut.put("/timeStamp",message.getTime());
+        receiverFanOut.put("/messages/" + key,message);
+        receiverFanOut.put("/lastMessage",messageText);
+        receiverFanOut.put("/timeStamp",message.getTime());
+
+        senderRef.updateChildren(senderFanOut);
+        receiverRef.updateChildren(receiverFanOut);
+
+
+
 
 
         if(!token.equals(""))

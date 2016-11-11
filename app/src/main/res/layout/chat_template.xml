@@ -46,13 +46,14 @@
                     android:layout_height="wrap_content"
                     android:text="Last Message"
                     android:maxLines="2"
-                    android:textStyle="bold"
+                    android:textStyle="italic"
                     android:textSize="12sp"/>
             </LinearLayout>
 
             <TextView
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/chat_time_stamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +61,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/linearLayout"
                 android:text="TimeStamp"
-                android:textStyle="bold"
+
                 android:textColor="#18BB67"/>
 
         </RelativeLayout>
