@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<TextView
+    android:id="@+id/question_text"
+        android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="40px"
+    android:paddingLeft="30px"
+    android:paddingTop="25px"/>
+        <RadioGroup
+            android:id="@+id/radios_group"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:inputType="text"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/radio_button_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@color/white"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableRight="@android:drawable/btn_radio"
+                />
+
+            <RadioButton
+                android:id="@+id/radio_button_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableRight="@android:drawable/btn_radio"
+                android:textSize="20dp"
+               />
+
+
+        </RadioGroup>
+
+
+    </LinearLayout>

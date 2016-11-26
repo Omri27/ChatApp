@@ -11,6 +11,10 @@
             android:icon="@mipmap/ic_send_black_24dp"
             android:title="Chats" />
         <item
+            android:id="@+id/prefernces_button"
+            android:icon="@mipmap/ic_input_black_24dp"
+            android:title="Preferences" />
+        <item
             android:id="@+id/logout_button"
             android:icon="@mipmap/ic_input_black_24dp"
             android:title="Logout" />

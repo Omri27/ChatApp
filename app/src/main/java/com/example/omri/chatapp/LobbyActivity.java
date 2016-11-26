@@ -126,6 +126,10 @@ public class LobbyActivity extends AppCompatActivity
             PeopleFragment peopleFragment = new PeopleFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).commit();
 
+        }   else if (id == R.id.prefernces_button) {
+            PreferencesListFragment preferencesFragment = new PreferencesListFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
+
         } else if (id == R.id.logout_button) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser().getUid()).child("token").setValue("");
@@ -134,6 +138,7 @@ public class LobbyActivity extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
