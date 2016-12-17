@@ -11,6 +11,14 @@
             android:icon="@mipmap/ic_send_black_24dp"
             android:title="Chats" />
         <item
+            android:id="@+id/create_run"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="Create Run" />
+        <item
+            android:id="@+id/run"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="Start a Run" />
+        <item
             android:id="@+id/prefernces_button"
             android:icon="@mipmap/ic_input_black_24dp"
             android:title="Preferences" />

@@ -39,11 +39,12 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-database:1.0.0'
 
 
+
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.github.bhargavms:DotLoader:1.0.1'
-
+  compile 'com.google.android.gms:play-services-maps:9.8.0'
 
 }
 apply plugin: 'com.google.gms.google-services'

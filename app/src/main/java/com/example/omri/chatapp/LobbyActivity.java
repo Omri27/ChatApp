@@ -130,6 +130,15 @@ public class LobbyActivity extends AppCompatActivity
             PreferencesListFragment preferencesFragment = new PreferencesListFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
 
+        } else if (id == R.id.create_run) {
+            CreateRunFragment createRunFragment = new CreateRunFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();
+
+        } else if (id == R.id.run) {
+            Intent intent = new Intent(this, RunActivity.class);
+            startActivity(intent);
+            finish();
+
         } else if (id == R.id.logout_button) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser().getUid()).child("token").setValue("");
