@@ -130,6 +130,10 @@ public class LobbyActivity extends AppCompatActivity
             PreferencesListFragment preferencesFragment = new PreferencesListFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
 
+        } else if (id == R.id.run_list) {
+            RunListFragment runListFragment = new RunListFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runListFragment).commit();
+
         } else if (id == R.id.create_run) {
             CreateRunFragment createRunFragment = new CreateRunFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();

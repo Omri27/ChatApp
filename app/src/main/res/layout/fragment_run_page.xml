@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/table"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trainer:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/trainer_name_txt"
+                android:text="Moshe Harel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/run_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/date_time_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18/3/2017 06:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:id="@+id/location_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hibner 36 Petah Tikva"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <Button
+                android:id="@+id/location_page_btn"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="baner"
+               >
+            </Button>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/distance_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:id="@+id/distance_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18 km"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/suits_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suits You:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:id="@+id/suit_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="80%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/level_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suits You:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:id="@+id/level_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Advance"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <Button
+            android:id="@+id/be_there_btn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Be There!"
+            >
+        </Button>
+    </TableLayout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.omri.chatapp.ChatFragment"
+        android:layout_margin="3dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/chat_recycler_view"/>
+
+            <LinearLayout
+                android:id="@+id/footer_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/messageEditText"
+                    android:hint="Type a message..."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:fadeScrollbars="false"
+                    android:layout_weight="1"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:minLines="1"
+                    android:textColor="@android:color/black"
+                    />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@mipmap/ic_send_white_24dp"
+                    android:id="@+id/sendMessageButton"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+</LinearLayout>

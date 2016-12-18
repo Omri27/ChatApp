@@ -57,8 +57,8 @@ public class RunListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_preferences_list, container, false);
-        getActivity().setTitle("Preferences");
+        View view = inflater.inflate(R.layout.fragment_run_list, container, false);
+        getActivity().setTitle("Run Feed");
         runsRecyclerView = (RecyclerView) view.findViewById(R.id.run_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
@@ -82,25 +82,26 @@ public class RunListFragment extends Fragment {
 
 
 
-
         runsRecyclerView.setLayoutManager(linearLayoutManager);
         runsRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-//                ((LobbyCommunicate)getActivity()).stopProgressBar();
-//                if(!dataSnapshot.hasChildren()){
-//                    emptyView.setVisibility(View.VISIBLE);
-//                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+////                ((LobbyCommunicate)getActivity()).stopProgressBar();
+////                if(!dataSnapshot.hasChildren()){
+////                    emptyView.setVisibility(View.VISIBLE);
+////                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
         return view;
