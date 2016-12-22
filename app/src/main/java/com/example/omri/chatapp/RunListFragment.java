@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,13 +39,14 @@ public class RunListFragment extends Fragment {
         public TextView locationText;
         public TextView runNameText;
         public Button beThereButton;
-
+        public LinearLayout runLayout;
         public RunsViewHolder(View itemView) {
             super(itemView);
             creatorText = (TextView) itemView.findViewById(R.id.run_creator_text);
             locationText = (TextView) itemView.findViewById(R.id.run_location_text);
             runNameText= (TextView)itemView.findViewById(R.id.run_name_text);
             beThereButton= (Button)itemView.findViewById(R.id.be_there_button);
+            runLayout = (LinearLayout)itemView.findViewById(R.id.run_layout);
         }
     }
     private FirebaseRecyclerAdapter<Run, RunsViewHolder> firebaseRecyclerAdapter;
@@ -71,9 +73,16 @@ public class RunListFragment extends Fragment {
                 userRef) {
             @Override
             protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
+                final String key = firebaseRecyclerAdapter.getRef(position).getKey();
                 viewHolder.runNameText.setText(model.getName());
                 viewHolder.locationText.setText(model.getLocation());
                 viewHolder.creatorText.setText(model.getCreator());
+                viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((LobbyCommunicate) getActivity()).enterRunPage(key);
+                    }
+                });
             }
 
 

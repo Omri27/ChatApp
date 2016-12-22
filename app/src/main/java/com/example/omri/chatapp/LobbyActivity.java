@@ -289,6 +289,40 @@ public class LobbyActivity extends AppCompatActivity
         if(!token.equals(""))
             postRequest(token, messageText);
     }
+    @Override
+    public void sendLobbyMessage(String Id,String messageText) {
+        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("runs").child(Id).child("messages");
+        // DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
+        String key = Ref.push().getKey();
+        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
+//        senderRef.child("messages").child(key).setValue(message);
+//        receiverRef.child("messages").child(key).setValue(message);
+//        senderRef.child("lastMessage").setValue(messageText);
+//        receiverRef.child("lastMessage").setValue(messageText);
+//        senderRef.child("timeStamp").setValue(message.getTime());
+//        receiverRef.child("timeStamp").setValue(message.getTime());
+        Map senderFanOut = new HashMap();
+        //Map receiverFanOut = new HashMap();
+        senderFanOut.put(key, message);
+      //  senderFanOut.put("/lastMessage", messageText);
+       // senderFanOut.put("/timeStamp", message.getTime());
+//        receiverFanOut.put("/messages/" + key,message);
+//        receiverFanOut.put("/lastMessage",messageText);
+//        receiverFanOut.put("/timeStamp",message.getTime());
+
+        Ref.updateChildren(senderFanOut);
+        //receiverRef.updateChildren(receiverFanOut);
+    }
+    @Override
+    public void enterRunPage(String runId) {
+        RunPageFragment runPageFragment = new RunPageFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("runId", runId);
+        runPageFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runPageFragment).addToBackStack(null).commit();
+    }
 
     private void postRequest(String token, String message) {
         Log.w("TAG",token);
