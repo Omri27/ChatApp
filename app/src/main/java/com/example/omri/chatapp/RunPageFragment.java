@@ -55,14 +55,14 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
         //public TextView sender;
         public TextView timeStamp;
         public LinearLayout messageLayout;
-
+        public TextView senderName;
         public MessageViewHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.group_message_text);
             //sender= (TextView)itemView.findViewById(R.id.sender);
             timeStamp = (TextView) itemView.findViewById(R.id.group_time_stamp);
             messageLayout = (LinearLayout) itemView.findViewById(R.id.group_message_layout);
-
+            senderName = (TextView) itemView.findViewById(R.id.sender_name);
         }
     }
     private FirebaseRecyclerAdapter<Message, RunPageFragment.MessageViewHolder> firebaseRecyclerAdapter;
@@ -113,7 +113,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
             protected void populateViewHolder(RunPageFragment.MessageViewHolder viewHolder, Message model, int position) {
                 viewHolder.messageText.setText(model.getMessage());
 
-
+                viewHolder.senderName.setText(model.getSender());
                 if (model.getSenderId().equals(currentUserId)) {
                     viewHolder.messageText.setBackgroundResource(R.drawable.bubble_in);
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.messageLayout.getLayoutParams();
