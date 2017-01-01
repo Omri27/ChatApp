@@ -74,11 +74,11 @@ public class LobbyActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         drawerHeaderPic = (ImageView) headerView.findViewById(R.id.drawer_header_pic);
         getCurrentUserPic();
-        ChatListFragment chatListFragment = new ChatListFragment();
+        RunListFragment runListFragment = new RunListFragment();
        // progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
 
         dotLoader = (DotLoader)findViewById(R.id.dot_loader);
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, chatListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runListFragment).commit();
 
     }
 
@@ -89,9 +89,9 @@ public class LobbyActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container_lobby);
-            if (current instanceof ChatFragment)
-                super.onBackPressed();
-            else
+//            if (current instanceof ChatFragment)
+//                super.onBackPressed();
+//            else
                 moveTaskToBack(true);
 
         }
@@ -118,15 +118,16 @@ public class LobbyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.active_chats) {
-            ChatListFragment chatListFragment = new ChatListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatListFragment).commit();
-
-        } else if (id == R.id.find_people) {
-            PeopleFragment peopleFragment = new PeopleFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).commit();
-
-        }   else if (id == R.id.prefernces_button) {
+//        if (id == R.id.active_chats) {
+//            ChatListFragment chatListFragment = new ChatListFragment();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatListFragment).commit();
+//
+//        } else if (id == R.id.find_people) {
+//            PeopleFragment peopleFragment = new PeopleFragment();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).commit();
+//
+//        }   else
+        if (id == R.id.prefernces_button) {
             PreferencesListFragment preferencesFragment = new PreferencesListFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
 
@@ -197,55 +198,55 @@ public class LobbyActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void startChat(final String receiverId, final String receiverName) {
+//    @Override
+//    public void startChat(final String receiverId, final String receiverName) {
+//
+//        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        //final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("name");
+//        final DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
+//
+//        senderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getValue() != null) {
+//                    accessChat(receiverId);
+//                } else {
+//
+//                    createChatNodes(receiverName, currentUserName, receiverId);
+//                    accessChat(receiverId);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//
+//        });
+//
+//    }
 
-        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        //final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("name");
-        final DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
+//    private void createChatNodes(String receiverName, String currentUserName, String receiverId) {
+//
+//        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
+//        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(receiverId).child(senderId);
+//
+//        senderRef.setValue(new Chat(receiverName));
+//        receiverRef.setValue(new Chat(currentUserName));
+//
+//    }
 
-        senderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    accessChat(receiverId);
-                } else {
-
-                    createChatNodes(receiverName, currentUserName, receiverId);
-                    accessChat(receiverId);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        });
-
-    }
-
-    private void createChatNodes(String receiverName, String currentUserName, String receiverId) {
-
-        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
-        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(receiverId).child(senderId);
-
-        senderRef.setValue(new Chat(receiverName));
-        receiverRef.setValue(new Chat(currentUserName));
-
-    }
-
-    @Override
-    public void accessChat(String chatId) {
-        currentChatId = chatId;
-        currentRecevierId = chatId;
-        ChatFragment chatFragment = new ChatFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("chatId", chatId);
-        chatFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatFragment).addToBackStack(null).commit();
-    }
+//    @Override
+//    public void accessChat(String chatId) {
+//        currentChatId = chatId;
+//        currentRecevierId = chatId;
+//        ChatFragment chatFragment = new ChatFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("chatId", chatId);
+//        chatFragment.setArguments(bundle);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatFragment).addToBackStack(null).commit();
+//    }
 
     @Override
     public void stopProgressBar() {
@@ -257,38 +258,38 @@ public class LobbyActivity extends AppCompatActivity
         dotLoader.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void sendMessage(String messageText, String token) {
-        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId);
-        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
-        String key = senderRef.push().getKey();
-        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
-//        senderRef.child("messages").child(key).setValue(message);
-//        receiverRef.child("messages").child(key).setValue(message);
-//        senderRef.child("lastMessage").setValue(messageText);
-//        receiverRef.child("lastMessage").setValue(messageText);
-//        senderRef.child("timeStamp").setValue(message.getTime());
-//        receiverRef.child("timeStamp").setValue(message.getTime());
-        Map senderFanOut = new HashMap();
-        Map receiverFanOut = new HashMap();
-        senderFanOut.put("/messages/" + key,message);
-        senderFanOut.put("/lastMessage",messageText);
-        senderFanOut.put("/timeStamp",message.getTime());
-        receiverFanOut.put("/messages/" + key,message);
-        receiverFanOut.put("/lastMessage",messageText);
-        receiverFanOut.put("/timeStamp",message.getTime());
-
-        senderRef.updateChildren(senderFanOut);
-        receiverRef.updateChildren(receiverFanOut);
-
-
-
-
-
-        if(!token.equals(""))
-            postRequest(token, messageText);
-    }
+//    @Override
+//    public void sendMessage(String messageText, String token) {
+//        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId);
+//        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
+//        String key = senderRef.push().getKey();
+//        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
+////        senderRef.child("messages").child(key).setValue(message);
+////        receiverRef.child("messages").child(key).setValue(message);
+////        senderRef.child("lastMessage").setValue(messageText);
+////        receiverRef.child("lastMessage").setValue(messageText);
+////        senderRef.child("timeStamp").setValue(message.getTime());
+////        receiverRef.child("timeStamp").setValue(message.getTime());
+//        Map senderFanOut = new HashMap();
+//        Map receiverFanOut = new HashMap();
+//        senderFanOut.put("/messages/" + key,message);
+//        senderFanOut.put("/lastMessage",messageText);
+//        senderFanOut.put("/timeStamp",message.getTime());
+//        receiverFanOut.put("/messages/" + key,message);
+//        receiverFanOut.put("/lastMessage",messageText);
+//        receiverFanOut.put("/timeStamp",message.getTime());
+//
+//        senderRef.updateChildren(senderFanOut);
+//        receiverRef.updateChildren(receiverFanOut);
+//
+//
+//
+//
+//
+//        if(!token.equals(""))
+//            postRequest(token, messageText);
+//    }
     @Override
     public void sendLobbyMessage(String Id,String messageText) {
         String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();

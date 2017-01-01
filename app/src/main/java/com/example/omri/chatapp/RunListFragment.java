@@ -64,13 +64,14 @@ public class RunListFragment extends Fragment {
         runsRecyclerView = (RecyclerView) view.findViewById(R.id.run_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference userRef = ref.child(RUNS/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
+        emptyView = (LinearLayout)view.findViewById(R.id.run_empty_view);
+        DatabaseReference runRef = ref.child(RUNS/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, RunListFragment.RunsViewHolder>(
                 Run.class,
                 R.layout.run_template,
                 RunListFragment.RunsViewHolder.class,
-                userRef) {
+                runRef) {
             @Override
             protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
                 final String key = firebaseRecyclerAdapter.getRef(position).getKey();
@@ -87,30 +88,29 @@ public class RunListFragment extends Fragment {
 
 
 
+
         };
 
 
 
         runsRecyclerView.setLayoutManager(linearLayoutManager);
         runsRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        runRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ((LobbyCommunicate)getActivity()).stopProgressBar();
+                if(!dataSnapshot.hasChildren()){
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
-
-
-//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-////                ((LobbyCommunicate)getActivity()).stopProgressBar();
-////                if(!dataSnapshot.hasChildren()){
-////                    emptyView.setVisibility(View.VISIBLE);
-////                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
 
         return view;

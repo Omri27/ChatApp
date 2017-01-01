@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/find_people"
-            android:icon="@mipmap/ic_account_circle_black_24dp"
-            android:title="Find People" />
-        <item
-            android:id="@+id/active_chats"
-            android:icon="@mipmap/ic_send_black_24dp"
-            android:title="Chats" />
+        <!--<item-->
+            <!--android:id="@+id/find_people"-->
+            <!--android:icon="@mipmap/ic_account_circle_black_24dp"-->
+            <!--android:title="Find People" />-->
+        <!--<item-->
+            <!--android:id="@+id/active_chats"-->
+            <!--android:icon="@mipmap/ic_send_black_24dp"-->
+            <!--android:title="Chats" />-->
         <item
             android:id="@+id/run_list"
             android:icon="@mipmap/ic_send_black_24dp"
