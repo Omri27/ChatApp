@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
         public TextView timeStamp;
         public LinearLayout messageLayout;
         public TextView senderName;
+        public RelativeLayout messageTemplateLayout;
         public MessageViewHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.group_message_text);
@@ -63,6 +65,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
             timeStamp = (TextView) itemView.findViewById(R.id.group_time_stamp);
             messageLayout = (LinearLayout) itemView.findViewById(R.id.group_message_layout);
             senderName = (TextView) itemView.findViewById(R.id.sender_name);
+            messageTemplateLayout= (RelativeLayout)itemView.findViewById(R.id.messagRelativeLayout);
         }
     }
     private FirebaseRecyclerAdapter<Message, RunPageFragment.MessageViewHolder> firebaseRecyclerAdapter;
@@ -93,7 +96,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
         FirebaseDatabase.getInstance().getReference().child("runs").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getActivity().setTitle(((String) dataSnapshot.child("name").getValue()).split(" ")[0]);
+                getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
                 trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
                 runLocationtxt.setText(dataSnapshot.child("location").getValue().toString());
                 dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());

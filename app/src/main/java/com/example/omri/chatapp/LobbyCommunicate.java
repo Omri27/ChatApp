@@ -12,5 +12,8 @@ public interface LobbyCommunicate {
    // void sendMessage(String messageText,String token);
     void enterRunPage(String runId);
     void sendLobbyMessage(String Id,String messageText);
-
+    void createRun();
+    void enterHistoryListPage();
+    void enterFeedPage();
+    void enterComingupRunPage();
 }

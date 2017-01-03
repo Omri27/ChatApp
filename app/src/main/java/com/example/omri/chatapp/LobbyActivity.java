@@ -89,10 +89,11 @@ public class LobbyActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container_lobby);
-//            if (current instanceof ChatFragment)
-//                super.onBackPressed();
-//            else
-                moveTaskToBack(true);
+          // if (current instanceof CreateRunFragment){
+
+               super.onBackPressed();
+          //  else
+              //  moveTaskToBack(true);
 
         }
     }
@@ -316,6 +317,37 @@ public class LobbyActivity extends AppCompatActivity
         Ref.updateChildren(senderFanOut);
         //receiverRef.updateChildren(receiverFanOut);
     }
+
+    @Override
+    public void createRun() {
+    }
+
+    @Override
+    public void enterHistoryListPage() {
+        HistoryRunsFragment HistoryRun = new HistoryRunsFragment();
+        Bundle bundle = new Bundle();
+       String h =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+        bundle.putString("userId", h);
+        HistoryRun.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void enterFeedPage() {
+        RunListFragment runListFragment = new RunListFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runListFragment).commit();
+    }
+
+    @Override
+    public void enterComingupRunPage() {
+        UpComingRunListFragment upComingRunList = new UpComingRunListFragment();
+        Bundle bundle = new Bundle();
+        String h =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+        bundle.putString("userId", h);
+        upComingRunList.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunList).commit();
+    }
+
     @Override
     public void enterRunPage(String runId) {
         RunPageFragment runPageFragment = new RunPageFragment();

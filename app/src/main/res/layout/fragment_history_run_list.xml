@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RunListFragment">
+    tools:context=".HistoryRunsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,51 +16,51 @@
             android:gravity="center"
             >
             <Button
-                android:id="@+id/feed_coming_up_btn"
+                android:id="@+id/history_coming_up_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Coming Up"
                 android:textSize="10dp"
                 />
             <Button
-                android:id="@+id/feed_smart_search_btn"
+                android:id="@+id/history_smart_search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Smart Search"
                 android:textSize="10dp"/>
 
             <Button
-                android:id="@+id/feed_history_btn"
+                android:id="@+id/history_feed_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="History"
+                android:text="Feed"
                 android:textSize="10dp"/>
 
         </LinearLayout>
-    <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.RecyclerView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/run_list_recycler_view"></android.support.v7.widget.RecyclerView>
+        <!-- TODO: Update blank fragment layout -->
+        <android.support.v7.widget.RecyclerView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/history_run_list_recycler_view"></android.support.v7.widget.RecyclerView>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:id="@+id/run_empty_view"
-        android:visibility="gone">
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:id="@+id/history_run_empty_view"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            android:text="No Runs Yet!"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:paddingLeft="12dp"/>
+                android:text="No Runs Yet!"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:paddingLeft="12dp"/>
 
 
-    </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 

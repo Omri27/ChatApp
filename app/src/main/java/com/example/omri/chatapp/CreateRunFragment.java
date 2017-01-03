@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LogWriter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +19,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -31,6 +38,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,24 +53,44 @@ import static android.webkit.ConsoleMessage.MessageLevel.LOG;
  */
 
 public class CreateRunFragment extends Fragment implements View.OnClickListener {
+    public static final String PREFERENCES = "questions/";
+    private RecyclerView preferencesRecyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private DatabaseReference ref;
     private EditText runName;
     public EditText runDate;
     public Button dateBtn;
     public Button timeBtn;
     public EditText runTime;
     public EditText location;
-    public Button createBtn;
+    public Button nextBtn;
     public Button locationBtn;
     public MapView mMapView;
     private GoogleMap googleMap;
     private DatePickerDialog dateDialog;
     private TimePickerDialog timeDialog;
     private SimpleDateFormat dateFormatter;
+    private LinearLayout secondScreen;
+    private LinearLayout firstScreen;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
+    public static class PreferencesViewHolder extends RecyclerView.ViewHolder {
+        //public LinearLayout QuestionLayout;
+        public TextView question;
+        public RadioGroup radioGroup;
+        public RadioButton buttonYes;
+        public RadioButton buttonNo;
 
-
+        public PreferencesViewHolder(View itemView) {
+            super(itemView);
+            question = (TextView) itemView.findViewById(R.id.question_text);
+            radioGroup = (RadioGroup) itemView.findViewById(R.id.radios_group);
+            buttonNo= (RadioButton)itemView.findViewById(R.id.radio_button_no);
+            buttonYes= (RadioButton)itemView.findViewById(R.id.radio_button_yes);
+        }
+    }
+    private FirebaseRecyclerAdapter<Question, CreateRunFragment.PreferencesViewHolder> firebaseRecyclerAdapter;
 /***at this time google play services are not initialize so get map and add what ever you want to it in onResume() or onStart() **/
 
     @Override
@@ -78,11 +107,13 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         runDate= (EditText)view.findViewById(R.id.date_txt);
         dateBtn = (Button) view.findViewById(R.id.date_btn);
         location = (EditText) view.findViewById(R.id.location_txt);
-        createBtn= (Button) view.findViewById(R.id.create_btn);
+        nextBtn= (Button) view.findViewById(R.id.next_btn);
         timeBtn= (Button) view.findViewById(R.id.time_btn);
         runTime = (EditText)view.findViewById(R.id.time_txt);
+        firstScreen = (LinearLayout) view.findViewById(R.id.first_screen);
+        secondScreen = (LinearLayout) view.findViewById(R.id.second_screen);
         dateBtn.setOnClickListener(this);
-        createBtn.setOnClickListener(this);
+        nextBtn.setOnClickListener(this);
         timeBtn.setOnClickListener(this);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         setDateTimePickerDialog();
@@ -114,6 +145,38 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 });
             }
         });
+
+        preferencesRecyclerView = (RecyclerView) view.findViewById(R.id.preferences_list_recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = ref.child(PREFERENCES/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
+
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Question, CreateRunFragment.PreferencesViewHolder>(
+                Question.class,
+                R.layout.question_template,
+                CreateRunFragment.PreferencesViewHolder.class,
+                userRef) {
+            @Override
+            protected void populateViewHolder(PreferencesViewHolder viewHolder, Question model, int position) {
+                viewHolder.question.setText(model.getQuestion());
+                Log.w("Preference",Integer.toString(model.getAnswer()));
+                if(model.getAnswer()==0) {
+                    viewHolder.buttonNo.setChecked(true);
+                }else
+                    viewHolder.buttonYes.setChecked(true);
+
+            }
+
+
+
+        };
+
+
+
+
+        preferencesRecyclerView.setLayoutManager(linearLayoutManager);
+        preferencesRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
 
         return view;
     }
@@ -157,6 +220,11 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                     e.printStackTrace();
                 }
 
+            }
+        else if(view==nextBtn){
+                getActivity().setTitle("Create Run - Preferences");
+                firstScreen.setVisibility(View.GONE);
+                secondScreen.setVisibility(View.VISIBLE);
             }
         }
     @Override

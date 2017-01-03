@@ -1,6 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/messagRelativeLayout"
+
+    >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/group_message_layout"
@@ -19,8 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DATE"
-                android:textSize="11sp"
                 android:paddingRight="10dp"
+                android:textSize="11sp"
                 android:id="@+id/group_time_stamp"
                 />
             <TextView
@@ -40,6 +43,7 @@
             android:maxWidth="200dp"
             android:textSize="16sp"
             android:textStyle="bold"
+
             />
 
     </LinearLayout>
