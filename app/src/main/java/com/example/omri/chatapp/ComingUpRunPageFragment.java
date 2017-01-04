@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
  * Created by Omri on 04/01/2017.
  */
 
-public class UpcomingRunPageFragment extends Fragment implements View.OnClickListener{
+public class ComingUpRunPageFragment extends Fragment implements View.OnClickListener{
         public static final String RUNS = "runs/";
         private RecyclerView messageRecyclerView;
         private TextView trainerNametxt;
@@ -44,7 +44,7 @@ public class UpcomingRunPageFragment extends Fragment implements View.OnClickLis
         private String userId;
         private DatabaseReference ref;
         private FloatingActionButton sendButton;
-        public UpcomingRunPageFragment(){}
+        public ComingUpRunPageFragment(){}
 
         public static class MessageViewHolder extends RecyclerView.ViewHolder {
             public TextView messageText;
@@ -63,13 +63,13 @@ public class UpcomingRunPageFragment extends Fragment implements View.OnClickLis
                 messageTemplateLayout= (RelativeLayout)itemView.findViewById(R.id.messagRelativeLayout);
             }
         }
-        private FirebaseRecyclerAdapter<Message, UpcomingRunPageFragment.MessageViewHolder> firebaseRecyclerAdapter;
+        private FirebaseRecyclerAdapter<Message, ComingUpRunPageFragment.MessageViewHolder> firebaseRecyclerAdapter;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
 
-            View view = inflater.inflate(R.layout.fragment_upcoming_run_page, container, false);
+            View view = inflater.inflate(R.layout.fragment_comingup_run_page, container, false);
             //  final View view = inflater.inflate(R.layout.fragment_chat, container, false);
             textMessage = (EditText) view.findViewById(R.id.messageEditText);
             sendButton = (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
@@ -103,10 +103,10 @@ public class UpcomingRunPageFragment extends Fragment implements View.OnClickLis
 
                 }
             });
-            firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Message, UpcomingRunPageFragment.MessageViewHolder>(
+            firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Message, ComingUpRunPageFragment.MessageViewHolder>(
                     Message.class,
                     R.layout.group_message_template,
-                    UpcomingRunPageFragment.MessageViewHolder.class,
+                    ComingUpRunPageFragment.MessageViewHolder.class,
                     ref.child(runRef)) {
                 @Override
                 protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {

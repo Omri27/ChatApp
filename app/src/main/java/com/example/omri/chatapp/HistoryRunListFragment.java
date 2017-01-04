@@ -22,46 +22,48 @@ import com.google.firebase.database.ValueEventListener;
  * Created by Omri on 03/01/2017.
  */
 
-public class UpComingRunListFragment extends Fragment implements View.OnClickListener {
-    public static final String RUNS = "runs/";
-    private RecyclerView upcomingRunsRecyclerView;
+public class HistoryRunListFragment extends Fragment implements View.OnClickListener {
+    public static final String RUNS = "users/";
+    private RecyclerView historyRunsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private LinearLayout emptyView;
     private Button feedBtn;
-    private Button historyBtn;
+    private Button comingUpBtn;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.upcoming_feed_btn:
+
+            case R.id.history_coming_up_btn:
+                ((LobbyCommunicate) getActivity()).enterComingupRunList();
+                break;
+            case R.id.history_feed_btn:
                 ((LobbyCommunicate) getActivity()).enterFeedPage();
                 break;
-            case R.id.upcoming_history_btn:
-                ((LobbyCommunicate) getActivity()).enterHistoryListPage();
-                break;
+
         }
     }
 
-    public static class UpcomingRunsViewHolder extends RecyclerView.ViewHolder {
+    public static class HistoryRunsViewHolder extends RecyclerView.ViewHolder {
         //public LinearLayout QuestionLayout;
         public TextView creatorText;
         public TextView locationText;
         public TextView runNameText;
         public Button deletebtn;
         public LinearLayout runLayout;
-        public UpcomingRunsViewHolder(View itemView) {
+        public HistoryRunsViewHolder(View itemView) {
             super(itemView);
-            creatorText = (TextView) itemView.findViewById(R.id.upcoming_run_creator_text);
-            locationText = (TextView) itemView.findViewById(R.id.upcoming_run_location_text);
-            runNameText= (TextView)itemView.findViewById(R.id.upcoming_run_name_text);
+            creatorText = (TextView) itemView.findViewById(R.id.history_run_creator_text);
+            locationText = (TextView) itemView.findViewById(R.id.history_run_location_text);
+            runNameText= (TextView)itemView.findViewById(R.id.history_run_name_text);
             deletebtn= (Button)itemView.findViewById(R.id.delete_btn);
-            runLayout = (LinearLayout)itemView.findViewById(R.id.upcoming_run_layout);
+            runLayout = (LinearLayout)itemView.findViewById(R.id.history_run_layout);
         }
     }
-    private FirebaseRecyclerAdapter<Run, UpComingRunListFragment.UpcomingRunsViewHolder> firebaseRecyclerAdapter;
+    private FirebaseRecyclerAdapter<Run, HistoryRunListFragment.HistoryRunsViewHolder> firebaseRecyclerAdapter;
 
-    public UpComingRunListFragment() {
+    public HistoryRunListFragment() {
         // Required empty public constructor
     }
     @Override
@@ -69,27 +71,27 @@ public class UpComingRunListFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_upcoming_run_list, container, false);
-        getActivity().setTitle("UpComing Runs");
-        upcomingRunsRecyclerView = (RecyclerView) view.findViewById(R.id.upcoming_run_list_recycler_view);
-        feedBtn = (Button) view.findViewById(R.id.upcoming_feed_btn);
-        historyBtn= (Button) view.findViewById(R.id.upcoming_history_btn);
+        View view = inflater.inflate(R.layout.fragment_history_run_list, container, false);
+        getActivity().setTitle("Running History");
+        historyRunsRecyclerView = (RecyclerView) view.findViewById(R.id.history_run_list_recycler_view);
+        feedBtn = (Button) view.findViewById(R.id.history_feed_btn);
+        comingUpBtn = (Button) view.findViewById(R.id.history_coming_up_btn);
+        comingUpBtn.setOnClickListener(this);
         feedBtn.setOnClickListener(this);
-        historyBtn.setOnClickListener(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
-        //String userId = getArguments().getString("userId");
-        emptyView = (LinearLayout)view.findViewById(R.id.upcoming_run_empty_view);
+        String userId = getArguments().getString("userId");
+        emptyView = (LinearLayout)view.findViewById(R.id.history_run_empty_view);
 
-        DatabaseReference runRef = ref.child(RUNS );
+        DatabaseReference runRef = ref.child(RUNS + userId+"/HistoryRuns/");
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, UpComingRunListFragment.UpcomingRunsViewHolder>(
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, HistoryRunListFragment.HistoryRunsViewHolder>(
                 Run.class,
-                R.layout.upcoming_run_template,
-                UpComingRunListFragment.UpcomingRunsViewHolder.class,
+                R.layout.history_run_template,
+                HistoryRunListFragment.HistoryRunsViewHolder.class,
                 runRef) {
             @Override
-            protected void populateViewHolder(UpcomingRunsViewHolder viewHolder, Run model, int position) {
+            protected void populateViewHolder(HistoryRunsViewHolder viewHolder, Run model, int position) {
                 final String key = firebaseRecyclerAdapter.getRef(position).getKey();
 
                 viewHolder.runNameText.setText(model.getName());
@@ -98,16 +100,16 @@ public class UpComingRunListFragment extends Fragment implements View.OnClickLis
                 viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((LobbyCommunicate) getActivity()).enterUpComingRunPage(key);
+                        ((LobbyCommunicate) getActivity()).enterHistoryRunPage(key);
                     }
                 });
             }
-        };
+            };
 
 
 
-        upcomingRunsRecyclerView.setLayoutManager(linearLayoutManager);
-        upcomingRunsRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        historyRunsRecyclerView.setLayoutManager(linearLayoutManager);
+        historyRunsRecyclerView.setAdapter(firebaseRecyclerAdapter);
         runRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

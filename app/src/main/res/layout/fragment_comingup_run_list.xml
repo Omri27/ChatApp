@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpComingRunListFragment">
+    tools:context=".ComingUpRunListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,21 +16,21 @@
             android:gravity="center"
             >
             <Button
-                android:id="@+id/upcoming_history_btn"
+                android:id="@+id/comingup_history_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/historyListBtn"
                 android:textSize="10dp"
                 />
             <Button
-                android:id="@+id/upcoming_smart_search_btn"
+                android:id="@+id/comingup__smart_search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/smartSearchBtn"
                 android:textSize="10dp"/>
 
             <Button
-                android:id="@+id/upcoming_feed_btn"
+                android:id="@+id/comingup_feed_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/feedListBtn"

@@ -28,13 +28,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 
 public class LobbyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate {
@@ -74,11 +72,11 @@ public class LobbyActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         drawerHeaderPic = (ImageView) headerView.findViewById(R.id.drawer_header_pic);
         getCurrentUserPic();
-        RunListFragment runListFragment = new RunListFragment();
+        RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
        // progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
 
         dotLoader = (DotLoader)findViewById(R.id.dot_loader);
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runFeedListFragment).commit();
 
     }
 
@@ -133,8 +131,8 @@ public class LobbyActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
 
         } else if (id == R.id.run_list) {
-            RunListFragment runListFragment = new RunListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runListFragment).commit();
+            RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
 
         } else if (id == R.id.create_run) {
             CreateRunFragment createRunFragment = new CreateRunFragment();
@@ -326,7 +324,7 @@ public class LobbyActivity extends AppCompatActivity
 
     @Override
     public void enterHistoryListPage() {
-        HistoryRunsFragment HistoryRun = new HistoryRunsFragment();
+        HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
         Bundle bundle = new Bundle();
        String h =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         bundle.putString("userId", h);
@@ -336,13 +334,13 @@ public class LobbyActivity extends AppCompatActivity
 
     @Override
     public void enterFeedPage() {
-        RunListFragment runListFragment = new RunListFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runListFragment).commit();
+        RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
     }
 
     @Override
     public void enterComingupRunList() {
-        UpComingRunListFragment upComingRunList = new UpComingRunListFragment();
+        ComingUpRunListFragment upComingRunList = new ComingUpRunListFragment();
         Bundle bundle = new Bundle();
         String h =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         bundle.putString("userId", h);
@@ -372,7 +370,7 @@ public class LobbyActivity extends AppCompatActivity
 
     @Override
     public void enterUpComingRunPage(String runId) {
-        UpcomingRunPageFragment upComingRunPageFragment = new UpcomingRunPageFragment();
+        ComingUpRunPageFragment upComingRunPageFragment = new ComingUpRunPageFragment();
         Bundle bundle = new Bundle();
         bundle.putString("runId", runId);
         upComingRunPageFragment.setArguments(bundle);

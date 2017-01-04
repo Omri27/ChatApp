@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,51 +19,50 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
- * Created by Omri on 03/01/2017.
+ * Created by Omri on 26/11/2016.
  */
 
-public class HistoryRunsFragment extends Fragment implements View.OnClickListener {
-    public static final String RUNS = "users/";
-    private RecyclerView historyRunsRecyclerView;
+public class RunFeedListFragment extends Fragment  implements View.OnClickListener{
+    public static final String RUNS = "runs/";
+    private RecyclerView runsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private LinearLayout emptyView;
-    private Button feedBtn;
-    private Button comingUpBtn;
+    private Button historyRunBtn;
+    private Button upcomingRunBtn;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
-            case R.id.history_coming_up_btn:
-                ((LobbyCommunicate) getActivity()).enterComingupRunList();
+            case R.id.feed_history_btn:
+                ((LobbyCommunicate) getActivity()).enterHistoryListPage();
                 break;
-            case R.id.history_feed_btn:
-                ((LobbyCommunicate) getActivity()).enterFeedPage();
+            case R.id.feed_coming_up_btn:
+                    ((LobbyCommunicate) getActivity()).enterComingupRunList();
                 break;
-
         }
     }
 
-    public static class HistoryRunsViewHolder extends RecyclerView.ViewHolder {
+    public static class RunsViewHolder extends RecyclerView.ViewHolder  {
         //public LinearLayout QuestionLayout;
         public TextView creatorText;
         public TextView locationText;
         public TextView runNameText;
-        public Button deletebtn;
+        public Button beThereButton;
         public LinearLayout runLayout;
-        public HistoryRunsViewHolder(View itemView) {
+        public RunsViewHolder(View itemView) {
             super(itemView);
-            creatorText = (TextView) itemView.findViewById(R.id.history_run_creator_text);
-            locationText = (TextView) itemView.findViewById(R.id.history_run_location_text);
-            runNameText= (TextView)itemView.findViewById(R.id.history_run_name_text);
-            deletebtn= (Button)itemView.findViewById(R.id.delete_btn);
-            runLayout = (LinearLayout)itemView.findViewById(R.id.history_run_layout);
+            creatorText = (TextView) itemView.findViewById(R.id.run_creator_text);
+            locationText = (TextView) itemView.findViewById(R.id.run_location_text);
+            runNameText= (TextView)itemView.findViewById(R.id.run_name_text);
+            beThereButton= (Button)itemView.findViewById(R.id.be_there_button);
+            runLayout = (LinearLayout)itemView.findViewById(R.id.run_layout);
         }
-    }
-    private FirebaseRecyclerAdapter<Run, HistoryRunsFragment.HistoryRunsViewHolder> firebaseRecyclerAdapter;
 
-    public HistoryRunsFragment() {
+    }
+    private FirebaseRecyclerAdapter<Run, RunsViewHolder> firebaseRecyclerAdapter;
+
+    public RunFeedListFragment() {
         // Required empty public constructor
     }
     @Override
@@ -73,45 +70,46 @@ public class HistoryRunsFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_history_run_list, container, false);
-        getActivity().setTitle("Running History");
-        historyRunsRecyclerView = (RecyclerView) view.findViewById(R.id.history_run_list_recycler_view);
-        feedBtn = (Button) view.findViewById(R.id.history_feed_btn);
-        comingUpBtn = (Button) view.findViewById(R.id.history_coming_up_btn);
-        comingUpBtn.setOnClickListener(this);
-        feedBtn.setOnClickListener(this);
+        View view = inflater.inflate(R.layout.fragment_run_list, container, false);
+        getActivity().setTitle("Run Feed");
+        historyRunBtn = (Button) view.findViewById(R.id.feed_history_btn);
+        upcomingRunBtn = (Button) view.findViewById(R.id.feed_coming_up_btn);
+        historyRunBtn.setOnClickListener(this);
+        upcomingRunBtn.setOnClickListener(this);
+        runsRecyclerView = (RecyclerView) view.findViewById(R.id.run_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
-        String userId = getArguments().getString("userId");
-        emptyView = (LinearLayout)view.findViewById(R.id.history_run_empty_view);
+        emptyView = (LinearLayout)view.findViewById(R.id.run_empty_view);
+        DatabaseReference runRef = ref.child(RUNS/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
 
-        DatabaseReference runRef = ref.child(RUNS + userId+"/HistoryRuns/");
-
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, HistoryRunsFragment.HistoryRunsViewHolder>(
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, RunFeedListFragment.RunsViewHolder>(
                 Run.class,
-                R.layout.history_run_template,
-                HistoryRunsFragment.HistoryRunsViewHolder.class,
+                R.layout.run_template,
+                RunFeedListFragment.RunsViewHolder.class,
                 runRef) {
             @Override
-            protected void populateViewHolder(HistoryRunsViewHolder viewHolder, Run model, int position) {
+            protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
                 final String key = firebaseRecyclerAdapter.getRef(position).getKey();
-
                 viewHolder.runNameText.setText(model.getName());
                 viewHolder.locationText.setText(model.getLocation());
                 viewHolder.creatorText.setText(model.getCreator());
                 viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((LobbyCommunicate) getActivity()).enterHistoryRunPage(key);
+                        ((LobbyCommunicate) getActivity()).enterRunPage(key);
                     }
                 });
             }
-            };
 
 
 
-        historyRunsRecyclerView.setLayoutManager(linearLayoutManager);
-        historyRunsRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+        };
+
+
+
+        runsRecyclerView.setLayoutManager(linearLayoutManager);
+        runsRecyclerView.setAdapter(firebaseRecyclerAdapter);
         runRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
