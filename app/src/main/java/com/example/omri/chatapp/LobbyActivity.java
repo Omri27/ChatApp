@@ -341,7 +341,7 @@ public class LobbyActivity extends AppCompatActivity
     }
 
     @Override
-    public void enterComingupRunPage() {
+    public void enterComingupRunList() {
         UpComingRunListFragment upComingRunList = new UpComingRunListFragment();
         Bundle bundle = new Bundle();
         String h =  FirebaseAuth.getInstance().getCurrentUser().getUid();

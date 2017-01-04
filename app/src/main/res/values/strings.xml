@@ -5,6 +5,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Email:</string>
     <string name="password">Password:</string>
+    <string name="comingUpListBtn">ComingUp</string>
+    <string name="historyListBtn">History</string>
+    <string name="feedListBtn">Feed</string>
+    <string name="smartSearchBtn">Smart Search</string>
+
 
     <array name="planets_array">
         <item>Find Friends</item>

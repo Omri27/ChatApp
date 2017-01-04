@@ -19,21 +19,21 @@
                 android:id="@+id/history_coming_up_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coming Up"
+                android:text="@string/comingUpListBtn"
                 android:textSize="10dp"
                 />
             <Button
                 android:id="@+id/history_smart_search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Smart Search"
+                android:text="@string/smartSearchBtn"
                 android:textSize="10dp"/>
 
             <Button
                 android:id="@+id/history_feed_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Feed"
+                android:text="@string/feedListBtn"
                 android:textSize="10dp"/>
 
         </LinearLayout>

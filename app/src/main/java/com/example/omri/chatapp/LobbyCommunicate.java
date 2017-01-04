@@ -17,5 +17,5 @@ public interface LobbyCommunicate {
     void createRunPreference();
     void enterHistoryListPage();
     void enterFeedPage();
-    void enterComingupRunPage();
+    void enterComingupRunList();
 }

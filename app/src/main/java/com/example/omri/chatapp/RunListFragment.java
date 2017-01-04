@@ -42,7 +42,7 @@ public class RunListFragment extends Fragment  implements View.OnClickListener{
                 ((LobbyCommunicate) getActivity()).enterHistoryListPage();
                 break;
             case R.id.feed_coming_up_btn:
-                    ((LobbyCommunicate) getActivity()).enterComingupRunPage();
+                    ((LobbyCommunicate) getActivity()).enterComingupRunList();
                 break;
         }
     }

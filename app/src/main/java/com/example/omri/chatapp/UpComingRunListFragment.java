@@ -29,7 +29,7 @@ public class UpComingRunListFragment extends Fragment implements View.OnClickLis
     private DatabaseReference ref;
     private LinearLayout emptyView;
     private Button feedBtn;
-    private Button upComingBtn;
+    private Button historyBtn;
 
     @Override
     public void onClick(View view) {
@@ -73,7 +73,9 @@ public class UpComingRunListFragment extends Fragment implements View.OnClickLis
         getActivity().setTitle("UpComing Runs");
         upcomingRunsRecyclerView = (RecyclerView) view.findViewById(R.id.upcoming_run_list_recycler_view);
         feedBtn = (Button) view.findViewById(R.id.upcoming_feed_btn);
+        historyBtn= (Button) view.findViewById(R.id.upcoming_history_btn);
         feedBtn.setOnClickListener(this);
+        historyBtn.setOnClickListener(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
         //String userId = getArguments().getString("userId");

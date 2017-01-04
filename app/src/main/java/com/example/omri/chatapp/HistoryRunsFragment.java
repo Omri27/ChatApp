@@ -31,17 +31,19 @@ public class HistoryRunsFragment extends Fragment implements View.OnClickListene
     private DatabaseReference ref;
     private LinearLayout emptyView;
     private Button feedBtn;
-    private Button upComingBtn;
+    private Button comingUpBtn;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.history_coming_up_btn:
+                ((LobbyCommunicate) getActivity()).enterComingupRunList();
+                break;
             case R.id.history_feed_btn:
                 ((LobbyCommunicate) getActivity()).enterFeedPage();
                 break;
-            case R.id.history_coming_up_btn:
-                ((LobbyCommunicate) getActivity()).enterComingupRunPage();
-                break;
+
         }
     }
 
@@ -75,6 +77,8 @@ public class HistoryRunsFragment extends Fragment implements View.OnClickListene
         getActivity().setTitle("Running History");
         historyRunsRecyclerView = (RecyclerView) view.findViewById(R.id.history_run_list_recycler_view);
         feedBtn = (Button) view.findViewById(R.id.history_feed_btn);
+        comingUpBtn = (Button) view.findViewById(R.id.history_coming_up_btn);
+        comingUpBtn.setOnClickListener(this);
         feedBtn.setOnClickListener(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
