@@ -370,6 +370,15 @@ public class LobbyActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, historyRunPageFragment).addToBackStack(null).commit();
     }
 
+    @Override
+    public void enterUpComingRunPage(String runId) {
+        UpcomingRunPageFragment upComingRunPageFragment = new UpcomingRunPageFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("runId", runId);
+        upComingRunPageFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunPageFragment).addToBackStack(null).commit();
+    }
+
     private void postRequest(String token, String message) {
         Log.w("TAG",token);
         Retrofit retrofit = new Retrofit.Builder()

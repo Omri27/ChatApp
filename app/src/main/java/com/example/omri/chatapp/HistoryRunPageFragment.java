@@ -29,7 +29,6 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
     private TextView distancetxt;
     private TextView suitxt;
     private TextView leveltxt;
-    private EditText textMessage;
     private LinearLayoutManager linearLayoutManager;
     private Button deleteBtn;
     private String runId;

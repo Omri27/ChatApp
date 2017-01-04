@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 
 public class UpComingRunListFragment extends Fragment implements View.OnClickListener {
-    public static final String RUNS = "users/";
+    public static final String RUNS = "runs/";
     private RecyclerView upcomingRunsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
@@ -70,16 +70,16 @@ public class UpComingRunListFragment extends Fragment implements View.OnClickLis
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_upcoming_run_list, container, false);
-        getActivity().setTitle("Running History");
+        getActivity().setTitle("UpComing Runs");
         upcomingRunsRecyclerView = (RecyclerView) view.findViewById(R.id.upcoming_run_list_recycler_view);
         feedBtn = (Button) view.findViewById(R.id.upcoming_feed_btn);
         feedBtn.setOnClickListener(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
-        String userId = getArguments().getString("userId");
-        emptyView = (LinearLayout)view.findViewById(R.id.history_run_empty_view);
+        //String userId = getArguments().getString("userId");
+        emptyView = (LinearLayout)view.findViewById(R.id.upcoming_run_empty_view);
 
-        DatabaseReference runRef = ref.child(RUNS + userId+"/HistoryRuns/");
+        DatabaseReference runRef = ref.child(RUNS );
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, UpComingRunListFragment.UpcomingRunsViewHolder>(
                 Run.class,
@@ -96,7 +96,7 @@ public class UpComingRunListFragment extends Fragment implements View.OnClickLis
                 viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((LobbyCommunicate) getActivity()).enterRunPage(key);
+                        ((LobbyCommunicate) getActivity()).enterUpComingRunPage(key);
                     }
                 });
             }

@@ -12,6 +12,7 @@ public interface LobbyCommunicate {
    // void sendMessage(String messageText,String token);
     void enterRunPage(String runId);
     void enterHistoryRunPage(String runId);
+    void enterUpComingRunPage(String runId);
     void sendLobbyMessage(String Id,String messageText);
     void createRunPreference();
     void enterHistoryListPage();
