@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".CreateRunFragment">
+    tools:context=".CreateRunPreferenceFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/preferences_list_recycler_view"></android.support.v7.widget.RecyclerView>
+            android:id="@+id/create_run_preferences_list_recycler_view"></android.support.v7.widget.RecyclerView>
 
         <LinearLayout
             android:id="@+id/footer_section"
@@ -35,15 +35,6 @@
                 android:gravity="center"
                 android:text="Create"/>
         </LinearLayout>
-
-
-
-
-
-
-
-
-
 
 
     </LinearLayout>

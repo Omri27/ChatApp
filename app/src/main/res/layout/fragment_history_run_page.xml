@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/table"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+
+                android:text="Trainer:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/history_trainer_name_txt"
+                android:text="Moshe Harel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+
+            android:id="@+id/tableRow2"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_run_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_date_time_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18/3/2017 06:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+        </TableRow
+            >
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_location_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hibner 36 Petah Tikva"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <Button
+
+                android:id="@+id/location_page_btn"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Google Maps"
+                >
+            </Button>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_distance_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_distance_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18 km"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_suits_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suits You:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_suit_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="80%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_level_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suits You:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_level_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Advance"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <Button
+            android:id="@+id/history_run_page_delete"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Delete"
+            >
+        </Button>
+    </TableLayout>
+
+    </LinearLayout>

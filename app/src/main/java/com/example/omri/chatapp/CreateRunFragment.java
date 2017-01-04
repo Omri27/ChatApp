@@ -53,10 +53,6 @@ import static android.webkit.ConsoleMessage.MessageLevel.LOG;
  */
 
 public class CreateRunFragment extends Fragment implements View.OnClickListener {
-    public static final String PREFERENCES = "questions/";
-    private RecyclerView preferencesRecyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    private DatabaseReference ref;
     private EditText runName;
     public EditText runDate;
     public Button dateBtn;
@@ -70,8 +66,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     private DatePickerDialog dateDialog;
     private TimePickerDialog timeDialog;
     private SimpleDateFormat dateFormatter;
-    private LinearLayout secondScreen;
-    private LinearLayout firstScreen;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -90,8 +84,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
             buttonYes= (RadioButton)itemView.findViewById(R.id.radio_button_yes);
         }
     }
-    private FirebaseRecyclerAdapter<Question, CreateRunFragment.PreferencesViewHolder> firebaseRecyclerAdapter;
-/***at this time google play services are not initialize so get map and add what ever you want to it in onResume() or onStart() **/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,8 +102,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         nextBtn= (Button) view.findViewById(R.id.next_btn);
         timeBtn= (Button) view.findViewById(R.id.time_btn);
         runTime = (EditText)view.findViewById(R.id.time_txt);
-        firstScreen = (LinearLayout) view.findViewById(R.id.first_screen);
-        secondScreen = (LinearLayout) view.findViewById(R.id.second_screen);
         dateBtn.setOnClickListener(this);
         nextBtn.setOnClickListener(this);
         timeBtn.setOnClickListener(this);
@@ -146,36 +136,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        preferencesRecyclerView = (RecyclerView) view.findViewById(R.id.preferences_list_recycler_view);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference userRef = ref.child(PREFERENCES/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
-
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Question, CreateRunFragment.PreferencesViewHolder>(
-                Question.class,
-                R.layout.question_template,
-                CreateRunFragment.PreferencesViewHolder.class,
-                userRef) {
-            @Override
-            protected void populateViewHolder(PreferencesViewHolder viewHolder, Question model, int position) {
-                viewHolder.question.setText(model.getQuestion());
-                Log.w("Preference",Integer.toString(model.getAnswer()));
-                if(model.getAnswer()==0) {
-                    viewHolder.buttonNo.setChecked(true);
-                }else
-                    viewHolder.buttonYes.setChecked(true);
-
-            }
-
-
-
-        };
-
-
-
-
-        preferencesRecyclerView.setLayoutManager(linearLayoutManager);
-        preferencesRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
 
         return view;
@@ -202,6 +162,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         }, newCalendar.get(Calendar.HOUR_OF_DAY),
                 newCalendar.get(Calendar.MINUTE),true);
     }
+
     @Override
     public void onClick(View view) {
         if(view == dateBtn){
@@ -222,11 +183,10 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
 
             }
         else if(view==nextBtn){
-                getActivity().setTitle("Create Run - Preferences");
-                firstScreen.setVisibility(View.GONE);
-                secondScreen.setVisibility(View.VISIBLE);
+                ((LobbyCommunicate) getActivity()).createRunPreference();
             }
         }
+
     @Override
     public void onResume() {
        super.onResume();

@@ -11,8 +11,9 @@ public interface LobbyCommunicate {
     //void startChat(String receiverId, String receiverName);
    // void sendMessage(String messageText,String token);
     void enterRunPage(String runId);
+    void enterHistoryRunPage(String runId);
     void sendLobbyMessage(String Id,String messageText);
-    void createRun();
+    void createRunPreference();
     void enterHistoryListPage();
     void enterFeedPage();
     void enterComingupRunPage();

@@ -319,7 +319,9 @@ public class LobbyActivity extends AppCompatActivity
     }
 
     @Override
-    public void createRun() {
+    public void createRunPreference() {
+        CreateRunPreferenceFragment createRunPreference = new CreateRunPreferenceFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunPreference).addToBackStack(null).commit();
     }
 
     @Override
@@ -355,6 +357,17 @@ public class LobbyActivity extends AppCompatActivity
         bundle.putString("runId", runId);
         runPageFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runPageFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void enterHistoryRunPage(String runId) {
+        HistoryRunPageFragment historyRunPageFragment = new HistoryRunPageFragment();
+        Bundle bundle = new Bundle();
+        String userId =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+        bundle.putString("userId", userId);
+        bundle.putString("runId", runId);
+        historyRunPageFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, historyRunPageFragment).addToBackStack(null).commit();
     }
 
     private void postRequest(String token, String message) {

@@ -98,7 +98,7 @@ public class HistoryRunsFragment extends Fragment implements View.OnClickListene
                 viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((LobbyCommunicate) getActivity()).enterRunPage(key);
+                        ((LobbyCommunicate) getActivity()).enterHistoryRunPage(key);
                     }
                 });
             }
