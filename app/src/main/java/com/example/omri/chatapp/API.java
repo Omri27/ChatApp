@@ -6,9 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-/**
- * Created by Omri on 27/10/2016.
- */
 
 public class API {
 

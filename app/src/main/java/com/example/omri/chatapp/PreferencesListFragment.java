@@ -25,9 +25,6 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.text.SimpleDateFormat;
 
-/**
- * Created by Omri on 26/11/2016.
- */
 
 public class PreferencesListFragment extends Fragment {
     public static final String PREFERENCES = "questions/";

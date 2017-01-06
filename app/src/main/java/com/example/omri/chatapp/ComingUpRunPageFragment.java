@@ -24,9 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 
-/**
- * Created by Omri on 04/01/2017.
- */
 
 public class ComingUpRunPageFragment extends Fragment implements View.OnClickListener{
         public static final String RUNS = "runs/";

@@ -1,8 +1,6 @@
 package com.example.omri.chatapp;
 
-/**
- * Created by Omri on 08/09/2016.
- */
+
 public class Chat {
     private String name;
     private String lastMessage;

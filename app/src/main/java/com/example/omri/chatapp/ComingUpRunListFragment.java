@@ -18,9 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/**
- * Created by Omri on 03/01/2017.
- */
+
 
 public class ComingUpRunListFragment extends Fragment implements View.OnClickListener {
     public static final String RUNS = "runs/";

@@ -3,9 +3,6 @@ package com.example.omri.chatapp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-/**
- * Created by Omri on 08/09/2016.
- */
 public class Message {
     private long time;
     private String message;

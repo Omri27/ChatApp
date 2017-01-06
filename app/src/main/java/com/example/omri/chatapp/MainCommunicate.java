@@ -2,9 +2,7 @@ package com.example.omri.chatapp;
 
 import android.net.Uri;
 
-/**
- * Created by Omer on 17/10/2016.
- */
+
 
 public interface MainCommunicate {
 
