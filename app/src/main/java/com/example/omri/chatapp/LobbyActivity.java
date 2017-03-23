@@ -1,9 +1,12 @@
 package com.example.omri.chatapp;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,13 +19,13 @@ import android.widget.ImageView;
 
 import com.bhargavms.dotloader.DotLoader;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-//import com.squareup.picasso.Picasso;
 
 
 import java.util.HashMap;
@@ -35,15 +38,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LobbyActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate {
+        implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate, ActivityCompat.OnRequestPermissionsResultCallback {
     private String currentUserPic = null;
     private String currentUserName;
     private String currentChatId;
     private String currentRecevierId;
-
+    private GoogleMap mMap;
     private ImageView drawerHeaderPic;
-
-   // private ProgressBar progressBar;
+    public  int  MY_PERMISSIONS_REQUEST_LOCATION;
+    // private ProgressBar progressBar;
     private DotLoader dotLoader;
 
     @Override
@@ -73,10 +76,37 @@ public class LobbyActivity extends AppCompatActivity
         drawerHeaderPic = (ImageView) headerView.findViewById(R.id.drawer_header_pic);
         getCurrentUserPic();
         RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
-       // progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
+        // progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
 
-        dotLoader = (DotLoader)findViewById(R.id.dot_loader);
+        dotLoader = (DotLoader) findViewById(R.id.dot_loader);
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runFeedListFragment).commit();
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+//
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//
+//            } else {
+//
+//                // No explanation needed, we can request the permission.
+//
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                        MY_PERMISSIONS_REQUEST_LOCATION);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//        }else{
+//            mMap.setMyLocationEnabled(true);
+//        }
 
     }
 
@@ -157,7 +187,11 @@ public class LobbyActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
+
+        }
     private void getCurrentUserName() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("name");

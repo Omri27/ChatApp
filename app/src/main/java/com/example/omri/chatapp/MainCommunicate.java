@@ -4,7 +4,7 @@ import android.net.Uri;
 
 
 
-public interface MainCommunicate {
+    public interface MainCommunicate {
 
     void signUp(String name, String email, String password,Uri uri);
     void startSignUp();

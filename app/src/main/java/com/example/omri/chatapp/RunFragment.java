@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -39,7 +40,7 @@ import java.text.SimpleDateFormat;
  * Created by Omri on 17/12/2016.
  */
 
-public class RunFragment extends Fragment {
+public class RunFragment extends Fragment{
     public MapView mMapView;
     private GoogleMap googleMap;
     private TextView time;
@@ -47,6 +48,7 @@ public class RunFragment extends Fragment {
     private Button startBtn;
     private Button stopBtn;
     private Button pauseBtn;
+    private MapFragment trainingMapFragment;
     public RunFragment() {
         // Required empty public constructor
     }
@@ -57,39 +59,40 @@ public class RunFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_run, container, false);
         time = (TextView) view.findViewById(R.id.run_time);
         getActivity().setTitle("Go Running!");
-        mMapView = (MapView) view.findViewById(R.id.run_mapView);
-        mMapView.onCreate(savedInstanceState);
+        //mMapView = (MapView) view.findViewById(R.id.run_mapView);
+        //mMapView.onCreate(savedInstanceState);
         calories = (TextView) view.findViewById(R.id.calories);
         startBtn = (Button) view.findViewById(R.id.run_startButton);
         stopBtn = (Button) view.findViewById(R.id.run_stopButton);
         pauseBtn = (Button) view.findViewById(R.id.run_pauseButton);
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-
-                // For showing a move to my location button
-                if ( ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-
-                    googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                }
-
-                // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                // googleMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
-                googleMap.setOnInfoWindowClickListener (new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        Log.w("marker","yes");
-                    }
-                });
-            }
-        });
+       // trainingMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.training_view_location_map_f);
+//        mMapView.getMapAsync(new OnMapReadyCallback() {
+//                    @Override
+//                    public void onMapReady(GoogleMap mMap) {
+//                        googleMap = mMap;
+//
+//                        // For showing a move to my location button
+//                        if ( ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+//
+//                            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+//                        }
+//
+//                        // For dropping a marker at a point on the Map
+//                        LatLng sydney = new LatLng(-34, 151);
+//                        googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+//
+//                        // For zooming automatically to the location of the marker
+//                        CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+//                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//                        // googleMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
+//                        googleMap.setOnInfoWindowClickListener (new GoogleMap.OnInfoWindowClickListener() {
+//                            @Override
+//                            public void onInfoWindowClick(Marker marker) {
+//                                Log.w("marker","yes");
+//                            }
+//                        });
+//            }
+//        });
         return view;
     }
 }

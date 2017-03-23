@@ -78,13 +78,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/run_mapView"
+        <fragment
+            android:id="@+id/training_view_location_map_f"
+            class="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            />
+            android:layout_marginTop="60dp" />
+        <!--<com.google.android.gms.maps.MapView-->
+            <!--android:id="@+id/run_mapView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--/>-->
 
     </RelativeLayout>
     <LinearLayout

@@ -1,0 +1,21 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=D4:EE:C8:E8:7A:C7:9E:A2:DE:39:82:1E:A7:89:C9:D0:C8:D2:EB:89%3Bcom.example.omri.chatapp
+
+    You can also add your credentials to an existing key, using this line:
+    D4:EE:C8:E8:7A:C7:9E:A2:DE:39:82:1E:A7:89:C9:D0:C8:D2:EB:89;com.example.omri.chatapp
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyB2KAea5PhsH9lLKdBHiFmxgJxi9h8nWJI
+    </string>
+</resources>
