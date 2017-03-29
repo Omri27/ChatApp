@@ -2,7 +2,9 @@ package com.example.omri.chatapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,8 @@ import android.widget.ImageView;
 
 import com.bhargavms.dotloader.DotLoader;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -47,14 +51,17 @@ public class LobbyActivity extends AppCompatActivity
     private ImageView drawerHeaderPic;
     public  int  MY_PERMISSIONS_REQUEST_LOCATION;
     // private ProgressBar progressBar;
+    private InstanceID instanceID;
+    private static final int PICK_LOCATION_REQUEST = 1;
     private DotLoader dotLoader;
-
+    private  CreateRunFragment createRunFragment;
+    private Location location;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_lobby);
 
-
+        instanceID = InstanceID.getInstance(this);
         getCurrentUserName();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -165,7 +172,7 @@ public class LobbyActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
 
         } else if (id == R.id.create_run) {
-            CreateRunFragment createRunFragment = new CreateRunFragment();
+            createRunFragment = new CreateRunFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();
 
         } else if (id == R.id.run) {
@@ -269,7 +276,9 @@ public class LobbyActivity extends AppCompatActivity
 //        receiverRef.setValue(new Chat(currentUserName));
 //
 //    }
+private void createRun(Run run){
 
+}
 //    @Override
 //    public void accessChat(String chatId) {
 //        currentChatId = chatId;
@@ -326,7 +335,6 @@ public class LobbyActivity extends AppCompatActivity
     @Override
     public void sendLobbyMessage(String Id,String messageText) {
         String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("runs").child(Id).child("messages");
         // DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
         String key = Ref.push().getKey();
@@ -381,7 +389,16 @@ public class LobbyActivity extends AppCompatActivity
         upComingRunList.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunList).commit();
     }
-
+    @Override
+    public void activateLocation(){
+        Intent pickLocationIntent = new Intent(this,LocationMapActivity.class);
+       // pickContactIntent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+        startActivityForResult(pickLocationIntent, PICK_LOCATION_REQUEST);
+    }
+    @Override
+    public Location getLocation() {
+            return location;
+    }
     @Override
     public void enterRunPage(String runId) {
         RunPageFragment runPageFragment = new RunPageFragment();
@@ -390,6 +407,7 @@ public class LobbyActivity extends AppCompatActivity
         runPageFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runPageFragment).addToBackStack(null).commit();
     }
+
 
     @Override
     public void enterHistoryRunPage(String runId) {
@@ -418,7 +436,7 @@ public class LobbyActivity extends AppCompatActivity
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData(message, token,currentUserName));
+        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData("blabla", "c-rL0xO2lJE:APA91bFD_IhrRx8iOtmc_WOYlLEJYd_tkwUFrwgaZVbkI2VfRTTCNYLg5gMYyNfkcVYQpiO6uArGD-N6_NrgLGTEI-AMMnwRq-Xo_aOimw24oPVah4W0vH7eJ9tc2_TZ12EWzWchrVCH",currentUserName));
         call.enqueue(new Callback<API.HttpBinResponse>() {
 
             @Override
@@ -432,5 +450,33 @@ public class LobbyActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        Log.w("activityResultbla", "enter");
+
+        try {
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                Double locationlat = extras.getDouble("LocationLat");
+                Double locationlng = extras.getDouble("LocationLng");
+                String  locationstr = extras.getString("LocationStr");
+                location = new Location(locationstr);
+                location.setLatitude(locationlat);
+                location.setLongitude(locationlng);
+                //Log.w("activityResultbla", String.valueOf(position));
+                //Bundle bundle = new Bundle();
+                //bundle.putDouble("position", position);
+                //createRunFragment.setArguments(bundle);
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).addToBackStack(null).commit();
+            }
+        }catch(Exception ex){
+            Log.w("onActivityResultbla",ex.toString());
+            location=(Location) null;
+
+        }
     }
 }

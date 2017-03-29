@@ -3,8 +3,11 @@ package com.example.omri.chatapp;
 import android.app.DatePickerDialog;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
 import android.support.v4.app.FragmentManager;
@@ -61,13 +64,17 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     public EditText location;
     public Button nextBtn;
     public Button locationBtn;
-    public MapView mMapView;
+    //public MapView mMapView;
     private GoogleMap googleMap;
     private DatePickerDialog dateDialog;
     private TimePickerDialog timeDialog;
     private SimpleDateFormat dateFormatter;
-
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean mRequestingLocationUpdates;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private  Intent intent=null;
+    static final int PICK_CONTACT_REQUEST = 1;
+
 
     public static class PreferencesViewHolder extends RecyclerView.ViewHolder {
         //public LinearLayout QuestionLayout;
@@ -90,10 +97,12 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_create_run, container, false);
+
         getActivity().setTitle("Create Run");
-        mMapView = (MapView) view.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
+        //mMapView = (MapView) view.findViewById(R.id.mapView);
+        //mMapView.onCreate(savedInstanceState);
         runName = (EditText) view.findViewById(R.id.run_name);
         locationBtn = (Button)view.findViewById(R.id.location_btn);
         runDate= (EditText)view.findViewById(R.id.date_txt);
@@ -108,40 +117,48 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         setDateTimePickerDialog();
         locationBtn.setOnClickListener(this);
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
 
-                // For showing a move to my location button
-                if ( ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-
-                    googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                }
-
-                // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                // googleMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
-                googleMap.setOnInfoWindowClickListener (new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        Log.w("marker","yes");
-                    }
-                });
-            }
-        });
-
+        //mMapView.getMapAsync(this);
 
 
         return view;
     }
+
     public CreateRunFragment(){
     }
+//    @Override
+//    public void onMapReady(GoogleMap mMap) {
+//        googleMap = mMap;
+//
+//        // For showing a move to my location button
+//        if (ContextCompat.checkSelfPermission(getContext(),
+//                android.Manifest.permission.ACCESS_FINE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            mRequestingLocationUpdates = true;
+//        } else {
+//            ActivityCompat.requestPermissions(getActivity(),
+//                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+//                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+//        }
+//
+//        if (mRequestingLocationUpdates) {
+//
+//            // For dropping a marker at a point on the Map
+//            LatLng sydney = new LatLng(-34, 151);
+//            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+//
+//            // For zooming automatically to the location of the marker
+//            CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+//            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//            // googleMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
+//            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//                @Override
+//                public void onInfoWindowClick(Marker marker) {
+//                    Log.w("marker", "yes");
+//                }
+//            });
+//        }
+//    }
     public void setDateTimePickerDialog(){
         Calendar newCalendar = Calendar.getInstance();
         dateDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -174,13 +191,16 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 timeDialog.show();
             }
         else if(view == locationBtn){
-                mMapView.onResume();
-                try {
-                    MapsInitializer.initialize(getActivity().getApplicationContext());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+               //mMapView.onResume();
+//                try {
+//                    MapsInitializer.initialize(getActivity().getApplicationContext());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+                ((LobbyCommunicate) getActivity()).activateLocation();
+//                Log.w("location","location");
+//                intent = new Intent(getActivity(), LocationMapActivity.class);
+//                startActivity(intent);
             }
         else if(view==nextBtn){
                 ((LobbyCommunicate) getActivity()).createRunPreference();
@@ -190,20 +210,33 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onResume() {
        super.onResume();
-        mMapView.onResume();
+        Log.w("resumebla","resumebla");
+        Location locationChose=null;
+       // for(int i=0; i<10;i++) {
+            try {
+               // locationlat = this.getArguments().getDouble("Location");
+                locationChose =  ((LobbyCommunicate) getActivity()).getLocation();
+
+            } catch (Exception ex) {
+                Log.w("exceptionbla", ex.toString());
+            }
+            if (locationChose != null && locationChose.getLatitude()>0 ) {
+                location.setText(String.valueOf(locationChose.getProvider()));
+            }
+        //}
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        mMapView.onPause();
+//    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        mMapView.onDestroy();
+//    }
 
 
 }

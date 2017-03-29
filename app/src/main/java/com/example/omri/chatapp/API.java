@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 
 public class API {
 
-    public static final String API_URL = "http://46.101.226.56:8080";
+    public static final String API_URL = "http://192.168.43.112:8080";
     static class HttpBinResponse {
         // the request url
         String url;

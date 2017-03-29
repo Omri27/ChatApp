@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,10 +31,13 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private LinearLayout emptyView;
-
+    private Button createRun;
     @Override
     public void onClick(View view) {
+    switch(view.getId()){
+        case R.id.create_run_button:
 
+    }
     }
 
     public static class CreateRunPreferencesViewHolder extends RecyclerView.ViewHolder {

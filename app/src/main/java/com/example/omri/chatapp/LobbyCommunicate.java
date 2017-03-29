@@ -1,5 +1,7 @@
 package com.example.omri.chatapp;
 
+import android.location.Location;
+
 public interface LobbyCommunicate {
     //void accessChat(String chatId);
     void stopProgressBar();
@@ -14,4 +16,6 @@ public interface LobbyCommunicate {
     void enterHistoryListPage();
     void enterFeedPage();
     void enterComingupRunList();
+    void activateLocation();
+    Location getLocation();
 }
