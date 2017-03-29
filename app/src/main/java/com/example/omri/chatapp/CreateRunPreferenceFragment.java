@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * Created by Omri on 04/01/2017.
  */
@@ -32,6 +34,7 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
     private DatabaseReference ref;
     private LinearLayout emptyView;
     private Button createRun;
+    private ArrayList<Question> questionList;
     @Override
     public void onClick(View view) {
     switch(view.getId()){
@@ -66,7 +69,9 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_run_preference, container, false);
+        questionList =new ArrayList<Question>();
         getActivity().setTitle("Run Preferences");
+        createRun = (Button)view.findViewById(R.id.create_run_button);
         createRunPreferenceRecyclerView = (RecyclerView) view.findViewById(R.id.create_run_preferences_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
@@ -80,10 +85,15 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
             @Override
             protected void populateViewHolder(CreateRunPreferencesViewHolder viewHolder, Question model, int position) {
                 viewHolder.question.setText(model.getQuestion());
+                questionList.add(model);
+                YesnoOnClickListener listener= new YesnoOnClickListener(model);
+                viewHolder.buttonNo.setOnClickListener(listener);
+                viewHolder.buttonYes.setOnClickListener(listener);
                 if(model.getAnswer()==0) {
                     viewHolder.buttonNo.setChecked(true);
-                }else
+                }else {
                     viewHolder.buttonYes.setChecked(true);
+                }
             }
 
 
@@ -95,7 +105,7 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
         createRunPreferenceRecyclerView.setLayoutManager(linearLayoutManager);
         createRunPreferenceRecyclerView.setAdapter(firebaseRecyclerAdapter);
-
+        createRun.setOnClickListener(this);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -114,5 +124,23 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
 
         return view;
+    }
+    public class YesnoOnClickListener implements View.OnClickListener{
+
+        Question question;
+        public YesnoOnClickListener(Question question) {
+            this.question = question;
+        }
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.radio_button_no:
+                question.setAnswer(0);
+                    break;
+                case R.id.radio_button_yes:
+                    question.setAnswer(1);
+                    break;
+            }
+        }
     }
 }
