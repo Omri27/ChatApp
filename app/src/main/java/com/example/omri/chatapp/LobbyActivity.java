@@ -32,6 +32,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,7 @@ public class LobbyActivity extends AppCompatActivity
     private DotLoader dotLoader;
     private  CreateRunFragment createRunFragment;
     private Location location;
+    private DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +69,7 @@ public class LobbyActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        ref = FirebaseDatabase.getInstance().getReference();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -276,9 +278,6 @@ public class LobbyActivity extends AppCompatActivity
 //        receiverRef.setValue(new Chat(currentUserName));
 //
 //    }
-private void createRun(Run run){
-
-}
 //    @Override
 //    public void accessChat(String chatId) {
 //        currentChatId = chatId;
@@ -359,8 +358,13 @@ private void createRun(Run run){
     }
 
     @Override
-    public void createRunPreference() {
+    public void createRunPreference(String name,String date, String time) {
         CreateRunPreferenceFragment createRunPreference = new CreateRunPreferenceFragment();
+        Bundle args = new Bundle();
+        args.putString("runName", name);
+        args.putString("runDate", date);
+        args.putString("runTime", time);
+        createRunPreference.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunPreference).addToBackStack(null).commit();
     }
 
@@ -399,6 +403,7 @@ private void createRun(Run run){
     public Location getLocation() {
             return location;
     }
+
     @Override
     public void enterRunPage(String runId) {
         RunPageFragment runPageFragment = new RunPageFragment();
@@ -428,7 +433,12 @@ private void createRun(Run run){
         upComingRunPageFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunPageFragment).addToBackStack(null).commit();
     }
-
+    @Override
+    public void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions) {
+        Run newRun = new Run(currentUserName,runName,runDate,runTime,location.getProvider(),questions);
+        ref.child("runs").push().setValue(newRun);
+        enterComingupRunList();
+    }
     private void postRequest(String token, String message) {
         Log.w("TAG",token);
         Retrofit retrofit = new Retrofit.Builder()

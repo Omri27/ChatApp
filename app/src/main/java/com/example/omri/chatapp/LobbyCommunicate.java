@@ -2,6 +2,8 @@ package com.example.omri.chatapp;
 
 import android.location.Location;
 
+import java.util.ArrayList;
+
 public interface LobbyCommunicate {
     //void accessChat(String chatId);
     void stopProgressBar();
@@ -12,10 +14,11 @@ public interface LobbyCommunicate {
     void enterHistoryRunPage(String runId);
     void enterUpComingRunPage(String runId);
     void sendLobbyMessage(String Id,String messageText);
-    void createRunPreference();
+    void createRunPreference(String name,String date, String time);
     void enterHistoryListPage();
     void enterFeedPage();
     void enterComingupRunList();
     void activateLocation();
     Location getLocation();
+    void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions);
 }

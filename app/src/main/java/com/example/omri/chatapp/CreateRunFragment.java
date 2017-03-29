@@ -203,7 +203,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
 //                startActivity(intent);
             }
         else if(view==nextBtn){
-                ((LobbyCommunicate) getActivity()).createRunPreference();
+                ((LobbyCommunicate) getActivity()).createRunPreference(runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString());
             }
         }
 
@@ -214,7 +214,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         Location locationChose=null;
        // for(int i=0; i<10;i++) {
             try {
-               // locationlat = this.getArguments().getDouble("Location");
                 locationChose =  ((LobbyCommunicate) getActivity()).getLocation();
 
             } catch (Exception ex) {

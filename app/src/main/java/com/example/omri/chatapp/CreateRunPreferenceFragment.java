@@ -39,7 +39,8 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
     public void onClick(View view) {
     switch(view.getId()){
         case R.id.create_run_button:
-
+            Bundle args = getArguments();
+            ((LobbyCommunicate) getActivity()).createRun(args.getString("runName"),args.getString("runDate"),args.getString("runTime"),questionList);
     }
     }
 
@@ -69,6 +70,8 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_run_preference, container, false);
+
+
         questionList =new ArrayList<Question>();
         getActivity().setTitle("Run Preferences");
         createRun = (Button)view.findViewById(R.id.create_run_button);
