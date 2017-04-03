@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -18,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -42,14 +45,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.vision.text.Text;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Omri on 17/12/2016.
@@ -59,11 +66,20 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         GoogleMap.OnPolygonClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener,View.OnClickListener {
     private GoogleMap mMap;
     private TextView time;
+    private final String INITIAL="initial";
+    private final String START="start";
+    private final String PAUSE= "pause";
+    private final String STOP="stop";
     private TextView calories;
     private CameraPosition mCameraPosition;
     private Button startBtn;
     private Button stopBtn;
     private Button pauseBtn;
+    private long timeInMilliseconds = 0L;
+    private long timeSwapBuff = 0L;
+    private long updatedTime = 0L;
+    private Handler customHandler = new Handler();
+    private long startTime = 0L;
     private MapFragment trainingMapFragment;
     private GoogleApiClient mGoogleApiClient;
     private boolean mRequestingLocationUpdates;
@@ -79,19 +95,18 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private LocationRequest mLocationRequest;
     private final int mMaxEntries = 5;
+    private double distance;
     private String mLastUpdateTime;
     private String[] mLikelyPlaceNames = new String[mMaxEntries];
     private String[] mLikelyPlaceAddresses = new String[mMaxEntries];
     private String[] mLikelyPlaceAttributions = new String[mMaxEntries];
     private LatLng[] mLikelyPlaceLatLngs = new LatLng[mMaxEntries];
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run);
         updateValuesFromBundle(savedInstanceState);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-
         time = (TextView) findViewById(R.id.run_time);
         setTitle("Go Running!");
 
@@ -111,6 +126,47 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         mGoogleApiClient.connect();
+
+    }
+    private Runnable updateTimerThread = new Runnable() {
+
+
+
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            time.setText("" + String.format("%02d", mins) + ":" + String.format("%02d", secs) + ":"+ String.format("%02d", milliseconds));
+            customHandler.postDelayed(this, 0);
+        }
+    };
+    public void setButtonState(String state){
+        switch(state){
+            case INITIAL:
+                startBtn.setEnabled(true);
+                pauseBtn.setEnabled(false);
+                stopBtn.setEnabled(false);
+                break;
+            case START:
+                startBtn.setEnabled(false);
+                pauseBtn.setEnabled(true);
+                stopBtn.setEnabled(true);
+                break;
+            case PAUSE:
+                startBtn.setEnabled(true);
+                pauseBtn.setEnabled(false);
+                stopBtn.setEnabled(true);
+                break;
+            case STOP:
+                startBtn.setEnabled(true);
+                pauseBtn.setEnabled(false);
+                stopBtn.setEnabled(false);
+                break;
+
+        }
     }
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
@@ -210,11 +266,15 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         // Do other setup activities here too, as described elsewhere in this tutorial.
 
         // Turn on the My Location layer and the related control on the map.
-        updateLocationUI();
+        try {
+            updateLocationUI();
 
-        // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
-        startLocationUpdates();
+            // Get the current location of the device and set the position of the map.
+            getDeviceLocation();
+            startLocationUpdates();
+        }catch(Exception ex){
+            Log.w("mapready",ex.toString());
+        }
     }
 
     @Override
@@ -234,9 +294,13 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.training_view_location_map_f);
-        mapFragment.getMapAsync(this);
+        try {
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.training_view_location_map_f);
+            mapFragment.getMapAsync(this);
+        }catch(Exception ex){
+            Log.w("onConnectedexception",ex.getMessage());
+        }
 
     }
 
@@ -381,11 +445,16 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        mCurrentLocation = location;
-        if(runStart)
+        if(runStart && location!=null)
         {
+            if(mCurrentLocation!=null)
+                distance += mCurrentLocation.distanceTo(location);
+        mCurrentLocation = location;
            Log.w("runTrackadded",location.toString());
             runTrack.add(mCurrentLocation);
+        }
+        else{
+            Log.w("runTrackMissed","locationMissed");
         }
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         updateUI();
@@ -395,10 +464,12 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         //mLatitudeTextView.setText(String.valueOf(mCurrentLocation.getLatitude()));
         //mLongitudeTextView.setText(String.valueOf(mCurrentLocation.getLongitude()));
         // mLastUpdateTimeTextView.setText(mLastUpdateTime);
-        Log.w("mCurrentLocationbla",String.valueOf(mCurrentLocation.getLongitude()));
-        Log.w("mLastUpdateTimebla",mLastUpdateTime);
-        calories.setText(String.valueOf(mCurrentLocation.getLongitude()));
-        time.setText(mLastUpdateTime);
+        if(mCurrentLocation!=null) {
+            Log.w("mCurrentLocationbla", String.valueOf(mCurrentLocation.getLongitude()));
+            Log.w("mLastUpdateTimebla", mLastUpdateTime);
+            //calories.setText(String.valueOf(mCurrentLocation.getLongitude()));
+        }
+        //time.setText(mLastUpdateTime);
     }
 
     @Override
@@ -420,28 +491,47 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.run_startButton:
+                startTime = SystemClock.uptimeMillis();
+                mCurrentLocation=null;
                 runTrack= new ArrayList<Location>();
+                distance = 0;
+                mMap.clear();
                 runStart=true;
+                customHandler.postDelayed(updateTimerThread, 0);
+                setButtonState(START);
                 break;
             case R.id.run_pauseButton:
                 runStart=false;
+                timeSwapBuff += timeInMilliseconds;
+                customHandler.removeCallbacks(updateTimerThread);
+                setButtonState(PAUSE);
                 break;
             case R.id.run_stopButton:
+                timeInMilliseconds = 0L;
+                timeSwapBuff=0L;
+                startTime=0L;
+                SystemClock.setCurrentTimeMillis(startTime);
+                customHandler.removeCallbacks(updateTimerThread);
+                time.setText("" + "00" + ":" + "00" + ":"+ "00");
                 runStart=false;
                 drawRoute();
+                setButtonState(STOP);
                 break;
         }
     }
     protected void drawRoute() {
-        Log.w("drawRoute",runTrack.get(0).toString());
+
         if (runTrack.size() > 0) {
+            Log.w("drawRoute",runTrack.get(0).toString());
             PolylineOptions lines = new PolylineOptions();
             for (Object place : runTrack) {
                 lines.add(new LatLng(((Location) place).getLatitude(), ((Location) place).getLongitude()));
+                ((Location) place).distanceTo((Location)place);
             }
             mMap.addPolyline(lines);
 //        Polyline polyline1 = mMap.addPolyline((new PolylineOptions())
@@ -454,6 +544,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 //    }
         }
     }
+
 }
 
 

@@ -14,18 +14,20 @@ public class Run {
     private String date;
     private String name;
     private String location;
+    private String runDistance;
     private ArrayList<Question> preferences;
 
 
     public Run() {
     }
-    public Run(String creator, String name, String date, String time, String location, ArrayList<Question> preferences) {
+    public Run(String creator, String name, String date, String time, String location, ArrayList<Question> preferences,String runDistance) {
         this.creator = creator;
         this.name = name;
         this.date = date;
         this.time = time;
         this.location= location;
         this.preferences = preferences;
+        this.runDistance= runDistance;
     }
     public String getLocation() {
         return location;
@@ -51,6 +53,10 @@ public class Run {
 
     public String getName() {
         return name;
+    }
+
+    public String getRunDistance() {
+        return runDistance;
     }
 }
 

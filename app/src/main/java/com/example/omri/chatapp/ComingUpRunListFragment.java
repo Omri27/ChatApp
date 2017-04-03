@@ -28,7 +28,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
     private LinearLayout emptyView;
     private Button feedBtn;
     private Button historyBtn;
-
+    private String currentUserId;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -68,6 +68,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_comingup_run_list, container, false);
+        currentUserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
         getActivity().setTitle("ComingUp Runs");
         upcomingRunsRecyclerView = (RecyclerView) view.findViewById(R.id.upcoming_run_list_recycler_view);
         feedBtn = (Button) view.findViewById(R.id.comingup_feed_btn);

@@ -40,7 +40,7 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
     switch(view.getId()){
         case R.id.create_run_button:
             Bundle args = getArguments();
-            ((LobbyCommunicate) getActivity()).createRun(args.getString("runName"),args.getString("runDate"),args.getString("runTime"),questionList);
+            ((LobbyCommunicate) getActivity()).createRun(args.getString("runName"),args.getString("runDate"),args.getString("runTime"),questionList,args.getString("runDistance"));
     }
     }
 

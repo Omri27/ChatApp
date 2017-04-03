@@ -62,6 +62,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     public Button timeBtn;
     public EditText runTime;
     public EditText location;
+    public EditText distance;
     public Button nextBtn;
     public Button locationBtn;
     //public MapView mMapView;
@@ -106,6 +107,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         runName = (EditText) view.findViewById(R.id.run_name);
         locationBtn = (Button)view.findViewById(R.id.location_btn);
         runDate= (EditText)view.findViewById(R.id.date_txt);
+        distance= (EditText)view.findViewById(R.id.distance_txt);
         dateBtn = (Button) view.findViewById(R.id.date_btn);
         location = (EditText) view.findViewById(R.id.location_txt);
         nextBtn= (Button) view.findViewById(R.id.next_btn);
@@ -203,7 +205,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
 //                startActivity(intent);
             }
         else if(view==nextBtn){
-                ((LobbyCommunicate) getActivity()).createRunPreference(runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString());
+                ((LobbyCommunicate) getActivity()).createRunPreference(runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString(),distance.getText().toString());
             }
         }
 

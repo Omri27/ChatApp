@@ -51,6 +51,7 @@ public class LobbyActivity extends AppCompatActivity
     private String currentRecevierId;
     private GoogleMap mMap;
     private ImageView drawerHeaderPic;
+    private String CurrentUserId;
     public  int  MY_PERMISSIONS_REQUEST_LOCATION;
     // private ProgressBar progressBar;
     private InstanceID instanceID;
@@ -63,10 +64,10 @@ public class LobbyActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_lobby);
-
+        setCurrentUserId();
         instanceID = InstanceID.getInstance(this);
         getCurrentUserName();
-
+        FirebaseAuth.getInstance().getCurrentUser().getUid();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ref = FirebaseDatabase.getInstance().getReference();
@@ -331,9 +332,20 @@ public class LobbyActivity extends AppCompatActivity
 //        if(!token.equals(""))
 //            postRequest(token, messageText);
 //    }
+private void setCurrentUserId() {
+    try {
+        CurrentUserId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }catch(Exception ex){
+        Log.w("userIdException", ex.toString());
+    }
+}
+    @Override
+    public String getCurrentUserId() {
+        return CurrentUserId;
+    }
     @Override
     public void sendLobbyMessage(String Id,String messageText) {
-        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String senderId =CurrentUserId;
         DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("runs").child(Id).child("messages");
         // DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
         String key = Ref.push().getKey();
@@ -358,12 +370,13 @@ public class LobbyActivity extends AppCompatActivity
     }
 
     @Override
-    public void createRunPreference(String name,String date, String time) {
+    public void createRunPreference(String name,String date, String time, String distance) {
         CreateRunPreferenceFragment createRunPreference = new CreateRunPreferenceFragment();
         Bundle args = new Bundle();
         args.putString("runName", name);
         args.putString("runDate", date);
         args.putString("runTime", time);
+        args.putString("runDistance", distance);
         createRunPreference.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunPreference).addToBackStack(null).commit();
     }
@@ -372,7 +385,7 @@ public class LobbyActivity extends AppCompatActivity
     public void enterHistoryListPage() {
         HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
         Bundle bundle = new Bundle();
-       String h =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+       String h =  CurrentUserId;
         bundle.putString("userId", h);
         HistoryRun.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
@@ -388,7 +401,7 @@ public class LobbyActivity extends AppCompatActivity
     public void enterComingupRunList() {
         ComingUpRunListFragment upComingRunList = new ComingUpRunListFragment();
         Bundle bundle = new Bundle();
-        String h =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String h =  CurrentUserId;
         bundle.putString("userId", h);
         upComingRunList.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunList).commit();
@@ -434,8 +447,8 @@ public class LobbyActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunPageFragment).addToBackStack(null).commit();
     }
     @Override
-    public void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions) {
-        Run newRun = new Run(currentUserName,runName,runDate,runTime,location.getProvider(),questions);
+    public void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions,String runDistance) {
+        Run newRun = new Run(currentUserName,runName,runDate,runTime,location.getProvider(),questions,runDistance);
         ref.child("runs").push().setValue(newRun);
         enterComingupRunList();
     }

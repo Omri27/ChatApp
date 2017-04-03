@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
             @Override
             protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
                 final String key = firebaseRecyclerAdapter.getRef(position).getKey();
+                Log.w("keybla",key);
                 viewHolder.runNameText.setText(model.getName());
                     viewHolder.locationText.setText(model.getLocation());
                 viewHolder.creatorText.setText(model.getCreator());

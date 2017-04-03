@@ -1,5 +1,8 @@
 package com.example.omri.chatapp;
 
+import java.util.ArrayList;
+import java.util.prefs.Preferences;
+
 /**
  * Created by Omri on 07/09/2016.
  */
@@ -7,7 +10,7 @@ public class User {
     private String name;
     private String email;
     private String picUrl;
-
+    private ArrayList<Preferences> Preferences;
     public String getPicUrl() {
         return picUrl;
     }
@@ -45,5 +48,13 @@ public class User {
     @Override
     public String toString() {
         return getName();
+    }
+
+    public ArrayList<java.util.prefs.Preferences> getPreferences() {
+        return Preferences;
+    }
+
+    public void setPreferences(ArrayList<java.util.prefs.Preferences> preferences) {
+        Preferences = preferences;
     }
 }
