@@ -90,17 +90,27 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                 runRef) {
             @Override
             protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
-                final String key = firebaseRecyclerAdapter.getRef(position).getKey();
-                Log.w("keybla",key);
-                viewHolder.runNameText.setText(model.getName());
+                try {
+                    final String key = firebaseRecyclerAdapter.getRef(position).getKey();
+                    Log.w("keybla", key);
+                    viewHolder.runNameText.setText(model.getName());
                     viewHolder.locationText.setText(model.getLocation());
-                viewHolder.creatorText.setText(model.getCreator());
-                viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((LobbyCommunicate) getActivity()).enterRunPage(key);
-                    }
-                });
+                    viewHolder.creatorText.setText(model.getCreator());
+                    viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ((LobbyCommunicate) getActivity()).signToARun(key);
+                        }
+                    });
+                    viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((LobbyCommunicate) getActivity()).enterRunPage(key);
+                        }
+                    });
+                }catch(Exception ex){
+                    Log.w("RunFeedlistErr",ex.toString());
+                }
             }
 
 
@@ -112,21 +122,25 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
 
         runsRecyclerView.setLayoutManager(linearLayoutManager);
         runsRecyclerView.setAdapter(firebaseRecyclerAdapter);
-        runRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ((LobbyCommunicate)getActivity()).stopProgressBar();
-                if(!dataSnapshot.hasChildren()){
-                    emptyView.setVisibility(View.VISIBLE);
+        try {
+            runRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    ((LobbyCommunicate) getActivity()).stopProgressBar();
+                    if (!dataSnapshot.hasChildren()) {
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
+                }
+            });
+        }catch (Exception ex){
+            Log.w("onemptyerr",ex.toString());
+        }
 
 
 

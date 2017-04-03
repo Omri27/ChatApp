@@ -48,6 +48,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     private Button beTherebtn;
     private String runId;
     private DatabaseReference ref;
+    private String currentUserId;
     private FloatingActionButton sendButton;
     public RunPageFragment(){}
 
@@ -77,6 +78,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     //  final View view = inflater.inflate(R.layout.fragment_chat, container, false);
     textMessage = (EditText) view.findViewById(R.id.messageEditText);
     sendButton = (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
+    currentUserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
     ref = FirebaseDatabase.getInstance().getReference();
     //get data from activity
     runId = getArguments().getString("runId");
@@ -98,7 +100,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
             try {
                 getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
                 // trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
-                distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
+                //distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
                 runLocationtxt.setText(dataSnapshot.child("location").getValue().toString());
                 dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
             }catch(Exception ex){
@@ -176,7 +178,8 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.be_there_btn:
-
+                ((LobbyCommunicate) (getActivity())).signToARun(runId);
+                beTherebtn.setEnabled(false);
                 break;
         }
     }

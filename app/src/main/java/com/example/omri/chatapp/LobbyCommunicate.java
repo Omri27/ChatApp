@@ -22,4 +22,6 @@ public interface LobbyCommunicate {
     Location getLocation();
     void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions, String runDistance);
     String getCurrentUserId();
+    void signToARun(String runId);
+    void signOutOfARun(String runId);
 }

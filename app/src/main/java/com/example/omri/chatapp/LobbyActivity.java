@@ -339,6 +339,7 @@ private void setCurrentUserId() {
         Log.w("userIdException", ex.toString());
     }
 }
+
     @Override
     public String getCurrentUserId() {
         return CurrentUserId;
@@ -368,7 +369,29 @@ private void setCurrentUserId() {
         Ref.updateChildren(senderFanOut);
         //receiverRef.updateChildren(receiverFanOut);
     }
+    @Override
+   public  void signOutOfARun(String runId){
+        try {
+            String senderId = CurrentUserId;
+            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
+            Ref.removeValue();
+        }catch(Exception ex){
+            Log.w("signOutofRunErr",ex.toString());
+        }
+    }
+    @Override
+    public void signToARun(String runId) {
+        try {
+            String senderId = CurrentUserId;
+            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
+            Ref.setValue(1);
+           // String key = Ref.push().getKey();
+           // Ref.child(key).setValue(runId);
+        }catch(Exception ex){
+            Log.w("signToARun",ex.toString());
+        }
 
+    }
     @Override
     public void createRunPreference(String name,String date, String time, String distance) {
         CreateRunPreferenceFragment createRunPreference = new CreateRunPreferenceFragment();

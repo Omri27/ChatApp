@@ -90,7 +90,8 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
-                    trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
+                    //trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
+                   // distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
                     runLocationtxt.setText(dataSnapshot.child("location").getValue().toString());
                     dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
                 }
@@ -161,7 +162,11 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
 
         @Override
         public void onClick(View view) {
-
+            switch(view.getId()){
+                case R.id.upcoming_Cancell:
+                    ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                    break;
+            }
         }
     }
 
