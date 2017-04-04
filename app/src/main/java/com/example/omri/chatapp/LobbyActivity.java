@@ -380,6 +380,15 @@ private void setCurrentUserId() {
         }
     }
     @Override
+    public  void submitUserPreferences(ArrayList<Question> questions){
+        try {
+            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("Preferences");
+            Ref.setValue(questions);
+        }catch(Exception ex){
+            Log.w("submitUserQuestionErr",ex.toString());
+        }
+    }
+    @Override
     public void signToARun(String runId) {
         try {
             String senderId = CurrentUserId;

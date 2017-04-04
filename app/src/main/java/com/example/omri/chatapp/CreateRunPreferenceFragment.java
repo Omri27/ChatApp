@@ -89,7 +89,7 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
             protected void populateViewHolder(CreateRunPreferencesViewHolder viewHolder, Question model, int position) {
                 viewHolder.question.setText(model.getQuestion());
                 questionList.add(model);
-                YesnoOnClickListener listener= new YesnoOnClickListener(model);
+                RunYesnoOnClickListener listener= new RunYesnoOnClickListener(model);
                 viewHolder.buttonNo.setOnClickListener(listener);
                 viewHolder.buttonYes.setOnClickListener(listener);
                 if(model.getAnswer()==0) {
@@ -128,10 +128,10 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
         return view;
     }
-    public class YesnoOnClickListener implements View.OnClickListener{
+    public class RunYesnoOnClickListener implements View.OnClickListener{
 
         Question question;
-        public YesnoOnClickListener(Question question) {
+        public RunYesnoOnClickListener(Question question) {
             this.question = question;
         }
         @Override

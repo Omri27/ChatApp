@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -24,14 +25,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 
-public class PreferencesListFragment extends Fragment {
+public class PreferencesListFragment extends Fragment implements View.OnClickListener {
     public static final String PREFERENCES = "questions/";
     private RecyclerView preferencesRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private LinearLayout emptyView;
+    private ArrayList<Question> questionList;
+    private Button submit;
+
+
 
     public static class PreferencesViewHolder extends RecyclerView.ViewHolder {
         //public LinearLayout QuestionLayout;
@@ -60,6 +67,9 @@ public class PreferencesListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_preferences_list, container, false);
         getActivity().setTitle("Preferences");
+        questionList= new ArrayList<Question>();
+        submit= (Button)view.findViewById(R.id.submit_button);
+        submit.setOnClickListener(this);
         preferencesRecyclerView = (RecyclerView) view.findViewById(R.id.preferences_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
@@ -73,7 +83,10 @@ public class PreferencesListFragment extends Fragment {
             @Override
             protected void populateViewHolder(PreferencesViewHolder viewHolder, Question model, int position) {
                 viewHolder.question.setText(model.getQuestion());
-                Log.w("Preference",Integer.toString(model.getAnswer()));
+                questionList.add(model);
+                UserYesnoOnClickListener listener= new UserYesnoOnClickListener(model);
+                viewHolder.buttonNo.setOnClickListener(listener);
+                viewHolder.buttonYes.setOnClickListener(listener);
                 if(model.getAnswer()==0) {
                     viewHolder.buttonNo.setChecked(true);
                 }else
@@ -111,5 +124,31 @@ public class PreferencesListFragment extends Fragment {
 
 
         return view;
+    }
+    public class UserYesnoOnClickListener implements View.OnClickListener{
+
+        Question question;
+        public UserYesnoOnClickListener(Question question) {
+            this.question = question;
+        }
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.radio_button_no:
+                    question.setAnswer(0);
+                    break;
+                case R.id.radio_button_yes:
+                    question.setAnswer(1);
+                    break;
+            }
+        }
+    }
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.submit_button:
+                ((LobbyCommunicate) getActivity()).submitUserPreferences(questionList);
+                break;
+        }
     }
 }

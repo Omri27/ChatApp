@@ -10,7 +10,7 @@ public class User {
     private String name;
     private String email;
     private String picUrl;
-    private ArrayList<Preferences> Preferences;
+    private ArrayList<Question> Preferences;
     public String getPicUrl() {
         return picUrl;
     }
@@ -50,11 +50,11 @@ public class User {
         return getName();
     }
 
-    public ArrayList<java.util.prefs.Preferences> getPreferences() {
+    public ArrayList<Question> getPreferences() {
         return Preferences;
     }
 
-    public void setPreferences(ArrayList<java.util.prefs.Preferences> preferences) {
+    public void setPreferences(ArrayList<Question> preferences) {
         Preferences = preferences;
     }
 }

@@ -24,4 +24,5 @@ public interface LobbyCommunicate {
     String getCurrentUserId();
     void signToARun(String runId);
     void signOutOfARun(String runId);
+    void submitUserPreferences(ArrayList<Question> questions);
 }

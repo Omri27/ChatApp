@@ -148,9 +148,13 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
             runRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    ((LobbyCommunicate) getActivity()).stopProgressBar();
-                    if (!dataSnapshot.hasChildren()) {
-                        emptyView.setVisibility(View.VISIBLE);
+                    try {
+                        ((LobbyCommunicate) getActivity()).stopProgressBar();
+                        if (!dataSnapshot.hasChildren()) {
+                            emptyView.setVisibility(View.VISIBLE);
+                        }
+                    }catch(Exception ex){
+                        Log.w("cominguplistonempty",ex.toString());
                     }
                 }
 
