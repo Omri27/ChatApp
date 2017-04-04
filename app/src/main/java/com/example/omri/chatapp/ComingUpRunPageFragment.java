@@ -91,7 +91,7 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
                     //trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
-                   // distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
+                    distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
                     runLocationtxt.setText(dataSnapshot.child("location").getValue().toString());
                     dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
                 }

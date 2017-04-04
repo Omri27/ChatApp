@@ -14,8 +14,9 @@ public class Run {
     private String date;
     private String name;
     private String location;
-    private String runDistance;
+    private String distance;
     private ArrayList<Question> preferences;
+    private String maxRunners;
 
 
     public Run() {
@@ -27,7 +28,8 @@ public class Run {
         this.time = time;
         this.location= location;
         this.preferences = preferences;
-        this.runDistance= runDistance;
+        this.distance= runDistance;
+        this.maxRunners = maxRunners;
     }
     public String getLocation() {
         return location;
@@ -55,8 +57,13 @@ public class Run {
         return name;
     }
 
-    public String getRunDistance() {
-        return runDistance;
+
+    public String getMaxRunners() {
+        return maxRunners;
+    }
+
+    public void setMaxRunners(String maxRunners) {
+        this.maxRunners = maxRunners;
     }
 }
 

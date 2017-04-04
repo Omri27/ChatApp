@@ -30,15 +30,17 @@ import java.util.prefs.Preferences;
 
 
 public class PreferencesListFragment extends Fragment implements View.OnClickListener {
-    public static final String PREFERENCES = "questions/";
+    public static final String PREFERENCES = "questions";
+    public static final String USERS = "users";
+    public static final String YES = "1";
     private RecyclerView preferencesRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private LinearLayout emptyView;
     private ArrayList<Question> questionList;
     private Button submit;
-
-
+    private String existUser;
+    private String CurrentuserId;
 
     public static class PreferencesViewHolder extends RecyclerView.ViewHolder {
         //public LinearLayout QuestionLayout;
@@ -73,8 +75,14 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
         preferencesRecyclerView = (RecyclerView) view.findViewById(R.id.preferences_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference userRef = ref.child(PREFERENCES/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
-
+        existUser = getArguments().getString("existUser");
+        Log.w("existuserbla",existUser);
+        CurrentuserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
+        DatabaseReference userRef;
+        if(existUser.equals(YES))
+            userRef = ref.child(USERS).child(CurrentuserId).child("Preferences");
+        else
+            userRef = ref.child(PREFERENCES);
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Question, PreferencesListFragment.PreferencesViewHolder>(
                 Question.class,
                 R.layout.question_template,

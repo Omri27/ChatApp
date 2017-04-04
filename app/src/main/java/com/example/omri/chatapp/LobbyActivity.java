@@ -167,8 +167,29 @@ public class LobbyActivity extends AppCompatActivity
 //
 //        }   else
         if (id == R.id.prefernces_button) {
-            PreferencesListFragment preferencesFragment = new PreferencesListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
+
+            DatabaseReference checkRef = ref.child("users").child(CurrentUserId);
+            checkRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Bundle args = new Bundle();
+                    if(dataSnapshot.hasChild("Preferences"))
+                        args.putString("existUser", "1");
+                        else
+                        args.putString("existUser", "0");
+
+
+                    PreferencesListFragment preferencesFragment = new PreferencesListFragment();
+                    preferencesFragment.setArguments(args);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
 
         } else if (id == R.id.run_list) {
             RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
