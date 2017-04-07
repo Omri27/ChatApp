@@ -1,7 +1,8 @@
-package com.example.omri.chatapp;
+package com.example.omri.chatapp.Entities;
+
+import com.example.omri.chatapp.Entities.Question;
 
 import java.util.ArrayList;
-import java.util.prefs.Preferences;
 
 /**
  * Created by Omri on 07/09/2016.

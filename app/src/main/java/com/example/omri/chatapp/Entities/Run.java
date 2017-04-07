@@ -1,6 +1,4 @@
-package com.example.omri.chatapp;
-
-import android.location.Location;
+package com.example.omri.chatapp.Entities;
 
 import java.util.ArrayList;
 

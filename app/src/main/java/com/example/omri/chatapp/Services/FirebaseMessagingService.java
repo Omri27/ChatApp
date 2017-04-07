@@ -1,4 +1,4 @@
-package com.example.omri.chatapp;
+package com.example.omri.chatapp.Services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.omri.chatapp.LobbyActivity;
+import com.example.omri.chatapp.R;
 import com.google.firebase.messaging.RemoteMessage;
 
 

@@ -1,4 +1,4 @@
-package com.example.omri.chatapp;
+package com.example.omri.chatapp.Entities;
 
 
 public class Chat {

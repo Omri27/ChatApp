@@ -1,4 +1,4 @@
-package com.example.omri.chatapp;
+package com.example.omri.chatapp.Entities;
 
 /**
  * Created by Omri on 26/11/2016.

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.DateTimeKeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.omri.chatapp.Entities.HistoryRun;
+import com.example.omri.chatapp.Entities.Run;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Omri on 26/11/2016.
@@ -31,7 +38,8 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
     private LinearLayout emptyView;
     private Button historyRunBtn;
     private Button upcomingRunBtn;
-
+    private Date nowDate = new Date();
+    private HistoryRun history;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -69,7 +77,6 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_run_list, container, false);
         getActivity().setTitle("Run Feed");
@@ -90,9 +97,11 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                 runRef) {
             @Override
             protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
+                DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 try {
+                   Date date = formatter.parse(model.getDate()+" "+model.getTime());
+                    if(date.after(nowDate)){
                     final String key = firebaseRecyclerAdapter.getRef(position).getKey();
-                    Log.w("keybla", key);
                     viewHolder.runNameText.setText(model.getName());
                     viewHolder.locationText.setText(model.getLocation());
                     viewHolder.creatorText.setText(model.getCreator());
@@ -107,7 +116,10 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                         public void onClick(View v) {
                             ((LobbyCommunicate) getActivity()).enterRunPage(key);
                         }
-                    });
+                    });}
+                    else{
+                        viewHolder.runLayout.setVisibility(View.GONE);
+                    }
                 }catch(Exception ex){
                     Log.w("RunFeedlistErr",ex.toString());
                 }

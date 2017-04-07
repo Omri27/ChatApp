@@ -1,7 +1,4 @@
-package com.example.omri.chatapp;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+package com.example.omri.chatapp.Entities;
 
 public class Message {
     private long time;

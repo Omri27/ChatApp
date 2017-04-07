@@ -1,4 +1,4 @@
-package com.example.omri.chatapp;
+package com.example.omri.chatapp.Services;
 
 import android.util.Log;
 

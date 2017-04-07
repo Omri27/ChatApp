@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.omri.chatapp.Entities.Run;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,8 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 
 public class ComingUpRunListFragment extends Fragment implements View.OnClickListener {

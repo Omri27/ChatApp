@@ -1,14 +1,11 @@
 package com.example.omri.chatapp;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,7 +18,10 @@ import android.widget.ImageView;
 
 import com.bhargavms.dotloader.DotLoader;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.example.omri.chatapp.Entities.Message;
+import com.example.omri.chatapp.Entities.Question;
+import com.example.omri.chatapp.Entities.Run;
+import com.example.omri.chatapp.Services.API;
 import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,9 +30,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +52,7 @@ public class LobbyActivity extends AppCompatActivity
     private GoogleMap mMap;
     private ImageView drawerHeaderPic;
     private String CurrentUserId;
+    private String token;
     public  int  MY_PERMISSIONS_REQUEST_LOCATION;
     // private ProgressBar progressBar;
     private InstanceID instanceID;
@@ -66,6 +67,7 @@ public class LobbyActivity extends AppCompatActivity
         setContentView(R.layout.activity_drawer_lobby);
         setCurrentUserId();
         instanceID = InstanceID.getInstance(this);
+        token = FirebaseInstanceId.getInstance().getToken();
         getCurrentUserName();
         FirebaseAuth.getInstance().getCurrentUser().getUid();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -371,7 +373,7 @@ private void setCurrentUserId() {
         DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("runs").child(Id).child("messages");
         // DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
         String key = Ref.push().getKey();
-        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
+        Message message = new Message(messageText, currentUserName, senderId);
 //        senderRef.child("messages").child(key).setValue(message);
 //        receiverRef.child("messages").child(key).setValue(message);
 //        senderRef.child("lastMessage").setValue(messageText);
@@ -436,12 +438,33 @@ private void setCurrentUserId() {
 
     @Override
     public void enterHistoryListPage() {
-        HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
-        Bundle bundle = new Bundle();
-       String h =  CurrentUserId;
-        bundle.putString("userId", h);
-        HistoryRun.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+        Call<API.HttpBinResponse> call = service.postGetHistory(new API.FeedListRequest("getHistory", CurrentUserId,currentUserName));
+        call.enqueue(new Callback<API.HttpBinResponse>() {
+
+            @Override
+            public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
+                if(response.isSuccessful()){
+                    HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
+                    getHistoryRuns();
+                    Bundle bundle = new Bundle();
+                    String h =  CurrentUserId;
+                    bundle.putString("userId", h);
+                    HistoryRun.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<API.HttpBinResponse> call, Throwable t) {
+                Log.w("enterHistoryListPageerr",t.toString());
+            }
+        });
+
     }
 
     @Override
@@ -527,7 +550,11 @@ private void setCurrentUserId() {
         });
 
     }
+    private void getHistoryRuns() {
+        Log.w("TAG",token);
 
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);

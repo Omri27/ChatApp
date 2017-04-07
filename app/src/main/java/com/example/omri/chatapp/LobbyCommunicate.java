@@ -2,6 +2,8 @@ package com.example.omri.chatapp;
 
 import android.location.Location;
 
+import com.example.omri.chatapp.Entities.Question;
+
 import java.util.ArrayList;
 
 public interface LobbyCommunicate {
