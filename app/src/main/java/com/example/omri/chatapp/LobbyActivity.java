@@ -448,15 +448,15 @@ private void setCurrentUserId() {
 
             @Override
             public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
-                if(response.isSuccessful()){
-                    HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
-                    getHistoryRuns();
-                    Bundle bundle = new Bundle();
-                    String h =  CurrentUserId;
-                    bundle.putString("userId", h);
-                    HistoryRun.setArguments(bundle);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
-                }
+                Log.w("response",call.toString());
+
+//                    HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
+//                    Bundle bundle = new Bundle();
+//                    String h =  CurrentUserId;
+//                    bundle.putString("userId", h);
+//                    HistoryRun.setArguments(bundle);
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
+
             }
 
             @Override
@@ -464,7 +464,12 @@ private void setCurrentUserId() {
                 Log.w("enterHistoryListPageerr",t.toString());
             }
         });
-
+        HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
+        Bundle bundle = new Bundle();
+        String h =  CurrentUserId;
+        bundle.putString("userId", h);
+        HistoryRun.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
     }
 
     @Override
@@ -507,13 +512,22 @@ private void setCurrentUserId() {
     public void enterHistoryRunPage(String runId) {
         HistoryRunPageFragment historyRunPageFragment = new HistoryRunPageFragment();
         Bundle bundle = new Bundle();
-        String userId =  FirebaseAuth.getInstance().getCurrentUser().getUid();
-        bundle.putString("userId", userId);
+        bundle.putString("userId", CurrentUserId);
         bundle.putString("runId", runId);
         historyRunPageFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, historyRunPageFragment).addToBackStack(null).commit();
     }
-
+    @Override
+    public void updateLike(String runId, boolean isLike) {
+        try {
+            Log.w("updateLike",String.valueOf(isLike));
+            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("historyRuns").child(runId);
+            Ref.child("like").setValue(isLike);
+            Ref.child("marked").setValue(true);
+        }catch(Exception ex){
+            Log.w("updateErr",ex.toString());
+        }
+    }
     @Override
     public void enterUpComingRunPage(String runId) {
         ComingUpRunPageFragment upComingRunPageFragment = new ComingUpRunPageFragment();
@@ -548,11 +562,6 @@ private void setCurrentUserId() {
 
             }
         });
-
-    }
-    private void getHistoryRuns() {
-        Log.w("TAG",token);
-
 
     }
     @Override

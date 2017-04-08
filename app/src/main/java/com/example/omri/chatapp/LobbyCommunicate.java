@@ -27,4 +27,5 @@ public interface LobbyCommunicate {
     void signToARun(String runId);
     void signOutOfARun(String runId);
     void submitUserPreferences(ArrayList<Question> questions);
+    void updateLike(String runId, boolean isLike);
 }

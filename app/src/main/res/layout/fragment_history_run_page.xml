@@ -86,7 +86,7 @@
                 android:id="@+id/history_location_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hibner 36 Petah Tikva"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
             </TextView>
@@ -137,7 +137,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Suits You:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                >
 
             </TextView>
             <TextView
@@ -146,7 +147,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="80%"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:gravity="center">
 
             </TextView>
 
@@ -155,26 +157,55 @@
             android:id="@+id/tableRow6"
             android:paddingTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <TextView
                 android:textSize="18dp"
                 android:id="@+id/history_level_lbl"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Suits You:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+                android:layout_height="match_parent"
+                android:text="Liked The Run?"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:gravity="center"
+                android:paddingRight="10dp"
+                >
 
             </TextView>
-            <TextView
-                android:textSize="18dp"
-                android:id="@+id/history_level_txt"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/radios_group"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Advance"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
-            </TextView>
+                android:inputType="text"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/history_radio_button_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:background="@color/white"
+                    android:button="@null"
+                    android:text="Yes"
+                    android:drawablePadding="30dp"
+                    android:drawableRight="@android:drawable/btn_radio"
+                    android:textSize="20dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/history_radio_button_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:text="No"
+                    android:drawablePadding="30dp"
+                    android:drawableRight="@android:drawable/btn_radio"
+                    android:textSize="20dp"
+                    />
+
+
+            </RadioGroup>
 
         </TableRow>
         <Button
@@ -182,6 +213,13 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Delete"
+            >
+        </Button>
+        <Button
+            android:id="@+id/history_run_page_update"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Update"
             >
         </Button>
     </TableLayout>

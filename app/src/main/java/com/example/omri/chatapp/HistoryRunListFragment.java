@@ -84,7 +84,7 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
         String userId = getArguments().getString("userId");
         emptyView = (LinearLayout)view.findViewById(R.id.history_run_empty_view);
 
-        DatabaseReference runRef = ref.child(RUNS + userId+"/HistoryRuns/");
+        DatabaseReference runRef = ref.child(RUNS).child(userId).child("historyRuns");
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, HistoryRunListFragment.HistoryRunsViewHolder>(
                 Run.class,
