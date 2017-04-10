@@ -28,4 +28,5 @@ public interface LobbyCommunicate {
     void signOutOfARun(String runId);
     void submitUserPreferences(ArrayList<Question> questions);
     void updateLike(String runId, boolean isLike);
+    void enterSmartSearchList();
 }

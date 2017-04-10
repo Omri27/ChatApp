@@ -1,11 +1,15 @@
 package com.example.omri.chatapp;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,8 +26,15 @@ import com.example.omri.chatapp.Entities.Message;
 import com.example.omri.chatapp.Entities.Question;
 import com.example.omri.chatapp.Entities.Run;
 import com.example.omri.chatapp.Services.API;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.iid.InstanceID;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +46,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -44,7 +56,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LobbyActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate, ActivityCompat.OnRequestPermissionsResultCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate, ActivityCompat.OnRequestPermissionsResultCallback,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     private String currentUserPic = null;
     private String currentUserName;
     private String currentChatId;
@@ -60,6 +72,13 @@ public class LobbyActivity extends AppCompatActivity
     private DotLoader dotLoader;
     private  CreateRunFragment createRunFragment;
     private Location location;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private GoogleApiClient mGoogleApiClient;
+    private boolean mRequestingLocationUpdates;
+    private static final int DEFAULT_ZOOM = 15;
+    private Location mLastKnownLocation;
+    private Location mCurrentLocation;
+    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +108,16 @@ public class LobbyActivity extends AppCompatActivity
         getCurrentUserPic();
         RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
         // progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
-
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,
+                        this /* OnConnectionFailedListener */)
+                .addConnectionCallbacks(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .build();
         dotLoader = (DotLoader) findViewById(R.id.dot_loader);
+        //stopProgressBar();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runFeedListFragment).commit();
 //        if (ContextCompat.checkSelfPermission(this,
 //                Manifest.permission.ACCESS_FINE_LOCATION)
@@ -168,6 +195,7 @@ public class LobbyActivity extends AppCompatActivity
 //            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).commit();
 //
 //        }   else
+        stopProgressBar();
         if (id == R.id.prefernces_button) {
 
             DatabaseReference checkRef = ref.child("users").child(CurrentUserId);
@@ -435,7 +463,132 @@ private void setCurrentUserId() {
         createRunPreference.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunPreference).addToBackStack(null).commit();
     }
+    private void updateLocationUI() {
+//        if (mMap == null) {
+//            return;
+//        }
 
+    /*
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mRequestingLocationUpdates = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+
+        if (mRequestingLocationUpdates) {
+           // mMap.setMyLocationEnabled(true);
+           // mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        } else {
+         //   mMap.setMyLocationEnabled(false);
+          //  mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            mLastKnownLocation = null;
+        }
+    }
+    private void getDeviceLocation() {
+    /*
+     * Before getting the device location, you must check location
+     * permission, as described earlier in the tutorial. Then:
+     * Get the best and most recent location of the device, which may be
+     * null in rare cases when a location is not available.
+     */
+
+        if (mRequestingLocationUpdates) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            mLastKnownLocation = LocationServices.FusedLocationApi
+                    .getLastLocation(mGoogleApiClient);
+        }
+
+        // Set the map's camera position to the current location of the device.
+//        if (mCameraPosition != null) {
+//            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+//        } else if (mLastKnownLocation != null) {
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+//                    new LatLng(mLastKnownLocation.getLatitude(),
+//                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+       // } else {
+            Log.d("TAG", "Current location is null. Using defaults.");
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+       // }
+        Log.w("locationknown",String.valueOf(mLastKnownLocation.getLatitude()));
+        mGoogleApiClient.disconnect();
+        if(mLastKnownLocation.getLatitude()>0 && mLastKnownLocation.getLongitude()>0) {
+            Log.w("locationknown",String.valueOf(mLastKnownLocation.getLatitude()));
+            String location =   String.valueOf(mLastKnownLocation.getLatitude()) +"-"+String.valueOf(mLastKnownLocation.getLongitude());
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API.API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+            Call<List<API.RunItem>> call = service.postRecommendedRuns(new API.RecommendRunsRequest(CurrentUserId, location));
+            call.enqueue(new Callback<List<API.RunItem>>() {
+
+                @Override
+                public void onResponse(Call<List<API.RunItem>> call, Response<List<API.RunItem>> response) {
+                    Log.w("responeeRecomended", String.valueOf(response.isSuccessful()));
+
+                    if (response.isSuccessful()) {
+
+                        RecommendedRunListFragment rocommendedRun = new RecommendedRunListFragment();
+                        Bundle bundle = new Bundle();
+                        String h = CurrentUserId;
+                        bundle.putString("userId", h);
+                        rocommendedRun.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, rocommendedRun).addToBackStack(null).commit();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<API.RunItem>> call, Throwable t) {
+                    Log.w("responseblafail", call.toString());
+                    Log.w("enterHistoryListPageerr", String.valueOf(t));
+                }
+            });
+        }
+    }
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        try {
+            Log.w("onConnected","onConnected");
+            updateLocationUI();
+
+            getDeviceLocation();
+        }catch(Exception ex){
+            Log.w("onConnectedexception",ex.getMessage());
+        }
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void enterSmartSearchList() {
+        Log.w("entersmart","entersmart");
+
+        mGoogleApiClient.connect();
+
+    }
     @Override
     public void enterHistoryListPage() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -448,28 +601,30 @@ private void setCurrentUserId() {
 
             @Override
             public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
-                Log.w("response",call.toString());
 
-//                    HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
-//                    Bundle bundle = new Bundle();
-//                    String h =  CurrentUserId;
-//                    bundle.putString("userId", h);
-//                    HistoryRun.setArguments(bundle);
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
-
+                if(response.isSuccessful())
+            {
+                HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
+                Bundle bundle = new Bundle();
+                String h = CurrentUserId;
+                bundle.putString("userId", h);
+                HistoryRun.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
+            }
             }
 
             @Override
             public void onFailure(Call<API.HttpBinResponse> call, Throwable t) {
-                Log.w("enterHistoryListPageerr",t.toString());
+                Log.w("responseblafail",call.toString());
+                Log.w("enterHistoryListPageerr",String.valueOf(t));
             }
         });
-        HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
-        Bundle bundle = new Bundle();
-        String h =  CurrentUserId;
-        bundle.putString("userId", h);
-        HistoryRun.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
+//        HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
+//        Bundle bundle = new Bundle();
+//        String h =  CurrentUserId;
+//        bundle.putString("userId", h);
+//        HistoryRun.setArguments(bundle);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
     }
 
     @Override
@@ -590,5 +745,10 @@ private void setCurrentUserId() {
             location=(Location) null;
 
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

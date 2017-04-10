@@ -31,6 +31,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
     private LinearLayout emptyView;
     private Button feedBtn;
     private Button historyBtn;
+    private Button smartSearchBtn;
     private String currentUserId;
     private ArrayList<String> upcomingRuns;
 
@@ -42,6 +43,9 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
                 break;
             case R.id.comingup_history_btn:
                 ((LobbyCommunicate) getActivity()).enterHistoryListPage();
+                break;
+            case R.id.comingup__smart_search_btn:
+                ((LobbyCommunicate) getActivity()).enterSmartSearchList();
                 break;
         }
     }
@@ -81,8 +85,10 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
         upcomingRunsRecyclerView = (RecyclerView) view.findViewById(R.id.upcoming_run_list_recycler_view);
         feedBtn = (Button) view.findViewById(R.id.comingup_feed_btn);
         historyBtn = (Button) view.findViewById(R.id.comingup_history_btn);
+        smartSearchBtn= (Button) view.findViewById(R.id.comingup__smart_search_btn);
         feedBtn.setOnClickListener(this);
         historyBtn.setOnClickListener(this);
+        smartSearchBtn.setOnClickListener(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
         //String userId = getArguments().getString("userId");

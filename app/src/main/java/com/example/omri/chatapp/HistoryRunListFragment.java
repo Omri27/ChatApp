@@ -31,6 +31,7 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
     private LinearLayout emptyView;
     private Button feedBtn;
     private Button comingUpBtn;
+    private Button smartSearchBtn;
 
     @Override
     public void onClick(View view) {
@@ -41,6 +42,9 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
                 break;
             case R.id.history_feed_btn:
                 ((LobbyCommunicate) getActivity()).enterFeedPage();
+                break;
+            case R.id.history_smart_search_btn:
+                ((LobbyCommunicate) getActivity()).enterSmartSearchList();
                 break;
 
         }
@@ -77,6 +81,8 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
         historyRunsRecyclerView = (RecyclerView) view.findViewById(R.id.history_run_list_recycler_view);
         feedBtn = (Button) view.findViewById(R.id.history_feed_btn);
         comingUpBtn = (Button) view.findViewById(R.id.history_coming_up_btn);
+        smartSearchBtn = (Button) view.findViewById(R.id.history_smart_search_btn);
+        smartSearchBtn.setOnClickListener(this);
         comingUpBtn.setOnClickListener(this);
         feedBtn.setOnClickListener(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());

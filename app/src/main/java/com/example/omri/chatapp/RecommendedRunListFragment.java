@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.DateTimeKeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ import java.util.Date;
  * Created by Omri on 26/11/2016.
  */
 
-public class RunFeedListFragment extends Fragment  implements View.OnClickListener{
+public class RecommendedRunListFragment extends Fragment  implements View.OnClickListener{
     public static final String RUNS = "runs/";
     private RecyclerView runsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -38,22 +37,20 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
     private LinearLayout emptyView;
     private Button historyRunBtn;
     private Button upcomingRunBtn;
-    private Button smartSearchBtn;
+    private Button feedBtn;
     private Date nowDate = new Date();
     private HistoryRun history;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.feed_history_btn:
+            case R.id.recommended_history_btn:
                 ((LobbyCommunicate) getActivity()).enterHistoryListPage();
                 break;
-            case R.id.feed_coming_up_btn:
-                Log.w("feed_coming_up_btn","feed_coming_up_btn");
+            case R.id.recommended_comingup_btn:
                     ((LobbyCommunicate) getActivity()).enterComingupRunList();
                 break;
-            case R.id.feed_smart_search_btn:
-                Log.w("feed_smart_search_btn","feed_smart_search_btn");
-                ((LobbyCommunicate) getActivity()).enterSmartSearchList();
+            case R.id.recommended_feed_btn:
+                ((LobbyCommunicate) getActivity()).enterFeedPage();
                 break;
         }
     }
@@ -77,31 +74,31 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
     }
     private FirebaseRecyclerAdapter<Run, RunsViewHolder> firebaseRecyclerAdapter;
 
-    public RunFeedListFragment() {
+    public RecommendedRunListFragment() {
         // Required empty public constructor
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_run_list, container, false);
-        getActivity().setTitle("Run Feed");
-        historyRunBtn = (Button) view.findViewById(R.id.feed_history_btn);
-        upcomingRunBtn = (Button) view.findViewById(R.id.feed_coming_up_btn);
-        smartSearchBtn = (Button) view.findViewById(R.id.feed_smart_search_btn);
+        View view = inflater.inflate(R.layout.fragment_recommended_run_list, container, false);
+        getActivity().setTitle("Recommended Runs");
+        historyRunBtn = (Button) view.findViewById(R.id.recommended_history_btn);
+        upcomingRunBtn = (Button) view.findViewById(R.id.recommended_comingup_btn);
+        feedBtn = (Button) view.findViewById(R.id.recommended_feed_btn);
         historyRunBtn.setOnClickListener(this);
         upcomingRunBtn.setOnClickListener(this);
-        smartSearchBtn.setOnClickListener(this);
-        runsRecyclerView = (RecyclerView) view.findViewById(R.id.run_list_recycler_view);
+        feedBtn.setOnClickListener(this);
+        runsRecyclerView = (RecyclerView) view.findViewById(R.id.recommended_run_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
         emptyView = (LinearLayout)view.findViewById(R.id.run_empty_view);
         DatabaseReference runRef = ref.child(RUNS/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, RunFeedListFragment.RunsViewHolder>(
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, RecommendedRunListFragment.RunsViewHolder>(
                 Run.class,
                 R.layout.run_template,
-                RunFeedListFragment.RunsViewHolder.class,
+                RecommendedRunListFragment.RunsViewHolder.class,
                 runRef) {
             @Override
             protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
