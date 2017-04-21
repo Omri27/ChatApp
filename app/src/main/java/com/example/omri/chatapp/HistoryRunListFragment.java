@@ -41,7 +41,8 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
                 ((LobbyCommunicate) getActivity()).enterComingupRunList();
                 break;
             case R.id.history_feed_btn:
-                ((LobbyCommunicate) getActivity()).enterFeedPage();
+
+                ((LobbyCommunicate) getActivity()).enterHistoryListPage();
                 break;
             case R.id.history_smart_search_btn:
                 ((LobbyCommunicate) getActivity()).enterSmartSearchList();

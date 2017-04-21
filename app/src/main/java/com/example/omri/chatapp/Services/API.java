@@ -29,26 +29,12 @@ public class API {
         }
     }
 
-    public static class HttpBinResponse {
-        // the request url
-        String url;
+    public static class getRegularResponse {
+            String isOk;
 
-        // the requester ip
-        String origin;
-
-        // all headers that have been sent
-        Map headers;
-
-        // url arguments
-        private  Map args;
-
-        // post form parameters
-        Map form;
-
-        // post body json
-        Map json;
-
-
+        public getRegularResponse(String isOk) {
+            this.isOk = isOk;
+        }
     }
     public static class MessageData {
         String message;
@@ -82,21 +68,33 @@ public class API {
             this.langlat = langlat;
         }
     }
+    public static class UpdateAverageRequest {
+        String userId;
+
+        public UpdateAverageRequest(String userId){
+            this.userId = userId;
+    }
+}
     public interface HttpBinService {
 
 
         // POST with a JSON body
-        @POST("/send")
-        Call<HttpBinResponse> postWithJson(
-                @Body MessageData loginData
-        );
+//        @POST("/send")
+//        Call<getRegularResponse> postWithJson(
+//                @Body MessageData loginData
+//        );
         @POST("/getHistoryRuns")
-        Call<HttpBinResponse> postGetHistory(
+        Call<getRegularResponse> postGetHistory(
                 @Body FeedListRequest loginData
         );
 
         @POST("/getRecommendedRuns")
         Call<List<RunItem>> postRecommendedRuns(@Body RecommendRunsRequest data);
+
+        @POST("/updateAverage")
+        Call<getRegularResponse> postUpdateAverage(
+                @Body UpdateAverageRequest loginData
+        );
     }
 
 }

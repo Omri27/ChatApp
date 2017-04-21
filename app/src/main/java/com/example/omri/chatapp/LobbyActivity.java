@@ -424,8 +424,10 @@ private void setCurrentUserId() {
    public  void signOutOfARun(String runId){
         try {
             String senderId = CurrentUserId;
+            DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("Runners").child(CurrentUserId);
             DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
             Ref.removeValue();
+            runRef.removeValue();
         }catch(Exception ex){
             Log.w("signOutofRunErr",ex.toString());
         }
@@ -433,8 +435,9 @@ private void setCurrentUserId() {
     @Override
     public  void submitUserPreferences(ArrayList<Question> questions){
         try {
-            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("Preferences");
+            DatabaseReference Ref =FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("Preferences");
             Ref.setValue(questions);
+
         }catch(Exception ex){
             Log.w("submitUserQuestionErr",ex.toString());
         }
@@ -443,8 +446,10 @@ private void setCurrentUserId() {
     public void signToARun(String runId) {
         try {
             String senderId = CurrentUserId;
-            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
-            Ref.setValue(1);
+            DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
+            runRef.setValue(true);
+            usersRef.setValue(true);
            // String key = Ref.push().getKey();
            // Ref.child(key).setValue(runId);
         }catch(Exception ex){
@@ -596,12 +601,11 @@ private void setCurrentUserId() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-        Call<API.HttpBinResponse> call = service.postGetHistory(new API.FeedListRequest("getHistory", CurrentUserId,currentUserName));
-        call.enqueue(new Callback<API.HttpBinResponse>() {
+        Call<API.getRegularResponse> call = service.postGetHistory(new API.FeedListRequest("getHistory", CurrentUserId,currentUserName));
+        call.enqueue(new Callback<API.getRegularResponse>() {
 
             @Override
-            public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
-
+            public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
                 if(response.isSuccessful())
             {
                 HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
@@ -614,7 +618,7 @@ private void setCurrentUserId() {
             }
 
             @Override
-            public void onFailure(Call<API.HttpBinResponse> call, Throwable t) {
+            public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
                 Log.w("responseblafail",call.toString());
                 Log.w("enterHistoryListPageerr",String.valueOf(t));
             }
@@ -679,6 +683,29 @@ private void setCurrentUserId() {
             DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("historyRuns").child(runId);
             Ref.child("like").setValue(isLike);
             Ref.child("marked").setValue(true);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API.API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+            Call<API.getRegularResponse> call = service.postUpdateAverage(new API.UpdateAverageRequest(CurrentUserId));
+            call.enqueue(new Callback<API.getRegularResponse>() {
+
+                @Override
+                public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
+                    if(response.isSuccessful())
+                    {
+                      Log.w("response", String.valueOf(response.isSuccessful()));
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
+                    Log.w("responseblafail",call.toString());
+                    Log.w("enterHistoryListPageerr",String.valueOf(t));
+                }
+            });
         }catch(Exception ex){
             Log.w("updateErr",ex.toString());
         }
@@ -693,6 +720,7 @@ private void setCurrentUserId() {
     }
     @Override
     public void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions,String runDistance) {
+
         Run newRun = new Run(currentUserName,runName,runDate,runTime,location.getProvider(),questions,runDistance);
         ref.child("runs").push().setValue(newRun);
         enterComingupRunList();
@@ -703,20 +731,20 @@ private void setCurrentUserId() {
                 .baseUrl(API.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData("blabla", "c-rL0xO2lJE:APA91bFD_IhrRx8iOtmc_WOYlLEJYd_tkwUFrwgaZVbkI2VfRTTCNYLg5gMYyNfkcVYQpiO6uArGD-N6_NrgLGTEI-AMMnwRq-Xo_aOimw24oPVah4W0vH7eJ9tc2_TZ12EWzWchrVCH",currentUserName));
-        call.enqueue(new Callback<API.HttpBinResponse>() {
-
-            @Override
-            public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<API.HttpBinResponse> call, Throwable t) {
-
-            }
-        });
+      //  API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+//        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData("blabla", "c-rL0xO2lJE:APA91bFD_IhrRx8iOtmc_WOYlLEJYd_tkwUFrwgaZVbkI2VfRTTCNYLg5gMYyNfkcVYQpiO6uArGD-N6_NrgLGTEI-AMMnwRq-Xo_aOimw24oPVah4W0vH7eJ9tc2_TZ12EWzWchrVCH",currentUserName));
+//        call.enqueue(new Callback<API.HttpBinResponse>() {
+//
+//            @Override
+//            public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<API.HttpBinResponse> call, Throwable t) {
+//
+//            }
+//        });
 
     }
     @Override
@@ -738,7 +766,7 @@ private void setCurrentUserId() {
                 //Bundle bundle = new Bundle();
                 //bundle.putDouble("position", position);
                 //createRunFragment.setArguments(bundle);
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).addToBackStack(null).commit();
             }
         }catch(Exception ex){
             Log.w("onActivityResultbla",ex.toString());

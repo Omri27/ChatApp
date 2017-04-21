@@ -13,7 +13,7 @@ public class HistoryRun extends Run {
         super();
     }
 
-    public HistoryRun(String creator, String name, String date, String time, String location, ArrayList<Question> preferences, String runDistance,boolean like, boolean marked) {
+    public HistoryRun(String creator, String name, String date, String time, String location, ArrayList<Question> preferences, String runDistance, boolean like, boolean marked) {
         super(creator, name, date, time, location, preferences, runDistance);
         this.like= like;
         this.marked= marked;

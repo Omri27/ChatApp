@@ -15,7 +15,7 @@ public class Run {
     private String distance;
     private ArrayList<Question> preferences;
     private String maxRunners;
-
+    private ArrayList<String> runners;
 
     public Run() {
     }
@@ -28,6 +28,7 @@ public class Run {
         this.preferences = preferences;
         this.distance= runDistance;
         this.maxRunners = maxRunners;
+        this.runners = new ArrayList<>();
     }
     public String getLocation() {
         return location;
@@ -63,5 +64,9 @@ public class Run {
     public void setMaxRunners(String maxRunners) {
         this.maxRunners = maxRunners;
     }
+
+//    public ArrayList<String> getRunners() {
+//        return runners;
+//    }
 }
 
