@@ -1,5 +1,6 @@
 package com.example.omri.chatapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
     private RecyclerView runsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
+    private String currentUserId;
     private LinearLayout emptyView;
     private Button historyRunBtn;
     private Button upcomingRunBtn;
@@ -89,6 +91,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
         historyRunBtn = (Button) view.findViewById(R.id.feed_history_btn);
         upcomingRunBtn = (Button) view.findViewById(R.id.feed_coming_up_btn);
         smartSearchBtn = (Button) view.findViewById(R.id.feed_smart_search_btn);
+        currentUserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
         historyRunBtn.setOnClickListener(this);
         upcomingRunBtn.setOnClickListener(this);
         smartSearchBtn.setOnClickListener(this);
@@ -109,17 +112,39 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                 try {
 
                    Date date = formatter.parse(model.getDate()+" "+model.getTime());
-                    if(date.after(nowDate)){
-                    final String key = firebaseRecyclerAdapter.getRef(position).getKey();
-                    viewHolder.runNameText.setText(model.getName());
-                    viewHolder.locationText.setText(model.getLocation());
-                    viewHolder.creatorText.setText(model.getCreator());
-                    viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ((LobbyCommunicate) getActivity()).signToARun(key);
+                    if(date.after(nowDate)) {
+                        final String key = firebaseRecyclerAdapter.getRef(position).getKey();
+                        viewHolder.runNameText.setText(model.getName());
+                        viewHolder.locationText.setText(model.getLocation());
+                        viewHolder.creatorText.setText(model.getCreator());
+                        if(!model.getCreatorId().toString().contains(currentUserId)){
+                        if (model.getRunners().toString().contains(currentUserId)) {
+                            viewHolder.beThereButton.setText("Cancel");
+                            viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((LobbyCommunicate) getActivity()).signOutOfARun(key);
+                                }
+                            });
+                        } else {
+                            viewHolder.beThereButton.setText("Be There");
+                            viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((LobbyCommunicate) getActivity()).signToARun(key);
+                                }
+                            });
                         }
-                    });
+                    }else{
+                            viewHolder.runLayout.setBackgroundColor(Color.GREEN);
+                            viewHolder.beThereButton.setText("Delete Run");
+                            viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((LobbyCommunicate) getActivity()).deleteRun(key);
+                                }
+                            });
+                        }
                     viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

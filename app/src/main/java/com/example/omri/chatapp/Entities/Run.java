@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class Run {
+    private Object creatorId = false;
     private String creator;
     private String time;
     private String date;
@@ -15,12 +16,13 @@ public class Run {
     private String distance;
     private ArrayList<Question> preferences;
     private String maxRunners;
-    private ArrayList<String> runners;
+    private Object runners=false;
 
     public Run() {
     }
-    public Run(String creator, String name, String date, String time, String location, ArrayList<Question> preferences,String runDistance) {
+    public Run(String creator, String creatorId, String name, String date, String time, String location, ArrayList<Question> preferences,String runDistance) {
         this.creator = creator;
+        this.creatorId = creatorId;
         this.name = name;
         this.date = date;
         this.time = time;
@@ -65,8 +67,12 @@ public class Run {
         this.maxRunners = maxRunners;
     }
 
-//    public ArrayList<String> getRunners() {
-//        return runners;
-//    }
+    public Object getRunners() {
+        return runners;
+    }
+
+    public Object getCreatorId() {
+        return creatorId;
+    }
 }
 

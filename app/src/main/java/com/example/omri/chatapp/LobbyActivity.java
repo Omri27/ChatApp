@@ -424,7 +424,7 @@ private void setCurrentUserId() {
    public  void signOutOfARun(String runId){
         try {
             String senderId = CurrentUserId;
-            DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("Runners").child(CurrentUserId);
+            DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
             Ref.removeValue();
             runRef.removeValue();
@@ -467,6 +467,11 @@ private void setCurrentUserId() {
         args.putString("runDistance", distance);
         createRunPreference.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunPreference).addToBackStack(null).commit();
+    }
+    @Override
+    public void deleteRun(String runId) {
+        DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId);
+        runRef.removeValue();
     }
     private void updateLocationUI() {
 //        if (mMap == null) {
@@ -720,10 +725,15 @@ private void setCurrentUserId() {
     }
     @Override
     public void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions,String runDistance) {
-
-        Run newRun = new Run(currentUserName,runName,runDate,runTime,location.getProvider(),questions,runDistance);
-        ref.child("runs").push().setValue(newRun);
-        enterComingupRunList();
+        try {
+            Log.w("currentUserName", currentUserName);
+            Run newRun = new Run(currentUserName, CurrentUserId, runName, runDate, runTime, location.getProvider(), questions, runDistance);
+            DatabaseReference runref = ref.child("runs").push();
+            runref.setValue(newRun);
+            enterComingupRunList();
+        }catch(Exception ex){
+            Log.w("createrunerr", ex.toString());
+        }
     }
     private void postRequest(String token, String message) {
         Log.w("TAG",token);
