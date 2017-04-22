@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BaselineLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 
 import com.bhargavms.dotloader.DotLoader;
 import com.bumptech.glide.Glide;
+import com.example.omri.chatapp.Entities.BaseLocation;
 import com.example.omri.chatapp.Entities.Message;
 import com.example.omri.chatapp.Entities.Question;
 import com.example.omri.chatapp.Entities.Run;
@@ -726,8 +728,9 @@ private void setCurrentUserId() {
     @Override
     public void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions,String runDistance) {
         try {
+            BaseLocation baseLocation = new BaseLocation(location.getProvider(),Double.toString(location.getLatitude()),Double.toString(location.getLongitude()));
             Log.w("currentUserName", currentUserName);
-            Run newRun = new Run(currentUserName, CurrentUserId, runName, runDate, runTime, location.getProvider(), questions, runDistance);
+            Run newRun = new Run(currentUserName, CurrentUserId, runName, runDate, runTime, baseLocation, questions, runDistance);
             DatabaseReference runref = ref.child("runs").push();
             runref.setValue(newRun);
             enterComingupRunList();

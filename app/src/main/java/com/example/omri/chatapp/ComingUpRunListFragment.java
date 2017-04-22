@@ -107,7 +107,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
                     Log.w("runnersobject",String.valueOf(model.getRunners().toString().contains(currentUserId)));
                   if (model.getRunners().toString().contains(currentUserId) || model.getCreatorId().toString().contains(currentUserId) ) {
                         viewHolder.runNameText.setText(model.getName());
-                        viewHolder.locationText.setText(model.getLocation());
+                        viewHolder.locationText.setText(model.getLocation().getName());
                         viewHolder.creatorText.setText(model.getCreator());
                       if(!model.getCreatorId().toString().contains(currentUserId)) {
                           viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {

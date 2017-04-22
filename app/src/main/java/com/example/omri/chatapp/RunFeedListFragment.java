@@ -115,7 +115,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                     if(date.after(nowDate)) {
                         final String key = firebaseRecyclerAdapter.getRef(position).getKey();
                         viewHolder.runNameText.setText(model.getName());
-                        viewHolder.locationText.setText(model.getLocation());
+                        viewHolder.locationText.setText(model.getLocation().getName());
                         viewHolder.creatorText.setText(model.getCreator());
                         if(!model.getCreatorId().toString().contains(currentUserId)){
                         if (model.getRunners().toString().contains(currentUserId)) {

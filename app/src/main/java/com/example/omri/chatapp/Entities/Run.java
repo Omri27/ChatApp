@@ -12,7 +12,7 @@ public class Run {
     private String time;
     private String date;
     private String name;
-    private String location;
+    private BaseLocation location;
     private String distance;
     private ArrayList<Question> preferences;
     private String maxRunners;
@@ -20,7 +20,7 @@ public class Run {
 
     public Run() {
     }
-    public Run(String creator, String creatorId, String name, String date, String time, String location, ArrayList<Question> preferences,String runDistance) {
+    public Run(String creator, String creatorId, String name, String date, String time, BaseLocation location, ArrayList<Question> preferences,String runDistance) {
         this.creator = creator;
         this.creatorId = creatorId;
         this.name = name;
@@ -32,7 +32,7 @@ public class Run {
         this.maxRunners = maxRunners;
         this.runners = new ArrayList<>();
     }
-    public String getLocation() {
+    public BaseLocation getLocation() {
         return location;
     }
 
@@ -73,6 +73,10 @@ public class Run {
 
     public Object getCreatorId() {
         return creatorId;
+    }
+
+    public String getDistance() {
+        return distance;
     }
 }
 

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.omri.chatapp.Entities.BaseLocation;
 import com.example.omri.chatapp.Entities.Message;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -93,7 +94,7 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
                     getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
                     //trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
                     distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
-                    runLocationtxt.setText(dataSnapshot.child("location").getValue().toString());
+                    runLocationtxt.setText(((BaseLocation)dataSnapshot.child("location").getValue()).getName());
                     dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
                 }
 

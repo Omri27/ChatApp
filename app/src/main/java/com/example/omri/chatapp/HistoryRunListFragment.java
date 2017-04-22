@@ -103,7 +103,7 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
                 final String key = firebaseRecyclerAdapter.getRef(position).getKey();
 
                 viewHolder.runNameText.setText(model.getName());
-                    viewHolder.locationText.setText(model.getLocation());
+                    viewHolder.locationText.setText(model.getLocation().getName());
                 viewHolder.creatorText.setText(model.getCreator());
                 viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -109,7 +109,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                     if(date.after(nowDate)){
                     final String key = firebaseRecyclerAdapter.getRef(position).getKey();
                     viewHolder.runNameText.setText(model.getName());
-                    viewHolder.locationText.setText(model.getLocation());
+                    viewHolder.locationText.setText(model.getLocation().getName());
                     viewHolder.creatorText.setText(model.getCreator());
                     viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                         @Override
