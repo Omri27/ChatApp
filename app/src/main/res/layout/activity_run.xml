@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Calories"
+                android:text="Distance"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
             </TextView>
@@ -53,12 +53,12 @@
             </TextView>
 
             <TextView
-                android:id="@+id/calories"
+                android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="250"
+                android:text="0"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
             </TextView>

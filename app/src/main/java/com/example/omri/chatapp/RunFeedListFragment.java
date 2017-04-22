@@ -119,7 +119,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                         viewHolder.creatorText.setText(model.getCreator());
                         if(!model.getCreatorId().toString().contains(currentUserId)){
                         if (model.getRunners().toString().contains(currentUserId)) {
-                            viewHolder.beThereButton.setText("Cancel");
+                            viewHolder.beThereButton.setText("Won't Be There");
                             viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

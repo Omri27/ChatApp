@@ -70,7 +70,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     private final String START="start";
     private final String PAUSE= "pause";
     private final String STOP="stop";
-    private TextView calories;
+    private TextView distancetext;
     private CameraPosition mCameraPosition;
     private Button startBtn;
     private Button stopBtn;
@@ -110,7 +110,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         time = (TextView) findViewById(R.id.run_time);
         setTitle("Go Running!");
 
-        calories = (TextView) findViewById(R.id.calories);
+        distancetext = (TextView) findViewById(R.id.distance);
         startBtn = (Button) findViewById(R.id.run_startButton);
         stopBtn = (Button) findViewById(R.id.run_stopButton);
         pauseBtn = (Button) findViewById(R.id.run_pauseButton);
@@ -126,6 +126,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         mGoogleApiClient.connect();
+        setButtonState(INITIAL);
 
     }
     private Runnable updateTimerThread = new Runnable() {
@@ -450,6 +451,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             if(mCurrentLocation!=null)
                 distance += mCurrentLocation.distanceTo(location);
         mCurrentLocation = location;
+            distancetext.setText(Double.toString(distance));
            Log.w("runTrackadded",location.toString());
             runTrack.add(mCurrentLocation);
         }

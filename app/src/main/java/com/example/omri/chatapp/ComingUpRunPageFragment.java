@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 
@@ -77,7 +80,7 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
            // userId  = getArguments().getString("userId");
             runId = getArguments().getString("runId");
             trainerNametxt= (TextView)view.findViewById(R.id.upcoming_trainer_name_txt);
-            dateTimetxt= (TextView)view.findViewById(R.id.upcoming_date_time_txt);
+            dateTimetxt= (TextView)view.findViewById(R.id.upcoming_date_time_txt_page);
             runLocationtxt= (TextView)view.findViewById(R.id.upcoming_location_txt);
             distancetxt= (TextView)view.findViewById(R.id.upcoming_distance_txt);
             suitxt= (TextView)view.findViewById(R.id.upcoming_suit_txt);
@@ -85,17 +88,52 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
             cancelBtn = (Button)view.findViewById(R.id.upcoming_Cancell);
             linearLayoutManager = new LinearLayoutManager(getActivity());
             messageRecyclerView = (RecyclerView) view.findViewById(R.id.group_chat_recycler_view);
-            cancelBtn.setOnClickListener(this);
+           // cancelBtn.setOnClickListener(this);
             final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             String runRef = RUNS+ "/"+runId+"/messages";
             FirebaseDatabase.getInstance().getReference().child("runs").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
-                    //trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
-                    distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
-                    runLocationtxt.setText(((BaseLocation)dataSnapshot.child("location").getValue()).getName());
-                    dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
+                    try {
+                        getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
+                        trainerNametxt.setText((String)dataSnapshot.child("creator").getValue());
+                        distancetxt.setText((String)dataSnapshot.child("distance").getValue());
+
+                        runLocationtxt.setText((String)dataSnapshot.child("location").child("name").getValue());
+                        dateTimetxt.setText((String)dataSnapshot.child("date").getValue()+ " "+(String)dataSnapshot.child("time").getValue());
+                        if(!dataSnapshot.child("creatorId").getValue().equals(currentUserId)) {
+                            if (dataSnapshot.child("runners").hasChild(currentUserId)) {
+                                cancelBtn.setText("Won't Be There");
+                                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                                        ((LobbyCommunicate) (getActivity())).enterComingupRunList();
+                                    }
+                                });
+                            } else {
+                                cancelBtn.setText("Be There");
+                                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((LobbyCommunicate) (getActivity())).signToARun(runId);
+                                        ((LobbyCommunicate) (getActivity())).enterComingupRunList();
+                                    }
+                                });
+                            }
+                        }else{
+                            cancelBtn.setText("Delete Run");
+                            cancelBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((LobbyCommunicate) (getActivity())).deleteRun(runId);
+                                    ((LobbyCommunicate) (getActivity())).enterComingupRunList();
+                                }
+                            });
+                        }
+                    }catch(Exception ex){
+                        Log.w("upcomingrunPageerr", ex.toString());
+                    }
                 }
 
                 @Override

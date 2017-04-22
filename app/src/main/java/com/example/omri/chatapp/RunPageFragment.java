@@ -93,7 +93,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     beTherebtn = (Button) view.findViewById(R.id.be_there_btn);
     linearLayoutManager = new LinearLayoutManager(getActivity());
     messageRecyclerView = (RecyclerView) view.findViewById(R.id.group_chat_recycler_view);
-    beTherebtn.setOnClickListener(this);
+   // beTherebtn.setOnClickListener(this);
     final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     String runRef = RUNS+ "/"+runId+"/messages";
     FirebaseDatabase.getInstance().getReference().child("runs").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -101,10 +101,40 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
         public void onDataChange(DataSnapshot dataSnapshot) {
             try {
                 getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
-                 trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
-                distancetxt.setText(dataSnapshot.child("distance").getValue().toString());
-                runLocationtxt.setText(((BaseLocation)dataSnapshot.child("location").getValue()).getName());
-                dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
+                 trainerNametxt.setText((String)dataSnapshot.child("creator").getValue());
+                distancetxt.setText((String)dataSnapshot.child("distance").getValue());
+                runLocationtxt.setText((String)dataSnapshot.child("location").child("name").getValue());
+                dateTimetxt.setText(((String)dataSnapshot.child("date").getValue()+ " "+(String)dataSnapshot.child("time").getValue()));
+                if(!dataSnapshot.child("creatorId").getValue().equals(currentUserId)) {
+                    if (dataSnapshot.child("runners").hasChild(currentUserId)) {
+                        beTherebtn.setText("Won't Be There");
+                        beTherebtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                                ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                            }
+                        });
+                    } else {
+                        beTherebtn.setText("Be There");
+                        beTherebtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ((LobbyCommunicate) (getActivity())).signToARun(runId);
+                                ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                            }
+                        });
+                    }
+                }else{
+                    beTherebtn.setText("Delete Run");
+                    beTherebtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ((LobbyCommunicate) (getActivity())).deleteRun(runId);
+                            ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                        }
+                    });
+                }
             }catch(Exception ex){
                 Log.w("exception",ex.toString());
             }

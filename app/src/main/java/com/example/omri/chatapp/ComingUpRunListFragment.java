@@ -110,6 +110,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
                         viewHolder.locationText.setText(model.getLocation().getName());
                         viewHolder.creatorText.setText(model.getCreator());
                       if(!model.getCreatorId().toString().contains(currentUserId)) {
+                          viewHolder.deletebtn.setText("Won't Be There");
                           viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
                               @Override
                               public void onClick(View view) {
