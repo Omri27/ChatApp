@@ -63,6 +63,7 @@ public class LobbyActivity extends AppCompatActivity
     private String currentUserName;
     private String currentChatId;
     private String currentRecevierId;
+    public  Boolean isSmart = false;
     private GoogleMap mMap;
     private ImageView drawerHeaderPic;
     private String CurrentUserId;
@@ -121,6 +122,8 @@ public class LobbyActivity extends AppCompatActivity
         dotLoader = (DotLoader) findViewById(R.id.dot_loader);
         //stopProgressBar();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runFeedListFragment).commit();
+        enterFeedPage();
+        //mGoogleApiClient.connect();
 //        if (ContextCompat.checkSelfPermission(this,
 //                Manifest.permission.ACCESS_FINE_LOCATION)
 //                != PackageManager.PERMISSION_GRANTED) {
@@ -224,8 +227,9 @@ public class LobbyActivity extends AppCompatActivity
 
 
         } else if (id == R.id.run_list) {
-            RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
+         enterFeedPage();
+           // RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
+           // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
 
         } else if (id == R.id.create_run) {
             createRunFragment = new CreateRunFragment();
@@ -535,16 +539,58 @@ private void setCurrentUserId() {
 //            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
 //                    new LatLng(mLastKnownLocation.getLatitude(),
 //                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-       // } else {
-            Log.d("TAG", "Current location is null. Using defaults.");
+        // } else {
+        Log.d("TAG", "Current location is null. Using defaults.");
 //            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
 //            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-       // }
-        Log.w("locationknown",String.valueOf(mLastKnownLocation.getLatitude()));
+        // }
+        Log.w("locationknown", String.valueOf(mLastKnownLocation.getLatitude()));
         mGoogleApiClient.disconnect();
-        if(mLastKnownLocation.getLatitude()>0 && mLastKnownLocation.getLongitude()>0) {
-            Log.w("locationknown",String.valueOf(mLastKnownLocation.getLatitude()));
-            String location =   String.valueOf(mLastKnownLocation.getLatitude()) +"-"+String.valueOf(mLastKnownLocation.getLongitude());
+        if(isSmart)
+            isSmartSearch();
+        else
+            feedSearch();
+
+    }
+    public void feedSearch(){
+        if (mLastKnownLocation.getLatitude() > 0 && mLastKnownLocation.getLongitude() > 0) {
+            Log.w("locationknown", String.valueOf(mLastKnownLocation.getLatitude()));
+            String location = String.valueOf(mLastKnownLocation.getLatitude()) + "-" + String.valueOf(mLastKnownLocation.getLongitude());
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API.API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+            Call<API.getRegularResponse> call = service.postFeed(new API.FeedRunsRequest(CurrentUserId,String.valueOf((mLastKnownLocation.getLongitude())),String.valueOf(mLastKnownLocation.getLatitude())));
+            call.enqueue(new Callback<API.getRegularResponse>() {
+
+                @Override
+                public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
+                    Log.w("responsefeed", String.valueOf(response.isSuccessful()));
+
+                    if (response.isSuccessful()) {
+
+                        RunFeedListFragment FeedList = new RunFeedListFragment();
+                        Bundle bundle = new Bundle();
+                        String h = CurrentUserId;
+                        bundle.putString("userId", h);
+                        FeedList.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, FeedList).addToBackStack(null).commit();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
+                    Log.w("responseblafail", call.toString());
+                    Log.w("enterfeedListPageerr", String.valueOf(t));
+                }
+            });
+        }
+    }
+    public void isSmartSearch() {
+        if (mLastKnownLocation.getLatitude() > 0 && mLastKnownLocation.getLongitude() > 0) {
+            Log.w("locationknown", String.valueOf(mLastKnownLocation.getLatitude()));
+            String location = String.valueOf(mLastKnownLocation.getLatitude()) + "-" + String.valueOf(mLastKnownLocation.getLongitude());
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(API.API_URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -597,7 +643,7 @@ private void setCurrentUserId() {
     @Override
     public void enterSmartSearchList() {
         Log.w("entersmart","entersmart");
-
+        isSmart= true;
         mGoogleApiClient.connect();
 
     }
@@ -630,18 +676,14 @@ private void setCurrentUserId() {
                 Log.w("enterHistoryListPageerr",String.valueOf(t));
             }
         });
-//        HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
-//        Bundle bundle = new Bundle();
-//        String h =  CurrentUserId;
-//        bundle.putString("userId", h);
-//        HistoryRun.setArguments(bundle);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
     }
 
     @Override
     public void enterFeedPage() {
-        RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
+        isSmart=false;
+        mGoogleApiClient.connect();
+        //RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
+       // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
     }
 
     @Override
@@ -660,7 +702,7 @@ private void setCurrentUserId() {
         startActivityForResult(pickLocationIntent, PICK_LOCATION_REQUEST);
     }
     @Override
-    public Location getLocation() {
+    public Location getChosenLocation() {
             return location;
     }
 

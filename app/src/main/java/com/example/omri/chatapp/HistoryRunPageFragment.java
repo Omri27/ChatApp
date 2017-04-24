@@ -70,7 +70,8 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
             public void onDataChange(DataSnapshot dataSnapshot) {
                // getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
                 trainerNametxt.setText(dataSnapshot.child("creator").getValue().toString());
-                runLocationtxt.setText(dataSnapshot.child("location").getValue().toString());
+
+                runLocationtxt.setText((String)dataSnapshot.child("location").child("name").getValue());
                 dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
                 HistoryYesnoOnClickListener yesNoListener = new HistoryYesnoOnClickListener();
                 noBtn.setOnClickListener(yesNoListener);

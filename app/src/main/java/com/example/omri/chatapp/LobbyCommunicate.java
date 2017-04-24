@@ -21,7 +21,7 @@ public interface LobbyCommunicate {
     void enterFeedPage();
     void enterComingupRunList();
     void activateLocation();
-    Location getLocation();
+    Location getChosenLocation();
     void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions, String runDistance);
     String getCurrentUserId();
     void signToARun(String runId);

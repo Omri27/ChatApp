@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 
 public class API {
 
-    public static final String API_URL = "http://10.100.102.13:8080";
+    public static final String API_URL = "http://192.168.18.15:8080";
     public class RunItem{
         private String id;
         public RunItem(){
@@ -68,6 +68,17 @@ public class API {
             this.langlat = langlat;
         }
     }
+    public static class FeedRunsRequest {
+        String userId;
+        String langtitude;
+        String latitude;
+
+        public FeedRunsRequest(String userId, String lang,String lat) {
+            this.userId = userId;
+            this.langtitude = lang;
+            this.latitude = lat;
+        }
+    }
     public static class UpdateAverageRequest {
         String userId;
 
@@ -94,6 +105,10 @@ public class API {
         @POST("/updateAverage")
         Call<getRegularResponse> postUpdateAverage(
                 @Body UpdateAverageRequest loginData
+        );
+        @POST("/getFeed")
+        Call<getRegularResponse> postFeed(
+                @Body FeedRunsRequest loginData
         );
     }
 

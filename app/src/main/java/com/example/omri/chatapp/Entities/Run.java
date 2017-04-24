@@ -1,13 +1,18 @@
 package com.example.omri.chatapp.Entities;
 
+import android.location.Location;
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by Omri on 26/11/2016.
  */
 
-public class Run {
+public class Run implements Comparable {
     private Object creatorId = false;
+    public Location devicelocation;
     private String creator;
     private String time;
     private String date;
@@ -77,6 +82,27 @@ public class Run {
 
     public String getDistance() {
         return distance;
+    }
+
+
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Run r1 = (Run) o;
+        Location l1 = new Location(r1.getLocation().getName());
+        l1.setLatitude(Double.valueOf(r1.getLocation().getLatitude()));
+        l1.setLongitude(Double.valueOf(r1.getLocation().getLongtitude()));
+        Location l2 = new Location(this.getLocation().getName());
+        l2.setLatitude(Double.valueOf(this.getLocation().getLatitude()));
+        l2.setLongitude(Double.valueOf(this.getLocation().getLongtitude()));
+        if(devicelocation.distanceTo(l1)>devicelocation.distanceTo(l2))
+            return 1;
+        else
+        if(devicelocation.distanceTo(l1)<devicelocation.distanceTo(l2)){
+            return -1;
+        }
+        else
+            return 0;
     }
 }
 

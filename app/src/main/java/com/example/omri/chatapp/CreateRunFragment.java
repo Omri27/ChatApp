@@ -216,7 +216,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         Location locationChose=null;
        // for(int i=0; i<10;i++) {
             try {
-                locationChose =  ((LobbyCommunicate) getActivity()).getLocation();
+                locationChose =  ((LobbyCommunicate) getActivity()).getChosenLocation();
 
             } catch (Exception ex) {
                 Log.w("exceptionbla", ex.toString());

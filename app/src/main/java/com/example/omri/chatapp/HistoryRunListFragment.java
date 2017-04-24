@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
                 break;
             case R.id.history_feed_btn:
 
-                ((LobbyCommunicate) getActivity()).enterHistoryListPage();
+                ((LobbyCommunicate) getActivity()).enterFeedPage();
                 break;
             case R.id.history_smart_search_btn:
                 ((LobbyCommunicate) getActivity()).enterSmartSearchList();
@@ -77,62 +78,65 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_history_run_list, container, false);
-        getActivity().setTitle("Running History");
-        historyRunsRecyclerView = (RecyclerView) view.findViewById(R.id.history_run_list_recycler_view);
-        feedBtn = (Button) view.findViewById(R.id.history_feed_btn);
-        comingUpBtn = (Button) view.findViewById(R.id.history_coming_up_btn);
-        smartSearchBtn = (Button) view.findViewById(R.id.history_smart_search_btn);
-        smartSearchBtn.setOnClickListener(this);
-        comingUpBtn.setOnClickListener(this);
-        feedBtn.setOnClickListener(this);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        ref = FirebaseDatabase.getInstance().getReference();
-        String userId = getArguments().getString("userId");
-        emptyView = (LinearLayout)view.findViewById(R.id.history_run_empty_view);
 
-        DatabaseReference runRef = ref.child(RUNS).child(userId).child("historyRuns");
+            View view = inflater.inflate(R.layout.fragment_history_run_list, container, false);
+            getActivity().setTitle("Running History");
+            historyRunsRecyclerView = (RecyclerView) view.findViewById(R.id.history_run_list_recycler_view);
+            feedBtn = (Button) view.findViewById(R.id.history_feed_btn);
+            comingUpBtn = (Button) view.findViewById(R.id.history_coming_up_btn);
+            smartSearchBtn = (Button) view.findViewById(R.id.history_smart_search_btn);
+            smartSearchBtn.setOnClickListener(this);
+            comingUpBtn.setOnClickListener(this);
+            feedBtn.setOnClickListener(this);
+            linearLayoutManager = new LinearLayoutManager(getActivity());
+            ref = FirebaseDatabase.getInstance().getReference();
+            String userId = getArguments().getString("userId");
+            emptyView = (LinearLayout) view.findViewById(R.id.history_run_empty_view);
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, HistoryRunListFragment.HistoryRunsViewHolder>(
-                Run.class,
-                R.layout.history_run_template,
-                HistoryRunListFragment.HistoryRunsViewHolder.class,
-                runRef) {
-            @Override
-            protected void populateViewHolder(HistoryRunsViewHolder viewHolder, Run model, int position) {
-                final String key = firebaseRecyclerAdapter.getRef(position).getKey();
+            DatabaseReference runRef = ref.child(RUNS).child(userId).child("historyRuns");
 
-                viewHolder.runNameText.setText(model.getName());
-                    viewHolder.locationText.setText(model.getLocation().getName());
-                viewHolder.creatorText.setText(model.getCreator());
-                viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((LobbyCommunicate) getActivity()).enterHistoryRunPage(key);
+            firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, HistoryRunListFragment.HistoryRunsViewHolder>(
+                    Run.class,
+                    R.layout.history_run_template,
+                    HistoryRunListFragment.HistoryRunsViewHolder.class,
+                    runRef) {
+                @Override
+                protected void populateViewHolder(HistoryRunsViewHolder viewHolder, Run model, int position) {
+                    try {
+                        final String key = firebaseRecyclerAdapter.getRef(position).getKey();
+
+                        viewHolder.runNameText.setText(model.getName());
+                        viewHolder.locationText.setText(model.getLocation().getName());
+                        viewHolder.creatorText.setText(model.getCreator());
+                        viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((LobbyCommunicate) getActivity()).enterHistoryRunPage(key);
+                            }
+                        });
+                    } catch (Exception ex) {
+                        Log.w("exceptionhistory", ex.toString());
                     }
-                });
-            }
+                }
             };
 
 
-
-        historyRunsRecyclerView.setLayoutManager(linearLayoutManager);
-        historyRunsRecyclerView.setAdapter(firebaseRecyclerAdapter);
-        runRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ((LobbyCommunicate)getActivity()).stopProgressBar();
-                if(!dataSnapshot.hasChildren()){
-                    emptyView.setVisibility(View.VISIBLE);
+            historyRunsRecyclerView.setLayoutManager(linearLayoutManager);
+            historyRunsRecyclerView.setAdapter(firebaseRecyclerAdapter);
+            runRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ((LobbyCommunicate) getActivity()).stopProgressBar();
+                    if (!dataSnapshot.hasChildren()) {
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
+                }
+            });
 
 
 

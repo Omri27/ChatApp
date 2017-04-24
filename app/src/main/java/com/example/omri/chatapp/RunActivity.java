@@ -502,6 +502,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 mCurrentLocation=null;
                 runTrack= new ArrayList<Location>();
                 distance = 0;
+                distancetext.setText("0");
                 mMap.clear();
                 runStart=true;
                 customHandler.postDelayed(updateTimerThread, 0);

@@ -81,6 +81,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_recommended_run_list, container, false);
         getActivity().setTitle("Recommended Runs");
         historyRunBtn = (Button) view.findViewById(R.id.recommended_history_btn);
