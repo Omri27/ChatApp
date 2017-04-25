@@ -211,10 +211,9 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onResume() {
-       super.onResume();
+        super.onResume();
         Log.w("resumebla","resumebla");
         Location locationChose=null;
-       // for(int i=0; i<10;i++) {
             try {
                 locationChose =  ((LobbyCommunicate) getActivity()).getChosenLocation();
 
@@ -224,20 +223,8 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
             if (locationChose != null && locationChose.getLatitude()>0 ) {
                 location.setText(String.valueOf(locationChose.getProvider()));
             }
-        //}
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mMapView.onPause();
-//    }
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mMapView.onDestroy();
-//    }
 
 
 }

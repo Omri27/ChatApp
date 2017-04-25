@@ -233,7 +233,7 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.create_run) {
             createRunFragment = new CreateRunFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment,"CreateRun").addToBackStack(null).commit();
 
         } else if (id == R.id.run) {
             Intent intent = new Intent(this, RunActivity.class);
@@ -432,8 +432,8 @@ private void setCurrentUserId() {
             String senderId = CurrentUserId;
             DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
             DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
-            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
-            Ref.removeValue();
+            //DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
+           // Ref.removeValue();
             userFeedRunRef.removeValue();
             runRef.removeValue();
         }catch(Exception ex){
@@ -456,10 +456,10 @@ private void setCurrentUserId() {
             String senderId = CurrentUserId;
             DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
-            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
+            //DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
             runRef.setValue(true);
             userFeedRunRef.setValue(true);
-            usersRef.setValue(true);
+           // usersRef.setValue(true);
            // String key = Ref.push().getKey();
            // Ref.child(key).setValue(runId);
         }catch(Exception ex){
@@ -696,6 +696,7 @@ private void setCurrentUserId() {
         Bundle bundle = new Bundle();
         String h =  CurrentUserId;
         bundle.putString("userId", h);
+
         upComingRunList.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunList).commit();
     }
@@ -825,7 +826,7 @@ private void setCurrentUserId() {
                 //Bundle bundle = new Bundle();
                 //bundle.putDouble("position", position);
                 //createRunFragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).addToBackStack(null).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();
             }
         }catch(Exception ex){
             Log.w("onActivityResultbla",ex.toString());

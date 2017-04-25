@@ -21,11 +21,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ComingUpRunListFragment extends Fragment implements View.OnClickListener {
-    public static final String RUNS = "runs/";
+    public static final String RUNS = "users/";
     private RecyclerView upcomingRunsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
@@ -34,7 +37,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
     private Button historyBtn;
     private Button smartSearchBtn;
     private String currentUserId;
-
+    private Date nowDate = new Date();
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -93,7 +96,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
         ref = FirebaseDatabase.getInstance().getReference();
         //String userId = getArguments().getString("userId");
         emptyView = (LinearLayout) view.findViewById(R.id.upcoming_run_empty_view);
-        DatabaseReference runRef = ref.child(RUNS);
+        DatabaseReference runRef = ref.child(RUNS+"/"+currentUserId +"/feedRuns");
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, ComingUpRunsViewHolder>(
                 Run.class,
                 R.layout.upcoming_run_template,
@@ -102,45 +105,51 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
             @Override
             protected void populateViewHolder(ComingUpRunsViewHolder viewHolder, Run model, int position) {
                 try {
-                    final String key = firebaseRecyclerAdapter.getRef(position).getKey();
-                    Log.w("comingupkey",key);
-                    Log.w("runnersobject",String.valueOf(model.getRunners().toString().contains(currentUserId)));
-                  if (model.getRunners().toString().contains(currentUserId) || model.getCreatorId().toString().contains(currentUserId) ) {
-                        viewHolder.runNameText.setText(model.getName());
-                        viewHolder.locationText.setText(model.getLocation().getName());
-                        viewHolder.creatorText.setText(model.getCreator());
-                      if(!model.getCreatorId().toString().contains(currentUserId)) {
-                          viewHolder.deletebtn.setText("Won't Be There");
-                          viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
-                              @Override
-                              public void onClick(View view) {
-                                  ((LobbyCommunicate) getActivity()).signOutOfARun(key);
-                              }
-                          });
+                    DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-                      }else{
-                          viewHolder.runLayout.setBackgroundColor(Color.GREEN);
-                          viewHolder.deletebtn.setText("Delete Run");
-                          viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
-                              @Override
-                              public void onClick(View view) {
-                                  ((LobbyCommunicate) getActivity()).deleteRun(key);
-                              }
-                          });
-                      }
-                      viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
-                          @Override
-                          public void onClick(View v) {
-                              ((LobbyCommunicate) getActivity()).enterUpComingRunPage(key);
-                          }
-                      });
-                    }else{
-                        viewHolder.runLayout.setVisibility(View.GONE);
+                    final String key = firebaseRecyclerAdapter.getRef(position).getKey();
+                    Log.w("comingupkey", key);
+                    Log.w("runnersobject", String.valueOf(model.getRunners().toString().contains(currentUserId)));
+                    Date date = formatter.parse(model.getDate() + " " + model.getTime());
+                    if (date.after(nowDate)){
+                        if (model.getRunners().toString().contains(currentUserId) || model.getCreatorId().toString().contains(currentUserId)) {
+                            viewHolder.runNameText.setText(model.getName());
+                            viewHolder.locationText.setText(model.getLocation().getName());
+                            viewHolder.creatorText.setText(model.getCreator());
+                            if (!model.getCreatorId().toString().contains(currentUserId)) {
+                                viewHolder.deletebtn.setText("Won't Be There");
+                                viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((LobbyCommunicate) getActivity()).signOutOfARun(key);
+                                    }
+                                });
+
+                            } else {
+                                viewHolder.runLayout.setBackgroundColor(Color.GREEN);
+                                viewHolder.deletebtn.setText("Delete Run");
+                                viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((LobbyCommunicate) getActivity()).deleteRun(key);
+                                    }
+                                });
+                            }
+                            viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ((LobbyCommunicate) getActivity()).enterUpComingRunPage(key);
+                                }
+                            });
+                        } else {
+                            viewHolder.runLayout.setVisibility(View.GONE);
+                        }
+                }
+                    }catch(Exception ex){
+                        Log.w("upcomingException", ex.toString());
                     }
-                }catch(Exception ex){
-                    Log.w("upcomingException",ex.toString());
                 }
-                }
+
 
         };
 
