@@ -430,9 +430,11 @@ private void setCurrentUserId() {
    public  void signOutOfARun(String runId){
         try {
             String senderId = CurrentUserId;
+            DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
             DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
             Ref.removeValue();
+            userFeedRunRef.removeValue();
             runRef.removeValue();
         }catch(Exception ex){
             Log.w("signOutofRunErr",ex.toString());
@@ -453,8 +455,10 @@ private void setCurrentUserId() {
         try {
             String senderId = CurrentUserId;
             DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
+            DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
             DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
             runRef.setValue(true);
+            userFeedRunRef.setValue(true);
             usersRef.setValue(true);
            // String key = Ref.push().getKey();
            // Ref.child(key).setValue(runId);
