@@ -126,41 +126,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         return view;
     }
 
-    public CreateRunFragment(){
-    }
-//    @Override
-//    public void onMapReady(GoogleMap mMap) {
-//        googleMap = mMap;
-//
-//        // For showing a move to my location button
-//        if (ContextCompat.checkSelfPermission(getContext(),
-//                android.Manifest.permission.ACCESS_FINE_LOCATION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            mRequestingLocationUpdates = true;
-//        } else {
-//            ActivityCompat.requestPermissions(getActivity(),
-//                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-//                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-//        }
-//
-//        if (mRequestingLocationUpdates) {
-//
-//            // For dropping a marker at a point on the Map
-//            LatLng sydney = new LatLng(-34, 151);
-//            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-//
-//            // For zooming automatically to the location of the marker
-//            CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-//            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//            // googleMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
-//            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-//                @Override
-//                public void onInfoWindowClick(Marker marker) {
-//                    Log.w("marker", "yes");
-//                }
-//            });
-//        }
-//    }
     public void setDateTimePickerDialog(){
         Calendar newCalendar = Calendar.getInstance();
         dateDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -208,7 +173,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 ((LobbyCommunicate) getActivity()).createRunPreference(runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString(),distance.getText().toString());
             }
         }
-
     @Override
     public void onResume() {
         super.onResume();

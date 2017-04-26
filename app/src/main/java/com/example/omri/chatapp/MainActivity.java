@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MainCommunicate {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                     ref.child("users").child(task.getResult().getUser().getUid()).child("token").setValue(FirebaseInstanceId.getInstance().getToken());
                     dialog.dismiss();
-
+                    Toast.makeText(getApplicationContext(), "Login Succesfull", Toast.LENGTH_SHORT).show();
                     startLobbyActivity();
                 }
 
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainCommunicate {
                                                ref.child("users").child(currentUser).setValue(user);
                                                ref.child("users").child(currentUser).child("token").setValue(FirebaseInstanceId.getInstance().getToken());
                                                dialog.dismiss();
+                                               Toast.makeText(getApplicationContext(), "Welcome To Find Me a Run App", Toast.LENGTH_SHORT).show();
                                                startLobbyActivity();
                                            }
                                        });
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements MainCommunicate {
                                 DatabaseReference ref = db.getReference();
                                 ref.child("users").child(currentUser).setValue(user);
                                 dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Welcome To Find Me a Run App", Toast.LENGTH_SHORT).show();
                                 startLobbyActivity();
 
                             }

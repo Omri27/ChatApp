@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bhargavms.dotloader.DotLoader;
 import com.bumptech.glide.Glide;
@@ -436,6 +437,7 @@ private void setCurrentUserId() {
            // Ref.removeValue();
             userFeedRunRef.removeValue();
             runRef.removeValue();
+            Toast.makeText(getApplicationContext(), "You signed out of the run successfully", Toast.LENGTH_SHORT).show();
         }catch(Exception ex){
             Log.w("signOutofRunErr",ex.toString());
         }
@@ -459,6 +461,7 @@ private void setCurrentUserId() {
             //DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
             runRef.setValue(true);
             userFeedRunRef.setValue(true);
+            Toast.makeText(getApplicationContext(), "You signed up to the run successfully", Toast.LENGTH_SHORT).show();
            // usersRef.setValue(true);
            // String key = Ref.push().getKey();
            // Ref.child(key).setValue(runId);
@@ -570,9 +573,9 @@ private void setCurrentUserId() {
 
                 @Override
                 public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
-                    Log.w("responsefeed", String.valueOf(response.isSuccessful()));
+                    Log.w("responsefeed", String.valueOf(((API.getRegularResponse)response.body()).isOk));
 
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() && ((API.getRegularResponse)response.body()).isOk) {
 
                         RunFeedListFragment FeedList = new RunFeedListFragment();
                         Bundle bundle = new Bundle();
@@ -580,6 +583,9 @@ private void setCurrentUserId() {
                         bundle.putString("userId", h);
                         FeedList.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, FeedList).addToBackStack(null).commit();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),((API.getRegularResponse)response.body()).err,Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -607,7 +613,7 @@ private void setCurrentUserId() {
                 public void onResponse(Call<List<API.RunItem>> call, Response<List<API.RunItem>> response) {
                     Log.w("responeeRecomended", String.valueOf(response.isSuccessful()));
 
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() && ((API.getRegularResponse)response.body()).isOk) {
 
                         RecommendedRunListFragment rocommendedRun = new RecommendedRunListFragment();
                         Bundle bundle = new Bundle();
@@ -615,6 +621,9 @@ private void setCurrentUserId() {
                         bundle.putString("userId", h);
                         rocommendedRun.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, rocommendedRun).addToBackStack(null).commit();
+                    }else{
+                        Toast.makeText(getApplicationContext(),((API.getRegularResponse)response.body()).err,Toast.LENGTH_SHORT).show();
+                        Log.w("PostsmartSearchErr",((API.getRegularResponse)response.body()).err);
                     }
                 }
 
@@ -634,6 +643,7 @@ private void setCurrentUserId() {
 
             getDeviceLocation();
         }catch(Exception ex){
+            Toast.makeText(getApplicationContext(),"Error On GPS Connection",Toast.LENGTH_SHORT).show();
             Log.w("onConnectedexception",ex.getMessage());
         }
 
@@ -663,7 +673,7 @@ private void setCurrentUserId() {
 
             @Override
             public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
-                if(response.isSuccessful())
+                if(response.isSuccessful() && ((API.getRegularResponse)response.body()).isOk)
             {
                 HistoryRunListFragment HistoryRun = new HistoryRunListFragment();
                 Bundle bundle = new Bundle();
@@ -671,7 +681,10 @@ private void setCurrentUserId() {
                 bundle.putString("userId", h);
                 HistoryRun.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, HistoryRun).addToBackStack(null).commit();
-            }
+            }else{
+                    Toast.makeText(getApplicationContext(),((API.getRegularResponse)response.body()).err,Toast.LENGTH_SHORT).show();
+                    Log.w("PostHistoryErr",((API.getRegularResponse)response.body()).err);
+                }
             }
 
             @Override
@@ -747,10 +760,13 @@ private void setCurrentUserId() {
 
                 @Override
                 public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
-                    if(response.isSuccessful())
+                    if(response.isSuccessful() &&  ((API.getRegularResponse)response.body()).isOk)
                     {
                       Log.w("response", String.valueOf(response.isSuccessful()));
-
+                        Toast.makeText(getApplicationContext(), "Your Like has been received", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), ((API.getRegularResponse)response.body()).err, Toast.LENGTH_SHORT).show();
+                        Log.w("updateLikePostErr",  ((API.getRegularResponse)response.body()).err);
                     }
                 }
 
@@ -780,6 +796,7 @@ private void setCurrentUserId() {
             Run newRun = new Run(currentUserName, CurrentUserId, runName, runDate, runTime, baseLocation, questions, runDistance);
             DatabaseReference runref = ref.child("runs").push();
             runref.setValue(newRun);
+            Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
             enterComingupRunList();
         }catch(Exception ex){
             Log.w("createrunerr", ex.toString());

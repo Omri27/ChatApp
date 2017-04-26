@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/history_trainer_name_txt"
-                android:text="Moshe Harel"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
             </TextView>
@@ -60,7 +60,7 @@
                 android:id="@+id/history_date_time_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="18/3/2017 06:00"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
             </TextView>
@@ -119,7 +119,7 @@
                 android:id="@+id/history_distance_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="18 km"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
             </TextView>
@@ -146,7 +146,7 @@
                 android:id="@+id/history_suit_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="80%"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:gravity="center">
 

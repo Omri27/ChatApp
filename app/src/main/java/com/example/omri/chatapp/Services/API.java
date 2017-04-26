@@ -30,16 +30,18 @@ public class API {
     }
 
     public static class getRegularResponse {
-            String isOk;
+        public boolean isOk;
+        public  String err;
 
-        public getRegularResponse(String isOk) {
+        public getRegularResponse(boolean isOk,String err) {
+            this.err = err;
             this.isOk = isOk;
         }
     }
     public static class MessageData {
-        String message;
-        String registrationId;
-        String title;
+        public String message;
+        public String registrationId;
+        public String title;
 
         public MessageData(String message, String token, String title) {
             this.message = message;
@@ -49,9 +51,9 @@ public class API {
     }
 
     public static class FeedListRequest {
-        String title;
-        String userId;
-        String userName;
+        public String title;
+        public String userId;
+        public String userName;
 
         public FeedListRequest(String title, String userId, String userName) {
             this.title = title;
@@ -60,8 +62,8 @@ public class API {
         }
     }
     public static class RecommendRunsRequest {
-        String userId;
-        String langlat;
+        public String userId;
+        public  String langlat;
 
         public RecommendRunsRequest(String userId, String langlat) {
             this.userId = userId;
@@ -69,9 +71,9 @@ public class API {
         }
     }
     public static class FeedRunsRequest {
-        String userId;
-        String langtitude;
-        String latitude;
+        public  String userId;
+        public String langtitude;
+        public String latitude;
 
         public FeedRunsRequest(String userId, String lang,String lat) {
             this.userId = userId;
@@ -80,7 +82,7 @@ public class API {
         }
     }
     public static class UpdateAverageRequest {
-        String userId;
+        public String userId;
 
         public UpdateAverageRequest(String userId){
             this.userId = userId;
