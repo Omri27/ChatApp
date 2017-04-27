@@ -128,6 +128,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
 
     public void setDateTimePickerDialog(){
         Calendar newCalendar = Calendar.getInstance();
+
         dateDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -158,16 +159,9 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 timeDialog.show();
             }
         else if(view == locationBtn){
-               //mMapView.onResume();
-//                try {
-//                    MapsInitializer.initialize(getActivity().getApplicationContext());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+
                 ((LobbyCommunicate) getActivity()).activateLocation();
-//                Log.w("location","location");
-//                intent = new Intent(getActivity(), LocationMapActivity.class);
-//                startActivity(intent);
+
             }
         else if(view==nextBtn){
                 ((LobbyCommunicate) getActivity()).createRunPreference(runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString(),distance.getText().toString());

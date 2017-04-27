@@ -61,7 +61,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LobbyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate, ActivityCompat.OnRequestPermissionsResultCallback,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     private String currentUserPic = null;
-    private String currentUserName;
+    public String currentUserName;
     private String currentChatId;
     private String currentRecevierId;
     public  Boolean isSmart = false;
@@ -91,7 +91,7 @@ public class LobbyActivity extends AppCompatActivity
         setCurrentUserId();
         instanceID = InstanceID.getInstance(this);
         token = FirebaseInstanceId.getInstance().getToken();
-        getCurrentUserName();
+        getCurrentUserNameDb();
         FirebaseAuth.getInstance().getCurrentUser().getUid();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -248,19 +248,24 @@ public class LobbyActivity extends AppCompatActivity
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
-        }
+
+        } else if (id == R.id.user_details_button) {
+            UserDetailsFragment userDetailsFragment= new UserDetailsFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, userDetailsFragment,"CreateRun").addToBackStack(null).commit();
+    }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
 
         }
-    private void getCurrentUserName() {
+    private void getCurrentUserNameDb() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("name");
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -276,7 +281,10 @@ public class LobbyActivity extends AppCompatActivity
             }
         });
     }
-
+    @Override
+    public String getCurrentUserName(){
+        return currentUserName;
+    }
     private void getCurrentUserPic() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("picUrl");
@@ -397,7 +405,22 @@ private void setCurrentUserId() {
         Log.w("userIdException", ex.toString());
     }
 }
-
+    @Override
+    public void updateUserDetails(String weight, String generalStatus, String relationStatus, String birthDate, String gender) {
+        try {
+            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("Details");
+            Ref.child("generalStatus").setValue(generalStatus);
+            Ref.child("relationStatus").setValue(relationStatus);
+            Ref.child("birthDate").setValue(birthDate);
+            Ref.child("gender").setValue(gender);
+            Ref.child("weight").setValue(weight);
+            Toast.makeText(getApplicationContext(), currentUserName+" Your details has been Updated", Toast.LENGTH_SHORT).show();
+            enterFeedPage();
+        }catch(Exception ex){
+            Toast.makeText(getApplicationContext(), currentUserName+" Failed to update Your details", Toast.LENGTH_SHORT).show();
+            Log.w("updateuserdetailserr",ex.toString());
+        }
+    }
     @Override
     public String getCurrentUserId() {
         return CurrentUserId;

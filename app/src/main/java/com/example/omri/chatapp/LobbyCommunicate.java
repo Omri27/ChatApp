@@ -24,10 +24,12 @@ public interface LobbyCommunicate {
     Location getChosenLocation();
     void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions, String runDistance);
     String getCurrentUserId();
+    String getCurrentUserName();
     void signToARun(String runId);
     void signOutOfARun(String runId);
     void submitUserPreferences(ArrayList<Question> questions);
     void updateLike(String runId, boolean isLike);
     void enterSmartSearchList();
     void deleteRun(String runId);
+    void updateUserDetails(String weight, String generalStatus, String relationStatus, String birthDate, String gender);
 }

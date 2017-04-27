@@ -24,8 +24,12 @@
             android:title="Start a Run" />
         <item
             android:id="@+id/prefernces_button"
-            android:icon="@mipmap/ic_input_black_24dp"
+            android:icon="@mipmap/ic_send_black_24dp"
             android:title="Preferences" />
+        <item
+            android:id="@+id/user_details_button"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="User Details" />
         <item
             android:id="@+id/logout_button"
             android:icon="@mipmap/ic_input_black_24dp"

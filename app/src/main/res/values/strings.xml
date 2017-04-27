@@ -21,4 +21,23 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
+    <string-array name="status_array">
+        <item>Student</item>
+        <item>Pensioner</item>
+        <item>Youth</item>
+        <item>Adult</item>
+    </string-array>
+
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="relation_array">
+        <item>Single</item>
+        <item>Divorced</item>
+        <item>Married</item>
+        <item>Complicated</item>
+        <item>In Relation</item>
+    </string-array>
 </resources>
