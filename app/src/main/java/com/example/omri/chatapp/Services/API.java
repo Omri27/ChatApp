@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 
 public class API {
 
-    public static final String API_URL = "http://192.168.18.15:8080";
+    public static final String API_URL = "http://10.100.102.10:8080";
     public class RunItem{
         private String id;
         public RunItem(){
@@ -83,11 +83,14 @@ public class API {
     }
     public static class UpdateAverageRequest {
         public String userId;
+        public String runId;
 
-        public UpdateAverageRequest(String userId){
+        public UpdateAverageRequest(String userId,String runId){
             this.userId = userId;
+            this.runId = runId;
     }
 }
+
     public interface HttpBinService {
 
 
@@ -102,7 +105,7 @@ public class API {
         );
 
         @POST("/getRecommendedRuns")
-        Call<List<RunItem>> postRecommendedRuns(@Body RecommendRunsRequest data);
+        Call<getRegularResponse> postRecommendedRuns(@Body FeedRunsRequest data);
 
         @POST("/updateAverage")
         Call<getRegularResponse> postUpdateAverage(

@@ -1,6 +1,5 @@
 package com.example.omri.chatapp;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,17 +9,11 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,7 +29,6 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -45,18 +37,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.vision.text.Text;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.storage.FirebaseStorage;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Omri on 17/12/2016.
@@ -79,6 +65,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     private long timeSwapBuff = 0L;
     private long updatedTime = 0L;
     private Handler customHandler = new Handler();
+    private Handler customSpeedHandler = new Handler();
     private long startTime = 0L;
     private MapFragment trainingMapFragment;
     private GoogleApiClient mGoogleApiClient;
@@ -96,6 +83,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     private final int mMaxEntries = 5;
     private double distance;
+    private TextView speed;
     private String mLastUpdateTime;
     private String[] mLikelyPlaceNames = new String[mMaxEntries];
     private String[] mLikelyPlaceAddresses = new String[mMaxEntries];
@@ -114,6 +102,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         startBtn = (Button) findViewById(R.id.run_startButton);
         stopBtn = (Button) findViewById(R.id.run_stopButton);
         pauseBtn = (Button) findViewById(R.id.run_pauseButton);
+        speed = (TextView) findViewById(R.id.speed);
         startBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
         pauseBtn.setOnClickListener(this);
@@ -129,6 +118,17 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         setButtonState(INITIAL);
 
     }
+    private Runnable updateSpeedThread = new Runnable() {
+
+
+
+        public void run() {
+            if(mCurrentLocation!=null) {
+                speed.setText(String.valueOf(mCurrentLocation.getSpeed()*3.6));
+                customSpeedHandler.postDelayed(this, 0);
+            }
+        }
+    };
     private Runnable updateTimerThread = new Runnable() {
 
 
@@ -451,7 +451,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             if(mCurrentLocation!=null)
                 distance += mCurrentLocation.distanceTo(location);
         mCurrentLocation = location;
-            distancetext.setText(Double.toString(distance));
+            distancetext.setText(String.format("%02d", Double.toString(distance)));
            Log.w("runTrackadded",location.toString());
             runTrack.add(mCurrentLocation);
         }
@@ -506,11 +506,13 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 mMap.clear();
                 runStart=true;
                 customHandler.postDelayed(updateTimerThread, 0);
+                customSpeedHandler.postDelayed(updateSpeedThread,0);
                 setButtonState(START);
                 break;
             case R.id.run_pauseButton:
                 runStart=false;
                 timeSwapBuff += timeInMilliseconds;
+                //customSpeedHandler.removeCallbacks(updateSpeedThread);
                 customHandler.removeCallbacks(updateTimerThread);
                 setButtonState(PAUSE);
                 break;
@@ -518,6 +520,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
                 timeInMilliseconds = 0L;
                 timeSwapBuff=0L;
                 startTime=0L;
+                customSpeedHandler.removeCallbacks(updateSpeedThread);
                 SystemClock.setCurrentTimeMillis(startTime);
                 customHandler.removeCallbacks(updateTimerThread);
                 time.setText("" + "00" + ":" + "00" + ":"+ "00");

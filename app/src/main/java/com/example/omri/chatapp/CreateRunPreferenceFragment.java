@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.omri.chatapp.Entities.Question;
@@ -35,6 +36,8 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
     private LinearLayout emptyView;
     private Button createRun;
     private ArrayList<Question> questionList;
+    private LinearLayout disanceLayout;
+
     @Override
     public void onClick(View view) {
     switch(view.getId()){
@@ -73,6 +76,8 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
 
         questionList =new ArrayList<Question>();
+        disanceLayout = (LinearLayout)view.findViewById(R.id.distance_section);
+
         getActivity().setTitle("Run Preferences");
         createRun = (Button)view.findViewById(R.id.create_run_button);
         createRunPreferenceRecyclerView = (RecyclerView) view.findViewById(R.id.create_run_preferences_list_recycler_view);
@@ -102,8 +107,6 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
 
         };
-
-
 
 
         createRunPreferenceRecyclerView.setLayoutManager(linearLayoutManager);

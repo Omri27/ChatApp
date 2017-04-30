@@ -90,14 +90,14 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large">
 
             </TextView>
-            <Button
+            <!--<Button-->
 
-                android:id="@+id/location_page_btn"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Google Maps"
-                >
-            </Button>
+                <!--android:id="@+id/location_page_btn"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Google Maps"-->
+                <!--&gt;-->
+            <!--</Button>-->
         </TableRow>
         <TableRow
             android:id="@+id/tableRow4"
@@ -153,61 +153,61 @@
             </TextView>
 
         </TableRow>
-        <TableRow
-            android:id="@+id/tableRow6"
-            android:paddingTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+        <!--<TableRow-->
+            <!--android:id="@+id/tableRow6"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--&gt;-->
 
-            <TextView
-                android:textSize="18dp"
-                android:id="@+id/history_level_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Liked The Run?"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:gravity="center"
-                android:paddingRight="10dp"
-                >
+            <!--<TextView-->
+                <!--android:textSize="18dp"-->
+                <!--android:id="@+id/history_level_lbl"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="Liked The Run?"-->
+                <!--android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingRight="10dp"-->
+                <!--&gt;-->
 
-            </TextView>
-            <RadioGroup
-                android:id="@+id/radios_group"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+            <!--</TextView>-->
+            <!--<RadioGroup-->
+                <!--android:id="@+id/radios_group"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
 
-                android:inputType="text"
-                android:orientation="horizontal" >
+                <!--android:inputType="text"-->
+                <!--android:orientation="horizontal" >-->
 
-                <RadioButton
-                    android:id="@+id/history_radio_button_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:background="@color/white"
-                    android:button="@null"
-                    android:text="Yes"
-                    android:drawablePadding="30dp"
-                    android:drawableRight="@android:drawable/btn_radio"
-                    android:textSize="20dp"
-                    />
+                <!--<RadioButton-->
+                    <!--android:id="@+id/history_radio_button_yes"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="right"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:button="@null"-->
+                    <!--android:text="Yes"-->
+                    <!--android:drawablePadding="30dp"-->
+                    <!--android:drawableRight="@android:drawable/btn_radio"-->
+                    <!--android:textSize="20dp"-->
+                    <!--/>-->
 
-                <RadioButton
-                    android:id="@+id/history_radio_button_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:text="No"
-                    android:drawablePadding="30dp"
-                    android:drawableRight="@android:drawable/btn_radio"
-                    android:textSize="20dp"
-                    />
+                <!--<RadioButton-->
+                    <!--android:id="@+id/history_radio_button_no"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:button="@null"-->
+                    <!--android:text="No"-->
+                    <!--android:drawablePadding="30dp"-->
+                    <!--android:drawableRight="@android:drawable/btn_radio"-->
+                    <!--android:textSize="20dp"-->
+                    <!--/>-->
 
 
-            </RadioGroup>
+            <!--</RadioGroup>-->
 
-        </TableRow>
+        <!--</TableRow>-->
         <Button
             android:id="@+id/history_run_page_delete"
             android:layout_height="wrap_content"
@@ -215,13 +215,13 @@
             android:text="Delete"
             >
         </Button>
-        <Button
-            android:id="@+id/history_run_page_update"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Update"
-            >
-        </Button>
+        <!--<Button-->
+            <!--android:id="@+id/history_run_page_update"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Update"-->
+            <!--&gt;-->
+        <!--</Button>-->
     </TableLayout>
 
     </LinearLayout>

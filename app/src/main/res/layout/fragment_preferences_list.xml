@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     tools:context=".PreferencesListFragment">
     <LinearLayout
@@ -16,6 +17,7 @@
         android:layout_weight="1"
         android:id="@+id/preferences_list_recycler_view"></android.support.v7.widget.RecyclerView>
 
+
     <LinearLayout
         android:id="@+id/footer_section"
         android:layout_width="match_parent"
@@ -23,10 +25,37 @@
         android:layout_weight="1"
         android:layout_alignParentBottom="true"
         android:gravity="top|center"
+        android:layout_gravity="center"
         android:orientation="vertical">
-
-
-
+        <LinearLayout
+            android:id="@+id/distance_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:gravity="top|center"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/seek_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Distance Radios"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+<TextView
+    android:id="@+id/seek_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="0"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+        <android.support.v7.widget.AppCompatSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mySeekBar"/>
+        </LinearLayout>
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/submit_button"
             android:layout_width="wrap_content"

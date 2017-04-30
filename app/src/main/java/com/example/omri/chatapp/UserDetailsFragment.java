@@ -96,9 +96,9 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     if(dataSnapshot.hasChild("generalStatus")) {
-                        statusSpinner.setSelection(statusAdapter.getPosition((String) dataSnapshot.child("generalStatus").getValue()));
-                        relationStatusSpinner.setSelection(relationStatusAdapter.getPosition((String) dataSnapshot.child("relationStatus").getValue()));
-                        genderSpinner.setSelection(genderAdapter.getPosition((String) dataSnapshot.child("gender").getValue()));
+                        statusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("generalStatus").getValue().toString()));
+                        relationStatusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("relationStatus").getValue().toString()));
+                        genderSpinner.setSelection(Integer.valueOf(dataSnapshot.child("gender").getValue().toString()));
                         weightTxt.setText((String) dataSnapshot.child("weight").getValue());
                         birthDate.setText((String) dataSnapshot.child("birthDate").getValue());
                     }
@@ -136,7 +136,7 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.submit_details_btn:
                 if(validateInput()) {
-                    ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(), statusSpinner.getSelectedItem().toString(), relationStatusSpinner.getSelectedItem().toString(), birthDate.getText().toString(), genderSpinner.getSelectedItem().toString());
+                    ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),String.valueOf(statusSpinner.getSelectedItemPosition()), String.valueOf(relationStatusSpinner.getSelectedItemPosition()), birthDate.getText().toString(), String.valueOf(genderSpinner.getSelectedItemPosition()));
                 }
                 break;
         }

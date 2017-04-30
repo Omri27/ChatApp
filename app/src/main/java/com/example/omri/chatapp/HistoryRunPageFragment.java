@@ -58,12 +58,12 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
         suitxt = (TextView) view.findViewById(R.id.history_suit_txt);
        // leveltxt = (TextView) view.findViewById(R.id.history_level_txt);
         deleteBtn = (Button) view.findViewById(R.id.history_run_page_delete);
-        yesBtn = (RadioButton) view.findViewById(R.id.history_radio_button_yes);
-        noBtn = (RadioButton)view.findViewById(R.id.history_radio_button_no);
+        //yesBtn = (RadioButton) view.findViewById(R.id.history_radio_button_yes);
+        //noBtn = (RadioButton)view.findViewById(R.id.history_radio_button_no);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         deleteBtn.setOnClickListener(this);
-        updateBtn = (Button) view.findViewById(R.id.history_run_page_update);
-        updateBtn.setOnClickListener(this);
+        //updateBtn = (Button) view.findViewById(R.id.history_run_page_update);
+       // updateBtn.setOnClickListener(this);
         //final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("historyRuns").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -73,16 +73,16 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
 
                 runLocationtxt.setText((String)dataSnapshot.child("location").child("name").getValue());
                 dateTimetxt.setText(dataSnapshot.child("time").getValue().toString());
-                HistoryYesnoOnClickListener yesNoListener = new HistoryYesnoOnClickListener();
-                noBtn.setOnClickListener(yesNoListener);
-                yesBtn.setOnClickListener(yesNoListener);
-                if(dataSnapshot.child("like").getValue().equals(false)){
-                    isLike= false;
-                    noBtn.setChecked(true);
-                }else {
-                    isLike=true;
-                    yesBtn.setChecked(true);
-                }
+               // HistoryYesnoOnClickListener yesNoListener = new HistoryYesnoOnClickListener();
+               // noBtn.setOnClickListener(yesNoListener);
+              //  yesBtn.setOnClickListener(yesNoListener);
+//                if(dataSnapshot.child("like").getValue().equals(false)){
+//                    isLike= false;
+//                    noBtn.setChecked(true);
+//                }else {
+//                    isLike=true;
+//                    yesBtn.setChecked(true);
+//                }
             }
 
             @Override
@@ -96,29 +96,32 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.history_run_page_update:
-                ((LobbyCommunicate) getActivity()).updateLike(runId,isLike);
+           // case R.id.history_run_page_update:
+               // ((LobbyCommunicate) getActivity()).updateLike(runId,isLike);
+                //break;
+            case R.id.feed_coming_up_btn:
+                ((LobbyCommunicate) getActivity()).enterComingupRunList();
                 break;
-//            case R.id.feed_coming_up_btn:
-//                ((LobbyCommunicate) getActivity()).enterComingupRunPage();
-//                break;
+            case R.id.history_run_page_delete:
+                ((LobbyCommunicate) getActivity()).deleteHistoryRun(runId);
+                break;
         }
     }
-    public class HistoryYesnoOnClickListener implements View.OnClickListener{
-
-        public HistoryYesnoOnClickListener() {
-
-        }
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.history_radio_button_no:
-                    isLike=false;
-                    break;
-                case R.id.history_radio_button_yes:
-                    isLike=true;
-                    break;
-            }
-        }
-    }
+//    public class HistoryYesnoOnClickListener implements View.OnClickListener{
+//
+//        public HistoryYesnoOnClickListener() {
+//
+//        }
+//        @Override
+//        public void onClick(View view) {
+//            switch (view.getId()) {
+//                case R.id.history_radio_button_no:
+//                    isLike=false;
+//                    break;
+//                case R.id.history_radio_button_yes:
+//                    isLike=true;
+//                    break;
+//            }
+//        }
+//    }
 }

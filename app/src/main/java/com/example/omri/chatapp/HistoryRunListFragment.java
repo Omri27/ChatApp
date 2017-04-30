@@ -33,7 +33,6 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
     private Button feedBtn;
     private Button comingUpBtn;
     private Button smartSearchBtn;
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -112,6 +111,12 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
                             @Override
                             public void onClick(View v) {
                                 ((LobbyCommunicate) getActivity()).enterHistoryRunPage(key);
+                            }
+                        });
+                        viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((LobbyCommunicate) getActivity()).deleteHistoryRun(key);
                             }
                         });
                     } catch (Exception ex) {

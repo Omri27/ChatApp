@@ -38,6 +38,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -451,16 +454,28 @@ private void setCurrentUserId() {
         //receiverRef.updateChildren(receiverFanOut);
     }
     @Override
-   public  void signOutOfARun(String runId){
+   public  void signOutOfARun(final String runId){
         try {
             String senderId = CurrentUserId;
             DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
-            DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
+            final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             //DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
            // Ref.removeValue();
-            userFeedRunRef.removeValue();
-            runRef.removeValue();
-            Toast.makeText(getApplicationContext(), "You signed out of the run successfully", Toast.LENGTH_SHORT).show();
+            userFeedRunRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    runRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            updateAverage(false,runId);
+                        }
+
+                    });
+                }
+            });
+          ;
+
+           // Toast.makeText(getApplicationContext(), "You signed out of the run successfully", Toast.LENGTH_SHORT).show();
         }catch(Exception ex){
             Log.w("signOutofRunErr",ex.toString());
         }
@@ -468,26 +483,65 @@ private void setCurrentUserId() {
     @Override
     public  void submitUserPreferences(ArrayList<Question> questions){
         try {
-            DatabaseReference Ref =FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("Preferences");
+            DatabaseReference Ref =FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("preferences");
             Ref.setValue(questions);
 
         }catch(Exception ex){
             Log.w("submitUserQuestionErr",ex.toString());
         }
     }
+    public void updateAverage(final Boolean isSign,String runId){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+        Call<API.getRegularResponse> call = service.postUpdateAverage(new API.UpdateAverageRequest(CurrentUserId,runId));
+        call.enqueue(new Callback<API.getRegularResponse>() {
+
+            @Override
+            public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
+                if(response.isSuccessful() &&  ((API.getRegularResponse)response.body()).isOk)
+                {
+                    Log.w("response", String.valueOf(response.isSuccessful()));
+                    if(isSign){
+                    Toast.makeText(getApplicationContext(), "You signed up to the run successfully", Toast.LENGTH_SHORT).show();
+                }else {
+                        Toast.makeText(getApplicationContext(), "You signed out of the run successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Log.w("updateAveragePostErr", ((API.getRegularResponse) response.body()).err);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
+                Log.w("responsefail",call.toString());
+            }
+        });
+    }
     @Override
-    public void signToARun(String runId) {
+    public void signToARun(final String runId) {
         try {
             String senderId = CurrentUserId;
             DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
-            DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+            final DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
             //DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
-            runRef.setValue(true);
-            userFeedRunRef.setValue(true);
-            Toast.makeText(getApplicationContext(), "You signed up to the run successfully", Toast.LENGTH_SHORT).show();
-           // usersRef.setValue(true);
-           // String key = Ref.push().getKey();
-           // Ref.child(key).setValue(runId);
+            runRef.setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    userFeedRunRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            updateAverage(true,runId);
+                        }
+
+
+                    });
+                }
+            });
+
+
         }catch(Exception ex){
             Log.w("signToARun",ex.toString());
         }
@@ -623,17 +677,16 @@ private void setCurrentUserId() {
     public void isSmartSearch() {
         if (mLastKnownLocation.getLatitude() > 0 && mLastKnownLocation.getLongitude() > 0) {
             Log.w("locationknown", String.valueOf(mLastKnownLocation.getLatitude()));
-            String location = String.valueOf(mLastKnownLocation.getLatitude()) + "-" + String.valueOf(mLastKnownLocation.getLongitude());
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(API.API_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-            Call<List<API.RunItem>> call = service.postRecommendedRuns(new API.RecommendRunsRequest(CurrentUserId, location));
-            call.enqueue(new Callback<List<API.RunItem>>() {
+            Call<API.getRegularResponse> call = service.postRecommendedRuns(new API.FeedRunsRequest(CurrentUserId,String.valueOf((mLastKnownLocation.getLongitude())),String.valueOf(mLastKnownLocation.getLatitude())));
+            call.enqueue(new Callback<API.getRegularResponse>() {
 
                 @Override
-                public void onResponse(Call<List<API.RunItem>> call, Response<List<API.RunItem>> response) {
+                public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
                     Log.w("responeeRecomended", String.valueOf(response.isSuccessful()));
 
                     if (response.isSuccessful() && ((API.getRegularResponse)response.body()).isOk) {
@@ -651,7 +704,7 @@ private void setCurrentUserId() {
                 }
 
                 @Override
-                public void onFailure(Call<List<API.RunItem>> call, Throwable t) {
+                public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
                     Log.w("responseblafail", call.toString());
                     Log.w("enterHistoryListPageerr", String.valueOf(t));
                 }
@@ -767,42 +820,62 @@ private void setCurrentUserId() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, historyRunPageFragment).addToBackStack(null).commit();
     }
     @Override
-    public void updateLike(String runId, boolean isLike) {
-        try {
-            Log.w("updateLike",String.valueOf(isLike));
-            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("historyRuns").child(runId);
-            Ref.child("like").setValue(isLike);
-            Ref.child("marked").setValue(true);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(API.API_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-            Call<API.getRegularResponse> call = service.postUpdateAverage(new API.UpdateAverageRequest(CurrentUserId));
-            call.enqueue(new Callback<API.getRegularResponse>() {
+    public void deleteHistoryRun(final String runId){
+        final DatabaseReference runref = ref.child("users").child(CurrentUserId);
+        runref.child("historyRuns").child(runId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                runref.child("feedRuns").child(runId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(), "Run from history has been Deleted", Toast.LENGTH_SHORT).show();
 
-                @Override
-                public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
-                    if(response.isSuccessful() &&  ((API.getRegularResponse)response.body()).isOk)
-                    {
-                      Log.w("response", String.valueOf(response.isSuccessful()));
-                        Toast.makeText(getApplicationContext(), "Your Like has been received", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(), ((API.getRegularResponse)response.body()).err, Toast.LENGTH_SHORT).show();
-                        Log.w("updateLikePostErr",  ((API.getRegularResponse)response.body()).err);
+                        enterHistoryListPage();
                     }
-                }
 
-                @Override
-                public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
-                    Log.w("responseblafail",call.toString());
-                    Log.w("enterHistoryListPageerr",String.valueOf(t));
-                }
-            });
-        }catch(Exception ex){
-            Log.w("updateErr",ex.toString());
-        }
+                });
+
+            }
+        });
     }
+//    @Override
+//    public void updateLike(String runId, boolean isLike) {
+//        try {
+//            Log.w("updateLike",String.valueOf(isLike));
+//            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("historyRuns").child(runId);
+//            Ref.child("like").setValue(isLike);
+//            Ref.child("marked").setValue(true);
+//            Retrofit retrofit = new Retrofit.Builder()
+//                    .baseUrl(API.API_URL)
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build();
+//            API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+//            Call<API.getRegularResponse> call = service.postUpdateAverage(new API.UpdateAverageRequest(CurrentUserId));
+//            call.enqueue(new Callback<API.getRegularResponse>() {
+//
+//                @Override
+//                public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
+//                    if(response.isSuccessful() &&  ((API.getRegularResponse)response.body()).isOk)
+//                    {
+//                      Log.w("response", String.valueOf(response.isSuccessful()));
+//                        Toast.makeText(getApplicationContext(), "Your Like has been received", Toast.LENGTH_SHORT).show();
+//                    }else{
+//                        Toast.makeText(getApplicationContext(), ((API.getRegularResponse)response.body()).err, Toast.LENGTH_SHORT).show();
+//                        Log.w("updateLikePostErr",  ((API.getRegularResponse)response.body()).err);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
+//                    Log.w("responseblafail",call.toString());
+//                    Log.w("enterHistoryListPageerr",String.valueOf(t));
+//                }
+//            });
+//        }catch(Exception ex){
+//            Log.w("updateErr",ex.toString());
+//        }
+//    }
+//
     @Override
     public void enterUpComingRunPage(String runId) {
         ComingUpRunPageFragment upComingRunPageFragment = new ComingUpRunPageFragment();
