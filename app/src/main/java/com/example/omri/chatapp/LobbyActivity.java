@@ -6,7 +6,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.internal.BaselineLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -34,9 +33,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,7 +49,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -79,9 +75,11 @@ public class LobbyActivity extends AppCompatActivity
     private DotLoader dotLoader;
     private  CreateRunFragment createRunFragment;
     private Location location;
+    private Boolean feedFirstUpload =true;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private GoogleApiClient mGoogleApiClient;
     private boolean mRequestingLocationUpdates;
+    private Boolean smartfirstUpload = true;
     private static final int DEFAULT_ZOOM = 15;
     private Location mLastKnownLocation;
     private Location mCurrentLocation;
@@ -212,7 +210,7 @@ public class LobbyActivity extends AppCompatActivity
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Bundle args = new Bundle();
-                    if(dataSnapshot.hasChild("Preferences"))
+                    if(dataSnapshot.hasChild("preferences"))
                         args.putString("existUser", "1");
                         else
                         args.putString("existUser", "0");
@@ -481,10 +479,22 @@ private void setCurrentUserId() {
         }
     }
     @Override
-    public  void submitUserPreferences(ArrayList<Question> questions){
+    public  void submitUserPreferences(ArrayList<Question> questions,final String radiosDistance){
         try {
-            DatabaseReference Ref =FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("preferences");
-            Ref.setValue(questions);
+
+            final DatabaseReference Ref =FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId);
+            Ref.child("preferences").setValue(questions).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Ref.child("radiosDistance").setValue(radiosDistance).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(), "Preferences Submitted successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+
 
         }catch(Exception ex){
             Log.w("submitUserQuestionErr",ex.toString());
@@ -732,11 +742,43 @@ private void setCurrentUserId() {
 
     @Override
     public void enterSmartSearchList() {
-        Log.w("entersmart","entersmart");
-        isSmart= true;
-        mGoogleApiClient.connect();
 
-    }
+
+        if (smartfirstUpload) {
+            final DatabaseReference UserRef = ref.child("users").child(CurrentUserId);
+            UserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String needed="";
+                    if (!dataSnapshot.hasChild("Details"))
+                        needed= "User Details is needed, Please fill it up\n";
+
+                        if (!dataSnapshot.hasChild("preferences"))
+                            needed+= "User Preferences is needed, Please fill it up";
+
+                        if(needed!="") {
+
+                            Toast.makeText(getApplicationContext(), needed, Toast.LENGTH_LONG).show();
+                        }else {
+                            smartfirstUpload = false;
+                            isSmart = true;
+                            mGoogleApiClient.connect();
+                        }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }else{
+                isSmart = true;
+                mGoogleApiClient.connect();
+            }
+
+        }
+
     @Override
     public void enterHistoryListPage() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -773,21 +815,43 @@ private void setCurrentUserId() {
 
     @Override
     public void enterFeedPage() {
-        isSmart=false;
-        mGoogleApiClient.connect();
-        //RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
-       // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
+        if(feedFirstUpload) {
+            final DatabaseReference UserRef = ref.child("users").child(CurrentUserId);
+            UserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChild("preferences")) {
+                        feedFirstUpload = false;
+                        isSmart = false;
+                        mGoogleApiClient.connect();
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "User Preferences is needed, Please fill it up", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+        else{
+            isSmart = false;
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
     public void enterComingupRunList() {
-        ComingUpRunListFragment upComingRunList = new ComingUpRunListFragment();
+         ComingUpRunListFragment upComingRunList = new ComingUpRunListFragment();
         Bundle bundle = new Bundle();
         String h =  CurrentUserId;
         bundle.putString("userId", h);
 
         upComingRunList.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunList).commit();
+
     }
     @Override
     public void activateLocation(){

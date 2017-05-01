@@ -1,5 +1,6 @@
 package com.example.omri.chatapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
     private Button upcomingRunBtn;
     private Button feedBtn;
     private Date nowDate = new Date();
+    private String currentUserId;
     private HistoryRun history;
     @Override
     public void onClick(View view) {
@@ -84,6 +86,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
 
         View view = inflater.inflate(R.layout.fragment_recommended_run_list, container, false);
         getActivity().setTitle("Recommended Runs");
+        currentUserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
         historyRunBtn = (Button) view.findViewById(R.id.recommended_history_btn);
         upcomingRunBtn = (Button) view.findViewById(R.id.recommended_comingup_btn);
         feedBtn = (Button) view.findViewById(R.id.recommended_feed_btn);
@@ -100,31 +103,55 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                 Run.class,
                 R.layout.run_template,
                 RecommendedRunListFragment.RunsViewHolder.class,
-                runRef) {
+                runRef.orderByChild("smartMatch")) {
             @Override
             protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 try {
 
-                   Date date = formatter.parse(model.getDate()+" "+model.getTime());
-                    if(date.after(nowDate)){
-                    final String key = firebaseRecyclerAdapter.getRef(position).getKey();
-                    viewHolder.runNameText.setText(model.getName());
-                    viewHolder.locationText.setText(model.getLocation().getName());
-                    viewHolder.creatorText.setText(model.getCreator());
-                    viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ((LobbyCommunicate) getActivity()).signToARun(key);
+
+                    firebaseRecyclerAdapter.getItem(position);
+                    Date date = formatter.parse(model.getDate()+" "+model.getTime());
+                    if(date.after(nowDate)) {
+                        final String key = firebaseRecyclerAdapter.getRef(position).getKey();
+                        viewHolder.runNameText.setText(model.getName());
+                        viewHolder.locationText.setText(model.getLocation().getName());
+                        viewHolder.creatorText.setText(model.getCreator());
+                        if(!model.getCreatorId().toString().contains(currentUserId)){
+                            if (model.getRunners().toString().contains(currentUserId)) {
+                                viewHolder.beThereButton.setText("Won't Be There");
+                                viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((LobbyCommunicate) getActivity()).signOutOfARun(key);
+                                    }
+                                });
+                            } else {
+                                viewHolder.beThereButton.setText("Be There");
+                                viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((LobbyCommunicate) getActivity()).signToARun(key);
+                                    }
+                                });
+                            }
+                        }else{
+                            viewHolder.runLayout.setBackgroundColor(Color.GREEN);
+                            viewHolder.beThereButton.setText("Delete Run");
+                            viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((LobbyCommunicate) getActivity()).deleteRun(key);
+                                }
+                            });
                         }
-                    });
-                    viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ((LobbyCommunicate) getActivity()).enterRunPage(key);
-                        }
-                    });
-                }
+                        viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((LobbyCommunicate) getActivity()).enterRunPage(key);
+                            }
+                        });
+                    }
                     else{
 //                        ViewGroup.LayoutParams params =  viewHolder.runLayout.getLayoutParams();
 //                        params.height = 0;
@@ -136,6 +163,9 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                     Log.w("RunFeedlistErr",ex.toString());
                 }
             }
+
+
+
 
 
 

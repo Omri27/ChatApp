@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.omri.chatapp.Entities.BaseLocation;
 import com.example.omri.chatapp.Entities.Message;
@@ -44,7 +45,6 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     private TextView runLocationtxt;
     private TextView distancetxt;
     private TextView suitxt;
-    private TextView leveltxt;
     private EditText textMessage;
     private LinearLayoutManager linearLayoutManager;
     private Button beTherebtn;
@@ -89,14 +89,13 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     runLocationtxt = (TextView) view.findViewById(R.id.location_txt);
     distancetxt = (TextView) view.findViewById(R.id.distance_txt);
     suitxt = (TextView) view.findViewById(R.id.suit_txt);
-    leveltxt = (TextView) view.findViewById(R.id.level_txt);
     beTherebtn = (Button) view.findViewById(R.id.be_there_btn);
     linearLayoutManager = new LinearLayoutManager(getActivity());
     messageRecyclerView = (RecyclerView) view.findViewById(R.id.group_chat_recycler_view);
    // beTherebtn.setOnClickListener(this);
     final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     String runRef = RUNS+ "/"+runId+"/messages";
-    FirebaseDatabase.getInstance().getReference().child("runs").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
+    FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("feedRuns").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             try {
@@ -105,6 +104,11 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
                 distancetxt.setText((String)dataSnapshot.child("distance").getValue());
                 runLocationtxt.setText((String)dataSnapshot.child("location").child("name").getValue());
                 dateTimetxt.setText(((String)dataSnapshot.child("date").getValue()+ " "+(String)dataSnapshot.child("time").getValue()));
+                if(dataSnapshot.hasChild("runPropertyMatch")){
+                    suitxt.setText((String) dataSnapshot.child("runPropertyMatch").getValue().toString()+"%");
+                }else{
+                    suitxt.setVisibility(View.INVISIBLE);
+                }
                 if(!dataSnapshot.child("creatorId").getValue().equals(currentUserId)) {
                     if (dataSnapshot.child("runners").hasChild(currentUserId)) {
                         beTherebtn.setText("Won't Be There");

@@ -97,19 +97,32 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
         existUser = getArguments().getString("existUser");
-
         seekBar.setMax(100);
-        seekText.setText(String.valueOf(seekValue));
         seekBar.setProgress(seekValue);
         seekBar.setOnSeekBarChangeListener(this);
         Log.w("existuserbla",existUser);
         CurrentuserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
         DatabaseReference userRef;
+        DatabaseReference distanceRef= ref.child(USERS).child(CurrentuserId);
         if(existUser.equals(YES))
-            userRef = ref.child(USERS).child(CurrentuserId).child("Preferences");
+            userRef = ref.child(USERS).child(CurrentuserId).child("preferences");
+
         else
             userRef = ref.child(PREFERENCES);
 
+
+        distanceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("radiosDistance"))
+                seekValue = Integer.valueOf((String) dataSnapshot.child("radiosDistance").getValue());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Question, PreferencesListFragment.PreferencesViewHolder>(
                 Question.class,
                 R.layout.question_template,
@@ -126,7 +139,7 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
                     viewHolder.buttonNo.setChecked(true);
                 }else
                     viewHolder.buttonYes.setChecked(true);
-
+                seekText.setText(String.valueOf(seekValue));
                 disanceLayout.setVisibility(View.VISIBLE);
 
             }
@@ -182,7 +195,7 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.submit_button:
-                ((LobbyCommunicate) getActivity()).submitUserPreferences(questionList);
+                ((LobbyCommunicate) getActivity()).submitUserPreferences(questionList,seekText.getText().toString() );
                 break;
         }
     }
