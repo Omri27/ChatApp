@@ -49,8 +49,10 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     private LinearLayoutManager linearLayoutManager;
     private Button beTherebtn;
     private String runId;
+    private boolean isthere;
     private DatabaseReference ref;
     private String currentUserId;
+    beThereOnclickListener listener;
     private FloatingActionButton sendButton;
     public RunPageFragment(){}
 
@@ -109,26 +111,14 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
                 }else{
                     suitxt.setVisibility(View.INVISIBLE);
                 }
-                if(!dataSnapshot.child("creatorId").getValue().equals(currentUserId)) {
-                    if (dataSnapshot.child("runners").hasChild(currentUserId)) {
-                        beTherebtn.setText("Won't Be There");
-                        beTherebtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
-                                ((LobbyCommunicate) (getActivity())).enterFeedPage();
-                            }
-                        });
-                    } else {
-                        beTherebtn.setText("Be There");
-                        beTherebtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                ((LobbyCommunicate) (getActivity())).signToARun(runId);
-                                ((LobbyCommunicate) (getActivity())).enterFeedPage();
-                            }
-                        });
+                if(!dataSnapshot.child("creatorId").getValue().toString().equals(currentUserId)) {
+                    if (dataSnapshot.child("runners").hasChild(currentUserId)){
+                        listener = new beThereOnclickListener(false);
                     }
+                    else {
+                        listener = new beThereOnclickListener(true);
+                    }
+                    beTherebtn.setOnClickListener(listener);
                 }else{
                     beTherebtn.setText("Delete Run");
                     beTherebtn.setOnClickListener(new View.OnClickListener() {
@@ -217,6 +207,28 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
                 ((LobbyCommunicate) (getActivity())).signToARun(runId);
                 beTherebtn.setEnabled(false);
                 break;
+        }
+    }
+    public class beThereOnclickListener implements View.OnClickListener{
+        Boolean isThere;
+        public beThereOnclickListener(Boolean isThere){
+            this.isThere =isThere;
+        }
+        @Override
+        public void onClick(View view) {
+            Log.w("bethere",String.valueOf(isThere));
+            if(this.isThere){
+                ((LobbyCommunicate) (getActivity())).signToARun(runId);
+                ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                beTherebtn.setText("Not Be There");
+                this.isThere = false;
+            }else{
+                ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                this.isThere = true;
+                beTherebtn.setText("Be There");
+            }
+
         }
     }
 }

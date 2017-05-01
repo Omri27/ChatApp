@@ -957,7 +957,7 @@ private void setCurrentUserId() {
             DatabaseReference runref = ref.child("runs").push();
             runref.setValue(newRun);
             Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
-            enterComingupRunList();
+            enterFeedPage();
         }catch(Exception ex){
             Log.w("createrunerr", ex.toString());
         }

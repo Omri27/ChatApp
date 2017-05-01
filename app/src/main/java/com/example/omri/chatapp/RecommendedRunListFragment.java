@@ -31,7 +31,7 @@ import java.util.Date;
  */
 
 public class RecommendedRunListFragment extends Fragment  implements View.OnClickListener{
-    public static final String RUNS = "runs/";
+    public static final String RUNS = "users/";
     private RecyclerView runsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
@@ -97,7 +97,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
         emptyView = (LinearLayout)view.findViewById(R.id.run_empty_view);
-        DatabaseReference runRef = ref.child(RUNS/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
+        DatabaseReference runRef = ref.child(RUNS+"/"+currentUserId+"/recommendedRuns");
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, RecommendedRunListFragment.RunsViewHolder>(
                 Run.class,
@@ -184,7 +184,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
 
                     ((LobbyCommunicate) getActivity()).stopProgressBar();
                     if (!dataSnapshot.hasChildren()) {
-                        emptyView.setVisibility(View.VISIBLE);
+                        //emptyView.setVisibility(View.VISIBLE);
                     }
                 }
 
