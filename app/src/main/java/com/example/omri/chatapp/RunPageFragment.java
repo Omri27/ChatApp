@@ -113,10 +113,10 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
                 }
                 if(!dataSnapshot.child("creatorId").getValue().toString().equals(currentUserId)) {
                     if (dataSnapshot.child("runners").hasChild(currentUserId)){
-                        listener = new beThereOnclickListener(false);
+                        listener = new beThereOnclickListener(true);
                     }
                     else {
-                        listener = new beThereOnclickListener(true);
+                        listener = new beThereOnclickListener(false);
                     }
                     beTherebtn.setOnClickListener(listener);
                 }else{
@@ -213,17 +213,22 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
         Boolean isThere;
         public beThereOnclickListener(Boolean isThere){
             this.isThere =isThere;
+            if(isThere){
+                beTherebtn.setText("Won't Be There");
+            }else{
+                beTherebtn.setText("Be There");
+            }
         }
         @Override
         public void onClick(View view) {
-            Log.w("bethere",String.valueOf(isThere));
+Log.w("click",String.valueOf(this.isThere));
             if(this.isThere){
-                ((LobbyCommunicate) (getActivity())).signToARun(runId);
+                ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
                 ((LobbyCommunicate) (getActivity())).enterFeedPage();
-                beTherebtn.setText("Not Be There");
+                beTherebtn.setText("Won't Be There");
                 this.isThere = false;
             }else{
-                ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                ((LobbyCommunicate) (getActivity())).signToARun(runId);
                 ((LobbyCommunicate) (getActivity())).enterFeedPage();
                 this.isThere = true;
                 beTherebtn.setText("Be There");
