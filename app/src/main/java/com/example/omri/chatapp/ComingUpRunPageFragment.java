@@ -107,7 +107,7 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
                                 cancelBtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                                        ((LobbyCommunicate) (getActivity())).signOutOfARun(true,runId);
                                         ((LobbyCommunicate) (getActivity())).enterComingupRunList();
                                     }
                                 });
@@ -116,7 +116,7 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
                                 cancelBtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) (getActivity())).signToARun(runId);
+                                        ((LobbyCommunicate) (getActivity())).signToARun(true,runId);
                                         ((LobbyCommunicate) (getActivity())).enterComingupRunList();
                                     }
                                 });
@@ -204,7 +204,7 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
         public void onClick(View view) {
             switch(view.getId()){
                 case R.id.upcoming_Cancell:
-                    ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                    ((LobbyCommunicate) (getActivity())).signOutOfARun(true,runId);
                     break;
             }
         }

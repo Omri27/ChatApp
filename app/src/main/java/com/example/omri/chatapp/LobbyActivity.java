@@ -452,14 +452,18 @@ private void setCurrentUserId() {
         //receiverRef.updateChildren(receiverFanOut);
     }
     @Override
-   public  void signOutOfARun(final String runId){
+   public  void  signOutOfARun(Boolean isFeedList,final String runId){
         try {
             String senderId = CurrentUserId;
-            DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+            DatabaseReference userRunRef= null;
+            if(isFeedList)
+                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+            else
+                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
             final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             //DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
            // Ref.removeValue();
-            userFeedRunRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            userRunRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     runRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -531,16 +535,21 @@ private void setCurrentUserId() {
         });
     }
     @Override
-    public void signToARun(final String runId) {
+    public void signToARun(Boolean isFeedList,final String runId) {
         try {
+             DatabaseReference userRunRef= null;
             String senderId = CurrentUserId;
-            DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
-            final DatabaseReference userFeedRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+            if(isFeedList)
+                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+            else
+                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
+            final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
+
             //DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
-            runRef.setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+            userRunRef.setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    userFeedRunRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    runRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             updateAverage(true,runId);
@@ -865,10 +874,11 @@ private void setCurrentUserId() {
     }
 
     @Override
-    public void enterRunPage(String runId) {
+    public void enterRunPage(String runId,Boolean isFeedList) {
         RunPageFragment runPageFragment = new RunPageFragment();
         Bundle bundle = new Bundle();
         bundle.putString("runId", runId);
+        bundle.putBoolean("isFeed", isFeedList);
         runPageFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runPageFragment).addToBackStack(null).commit();
     }

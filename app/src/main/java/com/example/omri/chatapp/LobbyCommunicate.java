@@ -12,7 +12,7 @@ public interface LobbyCommunicate {
     void startProgressBar();
     //void startChat(String receiverId, String receiverName);
    // void sendMessage(String messageText,String token);
-    void enterRunPage(String runId);
+    void enterRunPage(String runId,Boolean isFeedList);
     void enterHistoryRunPage(String runId);
     void enterUpComingRunPage(String runId);
     void sendLobbyMessage(String Id,String messageText);
@@ -25,8 +25,8 @@ public interface LobbyCommunicate {
     void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions, String runDistance);
     String getCurrentUserId();
     String getCurrentUserName();
-    void signToARun(String runId);
-    void signOutOfARun(String runId);
+    void signToARun(Boolean isFeedList,String runId);
+    void signOutOfARun(Boolean isFeedList,String runId);
     void submitUserPreferences(ArrayList<Question> questions,String radiosDistance);
     //void updateLike(String runId, boolean isLike);
     void enterSmartSearchList();

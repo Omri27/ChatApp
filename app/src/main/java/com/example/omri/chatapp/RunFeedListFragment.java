@@ -145,7 +145,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                                 viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signOutOfARun(key);
+                                        ((LobbyCommunicate) getActivity()).signOutOfARun(true,key);
                                     }
                                 });
                             } else {
@@ -153,7 +153,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                                 viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signToARun(key);
+                                        ((LobbyCommunicate) getActivity()).signToARun(true,key);
                                     }
                                 });
                             }
@@ -164,13 +164,14 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                                 @Override
                                 public void onClick(View view) {
                                     ((LobbyCommunicate) getActivity()).deleteRun(key);
+                                    ((LobbyCommunicate) getActivity()).enterFeedPage();
                                 }
                             });
                         }
                         viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ((LobbyCommunicate) getActivity()).enterRunPage(key);
+                                ((LobbyCommunicate) getActivity()).enterRunPage(key,true);
                             }
                         });
                     }

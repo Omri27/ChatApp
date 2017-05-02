@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -123,9 +124,13 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         public void run() {
-            if(mCurrentLocation!=null) {
-                speed.setText(String.valueOf(mCurrentLocation.getSpeed()*3.6));
+            try {
+                if (mCurrentLocation != null) {
+                    speed.setText(new DecimalFormat("##").format(mCurrentLocation.getSpeed() * 3.6));
+                }
                 customSpeedHandler.postDelayed(this, 0);
+            }catch(Exception ex){
+                Log.w("speedThreadException", ex.toString());
             }
         }
     };
@@ -451,7 +456,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             if(mCurrentLocation!=null)
                 distance += mCurrentLocation.distanceTo(location);
         mCurrentLocation = location;
-            distancetext.setText(String.format("%02d", Double.toString(distance)));
+            distancetext.setText(new DecimalFormat("##.##").format(distance/100));
            Log.w("runTrackadded",location.toString());
             runTrack.add(mCurrentLocation);
         }

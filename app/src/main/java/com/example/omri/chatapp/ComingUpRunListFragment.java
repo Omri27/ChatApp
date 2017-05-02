@@ -121,7 +121,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
                                 viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signOutOfARun(key);
+                                        ((LobbyCommunicate) getActivity()).signOutOfARun(true,key);
                                     }
                                 });
 

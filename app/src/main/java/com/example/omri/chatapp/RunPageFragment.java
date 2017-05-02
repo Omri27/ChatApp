@@ -50,6 +50,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     private Button beTherebtn;
     private String runId;
     private boolean isthere;
+    private boolean isFeedList;
     private DatabaseReference ref;
     private String currentUserId;
     beThereOnclickListener listener;
@@ -84,8 +85,10 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     sendButton = (FloatingActionButton) view.findViewById(R.id.sendMessageButton);
     currentUserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
     ref = FirebaseDatabase.getInstance().getReference();
+
     //get data from activity
     runId = getArguments().getString("runId");
+    isFeedList= getArguments().getBoolean("isFeed");
     trainerNametxt = (TextView) view.findViewById(R.id.trainer_name_txt);
     dateTimetxt = (TextView) view.findViewById(R.id.date_time_txt);
     runLocationtxt = (TextView) view.findViewById(R.id.location_txt);
@@ -94,7 +97,6 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     beTherebtn = (Button) view.findViewById(R.id.be_there_btn);
     linearLayoutManager = new LinearLayoutManager(getActivity());
     messageRecyclerView = (RecyclerView) view.findViewById(R.id.group_chat_recycler_view);
-   // beTherebtn.setOnClickListener(this);
     final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     String runRef = RUNS+ "/"+runId+"/messages";
     FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("feedRuns").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -125,7 +127,10 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(View view) {
                             ((LobbyCommunicate) (getActivity())).deleteRun(runId);
-                            ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                            if(isFeedList)
+                                ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                            else
+                                ((LobbyCommunicate) (getActivity())).enterSmartSearchList();
                         }
                     });
                 }
@@ -204,7 +209,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.be_there_btn:
-                ((LobbyCommunicate) (getActivity())).signToARun(runId);
+                ((LobbyCommunicate) (getActivity())).signToARun(isFeedList,runId);
                 beTherebtn.setEnabled(false);
                 break;
         }
@@ -221,15 +226,20 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
         }
         @Override
         public void onClick(View view) {
-Log.w("click",String.valueOf(this.isThere));
             if(this.isThere){
-                ((LobbyCommunicate) (getActivity())).signOutOfARun(runId);
+                ((LobbyCommunicate) (getActivity())).signOutOfARun(isFeedList,runId);
+                if(isFeedList)
                 ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                else
+                    ((LobbyCommunicate) (getActivity())).enterSmartSearchList();
                 beTherebtn.setText("Won't Be There");
                 this.isThere = false;
             }else{
-                ((LobbyCommunicate) (getActivity())).signToARun(runId);
-                ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                ((LobbyCommunicate) (getActivity())).signToARun(isFeedList,runId);
+                if(isFeedList)
+                    ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                else
+                    ((LobbyCommunicate) (getActivity())).enterSmartSearchList();
                 this.isThere = true;
                 beTherebtn.setText("Be There");
             }
