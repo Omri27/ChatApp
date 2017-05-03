@@ -36,6 +36,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private LinearLayout emptyView;
+    public final String SMARTSEARCHLIST="smartSearch";
     private Button historyRunBtn;
     private Button upcomingRunBtn;
     private Button feedBtn;
@@ -105,7 +106,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                 RecommendedRunListFragment.RunsViewHolder.class,
                 runRef.orderByChild("smartMatch")) {
             @Override
-            protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
+            protected void populateViewHolder(RunsViewHolder viewHolder, final Run model, int position) {
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 try {
 
@@ -123,7 +124,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                                 viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signOutOfARun(false,key);
+                                        ((LobbyCommunicate) getActivity()).signOutOfARun(SMARTSEARCHLIST,key);
                                     }
                                 });
                             } else {
@@ -131,7 +132,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                                 viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signToARun(false,key);
+                                        ((LobbyCommunicate) getActivity()).signToARun(SMARTSEARCHLIST,key);
                                     }
                                 });
                             }
@@ -149,7 +150,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                         viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ((LobbyCommunicate) getActivity()).enterRunPage(key,false);
+                                ((LobbyCommunicate) getActivity()).enterRunPage(key,SMARTSEARCHLIST);
                             }
                         });
                     }

@@ -48,6 +48,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private String currentUserId;
+    public final String FEEDLIST="feedList";
     private LinearLayout emptyView;
     private Button historyRunBtn;
     private Button upcomingRunBtn;
@@ -127,7 +128,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                 RunFeedListFragment.RunsViewHolder.class,
                 runRef.orderByChild("distanceFrom")) {
             @Override
-            protected void populateViewHolder(RunsViewHolder viewHolder, Run model, int position) {
+            protected void populateViewHolder(RunsViewHolder viewHolder, final Run model, int position) {
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                try {
 
@@ -145,7 +146,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                                 viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signOutOfARun(true,key);
+                                        ((LobbyCommunicate) getActivity()).signOutOfARun(FEEDLIST,key);
                                     }
                                 });
                             } else {
@@ -153,7 +154,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                                 viewHolder.beThereButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signToARun(true,key);
+                                        ((LobbyCommunicate) getActivity()).signToARun(FEEDLIST,key);
                                     }
                                 });
                             }
@@ -171,15 +172,11 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                         viewHolder.runLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ((LobbyCommunicate) getActivity()).enterRunPage(key,true);
+                                ((LobbyCommunicate) getActivity()).enterRunPage(key,FEEDLIST);
                             }
                         });
                     }
                     else{
-//                        ViewGroup.LayoutParams params =  viewHolder.runLayout.getLayoutParams();
-//                        params.height = 0;
-//                        //params.width = 100;
-//                        viewHolder.runLayout.setLayoutParams(params);
                         viewHolder.runLayout.setVisibility(View.GONE);
                     }
                 }catch(Exception ex){

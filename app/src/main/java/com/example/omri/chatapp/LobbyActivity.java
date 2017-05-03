@@ -61,6 +61,9 @@ public class LobbyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate, ActivityCompat.OnRequestPermissionsResultCallback,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     private String currentUserPic = null;
     public String currentUserName;
+    public final String FEEDLIST="feedList";
+    public final String COMINGUPLIST="comingUpList";
+    public final String SMARTSEARCHLIST="smartSearch";
     private String currentChatId;
     private String currentRecevierId;
     public  Boolean isSmart = false;
@@ -85,6 +88,7 @@ public class LobbyActivity extends AppCompatActivity
     private Location mCurrentLocation;
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private DatabaseReference ref;
+    private Run runPageReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -452,30 +456,34 @@ private void setCurrentUserId() {
         //receiverRef.updateChildren(receiverFanOut);
     }
     @Override
-   public  void  signOutOfARun(Boolean isFeedList,final String runId){
+   public  void  signOutOfARun(String whichList,final String runId){
         try {
             String senderId = CurrentUserId;
             DatabaseReference userRunRef= null;
-            if(isFeedList)
-                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
-            else
-                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
+            switch(whichList){
+                case FEEDLIST:
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+                    break;
+                case SMARTSEARCHLIST:
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
+                    break;
+                case COMINGUPLIST:
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRuns").child(runId);
+                    break;
+            }
             final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
-            //DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
-           // Ref.removeValue();
             userRunRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     runRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            updateAverage(false,runId);
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    updateAverage(false,runId);
+                                }
+                            });
                         }
-
-                    });
-                }
             });
-          ;
+
 
            // Toast.makeText(getApplicationContext(), "You signed out of the run successfully", Toast.LENGTH_SHORT).show();
         }catch(Exception ex){
@@ -535,28 +543,34 @@ private void setCurrentUserId() {
         });
     }
     @Override
-    public void signToARun(Boolean isFeedList,final String runId) {
+    public void signToARun(String whichList,final String runId) {
         try {
              DatabaseReference userRunRef= null;
             String senderId = CurrentUserId;
-            if(isFeedList)
-                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
-            else
-                userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
-            final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
+            switch(whichList){
+                case FEEDLIST:
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+                    break;
+                case SMARTSEARCHLIST:
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
+                    break;
+                case COMINGUPLIST:
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRuns").child(runId).child("runners").child(CurrentUserId);
+                    break;
+            }
 
-            //DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("comingUpRuns").child(runId);
+            final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
+            //final DatabaseReference upComingRunRef = FirebaseDatabase.getInstance().getReference().child("users").child("comingUpRuns").child(runId);
             userRunRef.setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     runRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            updateAverage(true,runId);
-                        }
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    updateAverage(true,runId);
+                                }
+                            });
 
-
-                    });
                 }
             });
 
@@ -853,13 +867,37 @@ private void setCurrentUserId() {
 
     @Override
     public void enterComingupRunList() {
-         ComingUpRunListFragment upComingRunList = new ComingUpRunListFragment();
-        Bundle bundle = new Bundle();
-        String h =  CurrentUserId;
-        bundle.putString("userId", h);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        API.HttpBinService service = retrofit.create(API.HttpBinService.class);
+        Call<API.getRegularResponse> call = service.postComingUpRuns(new API.UpComingListRequest(CurrentUserId));
+        call.enqueue(new Callback<API.getRegularResponse>() {
 
-        upComingRunList.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunList).commit();
+            @Override
+            public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
+                if(response.isSuccessful() && ((API.getRegularResponse)response.body()).isOk)
+                {
+                    ComingUpRunListFragment upComingRunList = new ComingUpRunListFragment();
+                    Bundle bundle = new Bundle();
+                    String h =  CurrentUserId;
+                    bundle.putString("userId", h);
+                    upComingRunList.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunList).commit();
+                }else{
+                    Toast.makeText(getApplicationContext(),((API.getRegularResponse)response.body()).err,Toast.LENGTH_SHORT).show();
+                    Log.w("PostcomingUpErr",((API.getRegularResponse)response.body()).err);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
+                Log.w("responseblafail",call.toString());
+                Log.w("entercomingListPageerr",String.valueOf(t));
+            }
+        });
+
 
     }
     @Override
@@ -874,11 +912,11 @@ private void setCurrentUserId() {
     }
 
     @Override
-    public void enterRunPage(String runId,Boolean isFeedList) {
+    public void enterRunPage(String runId,String whichList) {
         RunPageFragment runPageFragment = new RunPageFragment();
         Bundle bundle = new Bundle();
         bundle.putString("runId", runId);
-        bundle.putBoolean("isFeed", isFeedList);
+        bundle.putString("whichList", whichList);
         runPageFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runPageFragment).addToBackStack(null).commit();
     }

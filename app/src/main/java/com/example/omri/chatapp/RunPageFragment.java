@@ -3,23 +3,18 @@ package com.example.omri.chatapp;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.omri.chatapp.Entities.BaseLocation;
 import com.example.omri.chatapp.Entities.Message;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,8 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 
@@ -42,6 +35,9 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     private RecyclerView messageRecyclerView;
     private TextView trainerNametxt;
     private TextView dateTimetxt;
+    public final String FEEDLIST="feedList";
+    public final String COMINGUPLIST="comingUpList";
+    public final String SMARTSEARCHLIST="smartSearch";
     private TextView runLocationtxt;
     private TextView distancetxt;
     private TextView suitxt;
@@ -50,12 +46,13 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     private Button beTherebtn;
     private String runId;
     private boolean isthere;
-    private boolean isFeedList;
+    private String whichList;
     private DatabaseReference ref;
     private String currentUserId;
     beThereOnclickListener listener;
     private FloatingActionButton sendButton;
-    public RunPageFragment(){}
+    public RunPageFragment(){
+    }
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageText;
@@ -88,7 +85,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
 
     //get data from activity
     runId = getArguments().getString("runId");
-    isFeedList= getArguments().getBoolean("isFeed");
+    whichList = getArguments().getString("whichList");
     trainerNametxt = (TextView) view.findViewById(R.id.trainer_name_txt);
     dateTimetxt = (TextView) view.findViewById(R.id.date_time_txt);
     runLocationtxt = (TextView) view.findViewById(R.id.location_txt);
@@ -127,10 +124,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(View view) {
                             ((LobbyCommunicate) (getActivity())).deleteRun(runId);
-                            if(isFeedList)
-                                ((LobbyCommunicate) (getActivity())).enterFeedPage();
-                            else
-                                ((LobbyCommunicate) (getActivity())).enterSmartSearchList();
+                           whichList(whichList);
                         }
                     });
                 }
@@ -209,7 +203,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.be_there_btn:
-                ((LobbyCommunicate) (getActivity())).signToARun(isFeedList,runId);
+                ((LobbyCommunicate) (getActivity())).signToARun(whichList,runId);
                 beTherebtn.setEnabled(false);
                 break;
         }
@@ -227,23 +221,31 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if(this.isThere){
-                ((LobbyCommunicate) (getActivity())).signOutOfARun(isFeedList,runId);
-                if(isFeedList)
-                ((LobbyCommunicate) (getActivity())).enterFeedPage();
-                else
-                    ((LobbyCommunicate) (getActivity())).enterSmartSearchList();
+                ((LobbyCommunicate) (getActivity())).signOutOfARun(whichList,runId);
+                whichList(whichList);
                 beTherebtn.setText("Won't Be There");
                 this.isThere = false;
             }else{
-                ((LobbyCommunicate) (getActivity())).signToARun(isFeedList,runId);
-                if(isFeedList)
-                    ((LobbyCommunicate) (getActivity())).enterFeedPage();
-                else
-                    ((LobbyCommunicate) (getActivity())).enterSmartSearchList();
+                ((LobbyCommunicate) (getActivity())).signToARun(whichList,runId);
+                whichList(whichList);
                 this.isThere = true;
                 beTherebtn.setText("Be There");
             }
 
+        }
+
+    }
+    public void whichList(String whichList){
+        switch(whichList) {
+            case FEEDLIST:
+                ((LobbyCommunicate) (getActivity())).enterFeedPage();
+                break;
+            case SMARTSEARCHLIST:
+                ((LobbyCommunicate) (getActivity())).enterSmartSearchList();
+                break;
+            case COMINGUPLIST:
+                ((LobbyCommunicate) (getActivity())).enterComingupRunList();
+                break;
         }
     }
 }

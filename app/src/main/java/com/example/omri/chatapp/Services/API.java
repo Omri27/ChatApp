@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 
 public class API {
 
-    public static final String API_URL = "http://10.100.102.13:8080";
+    public static final String API_URL = "http://192.168.18.15:8080";
     public class RunItem{
         private String id;
         public RunItem(){
@@ -59,6 +59,14 @@ public class API {
             this.title = title;
             this.userId = userId;
             this.userName = title;
+        }
+    }
+    public static class UpComingListRequest {
+        public String userId;
+
+        public UpComingListRequest(String userId) {
+
+            this.userId = userId;
         }
     }
     public static class RecommendRunsRequest {
@@ -114,6 +122,10 @@ public class API {
         @POST("/getFeed")
         Call<getRegularResponse> postFeed(
                 @Body FeedRunsRequest loginData
+        );
+        @POST("/getComingUpRuns")
+        Call<getRegularResponse> postComingUpRuns(
+                @Body UpComingListRequest loginData
         );
     }
 

@@ -3,6 +3,7 @@ package com.example.omri.chatapp;
 import android.location.Location;
 
 import com.example.omri.chatapp.Entities.Question;
+import com.example.omri.chatapp.Entities.Run;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public interface LobbyCommunicate {
     void startProgressBar();
     //void startChat(String receiverId, String receiverName);
    // void sendMessage(String messageText,String token);
-    void enterRunPage(String runId,Boolean isFeedList);
+    void enterRunPage(String runId,String whichList);
     void enterHistoryRunPage(String runId);
     void enterUpComingRunPage(String runId);
     void sendLobbyMessage(String Id,String messageText);
@@ -25,8 +26,8 @@ public interface LobbyCommunicate {
     void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions, String runDistance);
     String getCurrentUserId();
     String getCurrentUserName();
-    void signToARun(Boolean isFeedList,String runId);
-    void signOutOfARun(Boolean isFeedList,String runId);
+    void signToARun(String whichList,String runId);
+    void signOutOfARun(String whichList,String runId);
     void submitUserPreferences(ArrayList<Question> questions,String radiosDistance);
     //void updateLike(String runId, boolean isLike);
     void enterSmartSearchList();

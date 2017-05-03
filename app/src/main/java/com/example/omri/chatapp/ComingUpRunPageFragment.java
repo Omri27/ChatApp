@@ -36,6 +36,8 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
         private TextView trainerNametxt;
         private TextView dateTimetxt;
         private TextView runLocationtxt;
+    public final String COMINGUPLIST="comingUpList";
+
         private TextView distancetxt;
         private TextView suitxt;
         private TextView leveltxt;
@@ -107,20 +109,21 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
                                 cancelBtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) (getActivity())).signOutOfARun(true,runId);
+                                        ((LobbyCommunicate) (getActivity())).signOutOfARun(COMINGUPLIST,runId);
                                         ((LobbyCommunicate) (getActivity())).enterComingupRunList();
                                     }
                                 });
-                            } else {
-                                cancelBtn.setText("Be There");
-                                cancelBtn.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        ((LobbyCommunicate) (getActivity())).signToARun(true,runId);
-                                        ((LobbyCommunicate) (getActivity())).enterComingupRunList();
-                                    }
-                                });
-                            }
+                          }
+                         // else {
+//                                cancelBtn.setText("Be There");
+//                                cancelBtn.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View view) {
+//                                        ((LobbyCommunicate) (getActivity())).signToARun(true,runId);
+//                                        ((LobbyCommunicate) (getActivity())).enterComingupRunList();
+//                                    }
+//                                });
+//                            }
                         }else{
                             cancelBtn.setText("Delete Run");
                             cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +207,7 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
         public void onClick(View view) {
             switch(view.getId()){
                 case R.id.upcoming_Cancell:
-                    ((LobbyCommunicate) (getActivity())).signOutOfARun(true,runId);
+                    ((LobbyCommunicate) (getActivity())).signOutOfARun(COMINGUPLIST,runId);
                     break;
             }
         }

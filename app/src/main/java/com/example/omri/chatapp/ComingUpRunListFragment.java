@@ -33,6 +33,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference ref;
     private LinearLayout emptyView;
+    public final String COMINGUPLIST="comingUpList";
     private Button feedBtn;
     private Button historyBtn;
     private Button smartSearchBtn;
@@ -96,7 +97,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
         ref = FirebaseDatabase.getInstance().getReference();
         //String userId = getArguments().getString("userId");
         emptyView = (LinearLayout) view.findViewById(R.id.upcoming_run_empty_view);
-        DatabaseReference runRef = ref.child(RUNS+"/"+currentUserId +"/feedRuns");
+        DatabaseReference runRef = ref.child(RUNS+"/"+currentUserId +"/comingUpRuns");
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Run, ComingUpRunsViewHolder>(
                 Run.class,
                 R.layout.upcoming_run_template,
@@ -121,7 +122,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
                                 viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((LobbyCommunicate) getActivity()).signOutOfARun(true,key);
+                                        ((LobbyCommunicate) getActivity()).signOutOfARun(COMINGUPLIST,key);
                                     }
                                 });
 
