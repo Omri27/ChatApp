@@ -41,8 +41,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -65,6 +68,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     public EditText distance;
     public Button nextBtn;
     public Button locationBtn;
+    private String runId=null;
     //public MapView mMapView;
     private GoogleMap googleMap;
     private DatePickerDialog dateDialog;
@@ -74,6 +78,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     private boolean mRequestingLocationUpdates;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private  Intent intent=null;
+    private String editRun= "";
     static final int PICK_CONTACT_REQUEST = 1;
 
 
@@ -104,6 +109,12 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         getActivity().setTitle("Create Run");
         //mMapView = (MapView) view.findViewById(R.id.mapView);
         //mMapView.onCreate(savedInstanceState);
+        try {
+            runId = getArguments().getString("runId");
+        }catch(Exception ex){
+            runId=null;
+            Log.w("runIderr",ex.toString());
+        }
         runName = (EditText) view.findViewById(R.id.run_name);
         locationBtn = (Button)view.findViewById(R.id.location_btn);
         runDate= (EditText)view.findViewById(R.id.date_txt);
@@ -119,7 +130,33 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         setDateTimePickerDialog();
         locationBtn.setOnClickListener(this);
+        DatabaseReference runRef = FirebaseDatabase.getInstance().getReference();
+        if(runId!=null) {
+            runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId);
+            runRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    runName.setText(dataSnapshot.child("name").getValue().toString());
+                    runDate.setText(dataSnapshot.child("date").getValue().toString());
+                    runTime.setText(dataSnapshot.child("time").getValue().toString());
+                    distance.setText(dataSnapshot.child("distance").getValue().toString());
+                    Double latitude = Double.valueOf(dataSnapshot.child("location").child("latitude").getValue().toString());
+                    Double longtitude = Double.valueOf(dataSnapshot.child("location").child("longtitude").getValue().toString());
+                    String locationName = dataSnapshot.child("location").child("name").getValue().toString();
+                    editRun= runId;
+                    Location runLocation = new Location(locationName);
+                    runLocation.setLatitude(latitude);
+                    runLocation.setLongitude(longtitude);
+                    location.setText(String.valueOf(runLocation.getProvider()));
+                    ((LobbyCommunicate) getActivity()).setChosenLocation(runLocation);
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
         //mMapView.getMapAsync(this);
 
 
@@ -164,7 +201,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
 
             }
         else if(view==nextBtn){
-                ((LobbyCommunicate) getActivity()).createRunPreference(runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString(),distance.getText().toString());
+                ((LobbyCommunicate) getActivity()).createRunPreference(editRun,runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString(),distance.getText().toString());
             }
         }
     @Override

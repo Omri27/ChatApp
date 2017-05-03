@@ -65,6 +65,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
         public TextView runNameText;
         public Button beThereButton;
         public LinearLayout runLayout;
+        public Button editBtn;
         public RunsViewHolder(View itemView) {
             super(itemView);
             creatorText = (TextView) itemView.findViewById(R.id.run_creator_text);
@@ -72,6 +73,7 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
             runNameText= (TextView)itemView.findViewById(R.id.run_name_text);
             beThereButton= (Button)itemView.findViewById(R.id.be_there_button);
             runLayout = (LinearLayout)itemView.findViewById(R.id.run_layout);
+            editBtn = (Button)itemView.findViewById(R.id.edit_Btn);
         }
 
     }
@@ -144,6 +146,13 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                                 public void onClick(View view) {
                                     ((LobbyCommunicate) getActivity()).deleteRun(key);
                                     ((LobbyCommunicate) getActivity()).enterSmartSearchList();
+                                }
+                            });
+                            viewHolder.editBtn.setVisibility(View.VISIBLE);
+                            viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((LobbyCommunicate) getActivity()).enterEditRun(key);
                                 }
                             });
                         }

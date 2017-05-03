@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +38,13 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
     private Button createRun;
     private ArrayList<Question> questionList;
     private LinearLayout disanceLayout;
-
+    private String runId= null;
     @Override
     public void onClick(View view) {
     switch(view.getId()){
         case R.id.create_run_button:
             Bundle args = getArguments();
-            ((LobbyCommunicate) getActivity()).createRun(args.getString("runName"),args.getString("runDate"),args.getString("runTime"),questionList,args.getString("runDistance"));
+            ((LobbyCommunicate) getActivity()).createRun(runId,args.getString("runName"),args.getString("runDate"),args.getString("runTime"),questionList,args.getString("runDistance"));
     }
     }
 
@@ -77,13 +78,25 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
 
         questionList =new ArrayList<Question>();
         disanceLayout = (LinearLayout)view.findViewById(R.id.distance_section);
+        Bundle args = getArguments();
+try {
+    runId = args.getString("runId");
+}catch(Exception ex){
+    Log.w("preferencesrunId",String.valueOf(runId));
+    runId=null;
+}
 
         getActivity().setTitle("Run Preferences");
         createRun = (Button)view.findViewById(R.id.create_run_button);
         createRunPreferenceRecyclerView = (RecyclerView) view.findViewById(R.id.create_run_preferences_list_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference userRef = ref.child(PREFERENCES/* + FirebaseAuth.getInstance().getCurrentUser().getUid()*/);
+        DatabaseReference userRef=null;
+        Log.w("preferences",String.valueOf(runId));
+        if(runId.isEmpty())
+            userRef = ref.child(PREFERENCES);
+        else
+            userRef = ref.child("runs/"+runId+"/preferences");
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Question, CreateRunPreferenceFragment.CreateRunPreferencesViewHolder>(
                 Question.class,

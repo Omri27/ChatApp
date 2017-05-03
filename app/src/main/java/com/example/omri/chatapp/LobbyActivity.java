@@ -360,7 +360,10 @@ public class LobbyActivity extends AppCompatActivity
 //        chatFragment.setArguments(bundle);
 //        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatFragment).addToBackStack(null).commit();
 //    }
-
+    @Override
+    public void setChosenLocation(Location chosenLocation){
+    location =chosenLocation;
+}
     @Override
     public void stopProgressBar() {
         dotLoader.setVisibility(View.GONE);
@@ -581,9 +584,11 @@ private void setCurrentUserId() {
 
     }
     @Override
-    public void createRunPreference(String name,String date, String time, String distance) {
+    public void createRunPreference(String editRun,String name,String date, String time, String distance) {
         CreateRunPreferenceFragment createRunPreference = new CreateRunPreferenceFragment();
         Bundle args = new Bundle();
+//        if(!editRun.isEmpty())
+        args.putString("runId", editRun);
         args.putString("runName", name);
         args.putString("runDate", date);
         args.putString("runTime", time);
@@ -835,7 +840,14 @@ private void setCurrentUserId() {
             }
         });
     }
-
+    @Override
+    public void enterEditRun(String runId) {
+        CreateRunFragment createRunPageFragment = new CreateRunFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("runId", runId);
+        createRunPageFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunPageFragment).addToBackStack(null).commit();
+    }
     @Override
     public void enterFeedPage() {
         if(feedFirstUpload) {
@@ -997,18 +1009,51 @@ private void setCurrentUserId() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, upComingRunPageFragment).addToBackStack(null).commit();
     }
     @Override
-    public void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions,String runDistance) {
+    public void createRun(final String runId,String runName, String runDate, String runTime, ArrayList<Question> questions,String runDistance) {
         try {
             BaseLocation baseLocation = new BaseLocation(location.getProvider(),Double.toString(location.getLatitude()),Double.toString(location.getLongitude()));
             Log.w("currentUserName", currentUserName);
-            Run newRun = new Run(currentUserName, CurrentUserId, runName, runDate, runTime, baseLocation, questions, runDistance);
-            DatabaseReference runref = ref.child("runs").push();
-            runref.setValue(newRun);
-            Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
-            enterFeedPage();
+            final Run newRun = new Run(currentUserName, CurrentUserId, runName, runDate, runTime, baseLocation, questions, runDistance);
+            DatabaseReference runref=null;
+
+            final DatabaseReference runnersRef = ref.child("runs").child(runId).child("runners");
+            if(!runId.isEmpty()) {
+                 runref = ref.child("runs").child(runId);
+                runnersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChildren()){
+                            insertNewRun(ref.child("runs").child(runId),newRun,dataSnapshot.getValue());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+            else {
+                runref = ref.child("runs").push();
+                insertNewRun(runref,newRun,null);
+            }
+
+
+
         }catch(Exception ex){
             Log.w("createrunerr", ex.toString());
         }
+    }
+    private void insertNewRun(final DatabaseReference ref, Run run, final Object runners){
+        ref.setValue(run).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
+                if(runners!=null){
+                    ref.child("runners").setValue(runners);
+                }
+            }
+        });
     }
     private void postRequest(String token, String message) {
         Log.w("TAG",token);

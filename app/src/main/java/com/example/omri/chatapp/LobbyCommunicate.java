@@ -17,13 +17,13 @@ public interface LobbyCommunicate {
     void enterHistoryRunPage(String runId);
     void enterUpComingRunPage(String runId);
     void sendLobbyMessage(String Id,String messageText);
-    void createRunPreference(String name,String date, String time, String distance);
+    void createRunPreference(String runId,String name,String date, String time, String distance);
     void enterHistoryListPage();
     void enterFeedPage();
     void enterComingupRunList();
     void activateLocation();
     Location getChosenLocation();
-    void createRun(String runName, String runDate, String runTime, ArrayList<Question> questions, String runDistance);
+    void createRun(String runId,String runName, String runDate, String runTime, ArrayList<Question> questions, String runDistance);
     String getCurrentUserId();
     String getCurrentUserName();
     void signToARun(String whichList,String runId);
@@ -34,4 +34,6 @@ public interface LobbyCommunicate {
     void deleteRun(String runId);
     void updateUserDetails(String weight, String generalStatus, String relationStatus, String birthDate, String gender);
     void deleteHistoryRun(String runId);
+    void enterEditRun(String runId);
+    void setChosenLocation(Location chosenLocation);
 }

@@ -61,6 +61,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
         public TextView runNameText;
         public Button deletebtn;
         public LinearLayout runLayout;
+        public Button editBtn;
 
         public ComingUpRunsViewHolder(View itemView) {
             super(itemView);
@@ -68,6 +69,7 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
             locationText = (TextView) itemView.findViewById(R.id.upcoming_run_location_text);
             runNameText = (TextView) itemView.findViewById(R.id.upcoming_run_name_text);
             deletebtn = (Button) itemView.findViewById(R.id.upcoming_Cancell);
+            editBtn =(Button) itemView.findViewById(R.id.upcoming_edit);
             runLayout = (LinearLayout) itemView.findViewById(R.id.upcoming_run_layout);
         }
     }
@@ -133,6 +135,13 @@ public class ComingUpRunListFragment extends Fragment implements View.OnClickLis
                                     @Override
                                     public void onClick(View view) {
                                         ((LobbyCommunicate) getActivity()).deleteRun(key);
+                                    }
+                                });
+                                viewHolder.editBtn.setVisibility(View.VISIBLE);
+                                viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((LobbyCommunicate) getActivity()).enterEditRun(key);
                                     }
                                 });
                             }

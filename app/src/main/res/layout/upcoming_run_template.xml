@@ -29,14 +29,28 @@
             android:id="@+id/upcoming_run_creator_text"
             android:text="Created By: Omri"
             ></TextView>
-
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+          >
         <Button
             android:id="@+id/upcoming_Cancell"
             android:layout_height="45dp"
             android:layout_width="wrap_content"
             android:layout_gravity="right"
             android:text="Cancel"
+            android:layout_alignParentRight="true"
             ></Button>
-
+        <Button
+            android:id="@+id/upcoming_edit"
+            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:text="Edit"
+            android:visibility="invisible"
+            android:layout_alignParentLeft="true"
+            ></Button>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

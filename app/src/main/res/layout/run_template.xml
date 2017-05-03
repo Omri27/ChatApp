@@ -29,14 +29,28 @@
             android:id="@+id/run_creator_text"
             android:text="Created By: Omri"
             ></TextView>
-
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+           >
+        <Button
+            android:id="@+id/edit_Btn"
+            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:text="Edit"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true"
+            ></Button>
         <Button
             android:id="@+id/be_there_button"
             android:layout_height="45dp"
             android:layout_width="wrap_content"
-            android:layout_gravity="right"
             android:text="Be There"
-            ></Button>
 
+            android:layout_alignParentRight="true"
+            ></Button>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

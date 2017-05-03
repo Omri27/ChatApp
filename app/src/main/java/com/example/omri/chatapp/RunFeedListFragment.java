@@ -82,6 +82,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
         public TextView runNameText;
         public Button beThereButton;
         public LinearLayout runLayout;
+        public Button editBtn;
 
         public RunsViewHolder(View itemView) {
             super(itemView);
@@ -90,6 +91,7 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
             locationText = (TextView) itemView.findViewById(R.id.run_location_text);
             runNameText = (TextView) itemView.findViewById(R.id.run_name_text);
             beThereButton = (Button) itemView.findViewById(R.id.be_there_button);
+            editBtn = (Button) itemView.findViewById(R.id.edit_Btn);
             runLayout = (LinearLayout) itemView.findViewById(R.id.run_layout);
         }
 
@@ -166,6 +168,13 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
                                 public void onClick(View view) {
                                     ((LobbyCommunicate) getActivity()).deleteRun(key);
                                     ((LobbyCommunicate) getActivity()).enterFeedPage();
+                                }
+                            });
+                            viewHolder.editBtn.setVisibility(View.VISIBLE);
+                            viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((LobbyCommunicate) getActivity()).enterEditRun(key);
                                 }
                             });
                         }
