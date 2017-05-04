@@ -62,6 +62,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.signup_button:
                 if (validateInput())
+
                     ((MainCommunicate) getActivity()).signUp(nameText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString(),profileImageUri);
                     break;
             case R.id.select_profile_pic:
@@ -70,7 +71,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(i, GALLERY_REQUEST_CODE);
-
+break;
         }
     }
 

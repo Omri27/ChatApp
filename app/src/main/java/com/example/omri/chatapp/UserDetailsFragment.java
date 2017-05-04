@@ -42,6 +42,7 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
     private Spinner statusSpinner;
     private EditText birthDate;
     private EditText weightTxt;
+    private EditText heightTxt;
     private Spinner relationStatusSpinner;
     private Spinner genderSpinner;
     private SimpleDateFormat dateFormatter;
@@ -64,41 +65,43 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
         getActivity().setTitle((((LobbyCommunicate) getActivity()).getCurrentUserName()) + " Details");
         CurrentUserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        statusSpinner = (Spinner)view.findViewById(R.id.status_spinner);
+        //statusSpinner = (Spinner)view.findViewById(R.id.status_spinner);
         birthDate = (EditText) view.findViewById(R.id.birth_date);
         weightTxt = (EditText) view.findViewById(R.id.weight_txt);
-        relationStatusSpinner =  (Spinner)view.findViewById(R.id.relation_status);
-        genderSpinner =  (Spinner)view.findViewById(R.id.gender_spinner);
+        heightTxt = (EditText) view.findViewById(R.id.height_txt);
+       // relationStatusSpinner =  (Spinner)view.findViewById(R.id.relation_status);
+       // genderSpinner =  (Spinner)view.findViewById(R.id.gender_spinner);
         Submit =  (Button)view.findViewById(R.id.submit_details_btn);
-        statusAdapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.status_array, android.R.layout.simple_spinner_item);
-
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        statusSpinner.setAdapter(statusAdapter);
-        relationStatusAdapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.relation_array, android.R.layout.simple_spinner_item);
-
-        relationStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        relationStatusSpinner.setAdapter(relationStatusAdapter);
-
-        genderAdapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.gender_array, android.R.layout.simple_spinner_item);
-
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        statusAdapter = ArrayAdapter.createFromResource(getActivity(),
+//                R.array.status_array, android.R.layout.simple_spinner_item);
+//
+//        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        statusSpinner.setAdapter(statusAdapter);
+//        relationStatusAdapter = ArrayAdapter.createFromResource(getActivity(),
+//                R.array.relation_array, android.R.layout.simple_spinner_item);
+//
+//        relationStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        relationStatusSpinner.setAdapter(relationStatusAdapter);
+//
+//        genderAdapter = ArrayAdapter.createFromResource(getActivity(),
+//                R.array.gender_array, android.R.layout.simple_spinner_item);
+//
+//        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         birthDate.setInputType(InputType.TYPE_NULL);
-        genderSpinner.setAdapter(genderAdapter);
+      //  genderSpinner.setAdapter(genderAdapter);
         birthDate.setOnClickListener(this);
         Submit.setOnClickListener(this);
         FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("Details").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    if(dataSnapshot.hasChild("generalStatus")) {
-                        statusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("generalStatus").getValue().toString()));
-                        relationStatusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("relationStatus").getValue().toString()));
-                        genderSpinner.setSelection(Integer.valueOf(dataSnapshot.child("gender").getValue().toString()));
+                    if(dataSnapshot.hasChild("weight")) {
+                       // statusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("generalStatus").getValue().toString()));
+                        //relationStatusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("relationStatus").getValue().toString()));
+                       // genderSpinner.setSelection(Integer.valueOf(dataSnapshot.child("gender").getValue().toString()));
+                        heightTxt.setText((String) dataSnapshot.child("height").getValue());
                         weightTxt.setText((String) dataSnapshot.child("weight").getValue());
                         birthDate.setText((String) dataSnapshot.child("birthDate").getValue());
                     }
@@ -136,7 +139,8 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.submit_details_btn:
                 if(validateInput()) {
-                    ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),String.valueOf(statusSpinner.getSelectedItemPosition()), String.valueOf(relationStatusSpinner.getSelectedItemPosition()), birthDate.getText().toString(), String.valueOf(genderSpinner.getSelectedItemPosition()));
+                    ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),heightTxt.getText().toString(), birthDate.getText().toString());
+                   // ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),String.valueOf(statusSpinner.getSelectedItemPosition()), String.valueOf(relationStatusSpinner.getSelectedItemPosition()), birthDate.getText().toString(), String.valueOf(genderSpinner.getSelectedItemPosition()));
                 }
                 break;
         }
@@ -158,6 +162,10 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
         }
         if (weightTxt.getText().toString().equals("")) {
             weightTxt.setError("Please Submit Your Weight");
+            return false;
+        }
+        if (heightTxt.getText().toString().equals("")) {
+            heightTxt.setError("Please Submit Your Height");
             return false;
         }
         return true;

@@ -66,6 +66,7 @@ public class LobbyActivity extends AppCompatActivity
     public final String SMARTSEARCHLIST="smartSearch";
     private String currentChatId;
     private String currentRecevierId;
+    private boolean firstfirstupload = true;
     public  Boolean isSmart = false;
     private GoogleMap mMap;
     private ImageView drawerHeaderPic;
@@ -127,9 +128,12 @@ public class LobbyActivity extends AppCompatActivity
                 .build();
         dotLoader = (DotLoader) findViewById(R.id.dot_loader);
         //stopProgressBar();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runFeedListFragment).commit();
-        enterFeedPage();
-        //mGoogleApiClient.connect();
+        if (findViewById(R.id.fragment_container_lobby) != null) {
+
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runFeedListFragment).commit();
+            enterFeedPage();
+        }
+    //mGoogleApiClient.connect();
 //        if (ContextCompat.checkSelfPermission(this,
 //                Manifest.permission.ACCESS_FINE_LOCATION)
 //                != PackageManager.PERMISSION_GRANTED) {
@@ -239,7 +243,7 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.create_run) {
             createRunFragment = new CreateRunFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment,"CreateRun").addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment,"CreateRun").addToBackStack("createRun").commit();
 
         } else if (id == R.id.run) {
             Intent intent = new Intent(this, RunActivity.class);
@@ -256,7 +260,7 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.user_details_button) {
             UserDetailsFragment userDetailsFragment= new UserDetailsFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, userDetailsFragment,"CreateRun").addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, userDetailsFragment,"UserDetails").addToBackStack(null).commit();
     }
 
 
@@ -414,13 +418,11 @@ private void setCurrentUserId() {
     }
 }
     @Override
-    public void updateUserDetails(String weight, String generalStatus, String relationStatus, String birthDate, String gender) {
+    public void updateUserDetails(String weight, String height,  String birthDate) {
         try {
             DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("Details");
-            Ref.child("generalStatus").setValue(generalStatus);
-            Ref.child("relationStatus").setValue(relationStatus);
             Ref.child("birthDate").setValue(birthDate);
-            Ref.child("gender").setValue(gender);
+            Ref.child("height").setValue(height);
             Ref.child("weight").setValue(weight);
             Toast.makeText(getApplicationContext(), currentUserName+" Your details has been Updated", Toast.LENGTH_SHORT).show();
             enterFeedPage();
@@ -697,7 +699,7 @@ private void setCurrentUserId() {
                         String h = CurrentUserId;
                         bundle.putString("userId", h);
                         FeedList.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, FeedList).addToBackStack(null).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, FeedList).addToBackStack(null).commit();
                     }
                     else{
                         Toast.makeText(getApplicationContext(),((API.getRegularResponse)response.body()).err,Toast.LENGTH_SHORT).show();
@@ -850,12 +852,14 @@ private void setCurrentUserId() {
     }
     @Override
     public void enterFeedPage() {
+
         if(feedFirstUpload) {
             final DatabaseReference UserRef = ref.child("users").child(CurrentUserId);
             UserRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.hasChild("preferences")) {
+                        Log.w("preferences","preferences");
                         feedFirstUpload = false;
                         isSmart = false;
                         mGoogleApiClient.connect();
@@ -1023,7 +1027,9 @@ private void setCurrentUserId() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.hasChildren()){
-                            insertNewRun(ref.child("runs").child(runId),newRun,dataSnapshot.getValue());
+                            insertNewRun(ref.child("runs").child(runId),runId,newRun,dataSnapshot.getValue());
+                        }else{
+                            insertNewRun(ref.child("runs").child(runId),runId,newRun,null);
                         }
                     }
 
@@ -1035,7 +1041,7 @@ private void setCurrentUserId() {
             }
             else {
                 runref = ref.child("runs").push();
-                insertNewRun(runref,newRun,null);
+                insertNewRun(runref,runId,newRun,null);
             }
 
 
@@ -1044,13 +1050,23 @@ private void setCurrentUserId() {
             Log.w("createrunerr", ex.toString());
         }
     }
-    private void insertNewRun(final DatabaseReference ref, Run run, final Object runners){
+    private void insertNewRun(final DatabaseReference ref, final String runId,Run run, final Object runners){
         ref.setValue(run).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
+
                 if(runners!=null){
-                    ref.child("runners").setValue(runners);
+                    ref.child("runners").setValue(runners).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
+                            updateAverage(true,runId);
+                            enterFeedPage();
+                        }
+                    });
+                }else{
+                    Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
+                    enterFeedPage();
                 }
             }
         });
@@ -1080,7 +1096,6 @@ private void setCurrentUserId() {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
-
         Log.w("activityResultbla", "enter");
 
         try {
@@ -1096,7 +1111,7 @@ private void setCurrentUserId() {
                 //Bundle bundle = new Bundle();
                 //bundle.putDouble("position", position);
                 //createRunFragment.setArguments(bundle);
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();
             }
         }catch(Exception ex){
             Log.w("onActivityResultbla",ex.toString());

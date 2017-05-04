@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements MainCommunicate {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-
+                            dialog.hide();
                             Toast.makeText(MainActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         } else {

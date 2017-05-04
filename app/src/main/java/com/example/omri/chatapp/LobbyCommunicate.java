@@ -32,7 +32,7 @@ public interface LobbyCommunicate {
     //void updateLike(String runId, boolean isLike);
     void enterSmartSearchList();
     void deleteRun(String runId);
-    void updateUserDetails(String weight, String generalStatus, String relationStatus, String birthDate, String gender);
+    void updateUserDetails(String weight, String height,  String birthDate);
     void deleteHistoryRun(String runId);
     void enterEditRun(String runId);
     void setChosenLocation(Location chosenLocation);

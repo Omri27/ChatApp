@@ -6,7 +6,9 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
@@ -30,6 +32,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,12 +49,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import static android.R.attr.fragment;
+import static android.app.Activity.RESULT_OK;
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 /**
@@ -68,8 +74,10 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     public EditText distance;
     public Button nextBtn;
     public Button locationBtn;
+    private static final int PICK_LOCATION_REQUEST = 1;
     private String runId=null;
     //public MapView mMapView;
+
     private GoogleMap googleMap;
     private DatePickerDialog dateDialog;
     private TimePickerDialog timeDialog;
@@ -80,23 +88,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     private  Intent intent=null;
     private String editRun= "";
     static final int PICK_CONTACT_REQUEST = 1;
-
-
-    public static class PreferencesViewHolder extends RecyclerView.ViewHolder {
-        //public LinearLayout QuestionLayout;
-        public TextView question;
-        public RadioGroup radioGroup;
-        public RadioButton buttonYes;
-        public RadioButton buttonNo;
-
-        public PreferencesViewHolder(View itemView) {
-            super(itemView);
-            question = (TextView) itemView.findViewById(R.id.question_text);
-            radioGroup = (RadioGroup) itemView.findViewById(R.id.radios_group);
-            buttonNo= (RadioButton)itemView.findViewById(R.id.radio_button_no);
-            buttonYes= (RadioButton)itemView.findViewById(R.id.radio_button_yes);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -198,7 +189,10 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         else if(view == locationBtn){
 
                 ((LobbyCommunicate) getActivity()).activateLocation();
+                //Intent pickLocationIntent = new Intent(getActivity(),LocationMapActivity.class);
 
+                // pickContactIntent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+                //startActivityForResult(pickLocationIntent, PICK_LOCATION_REQUEST);
             }
         else if(view==nextBtn){
                 ((LobbyCommunicate) getActivity()).createRunPreference(editRun,runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString(),distance.getText().toString());
@@ -212,14 +206,42 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
             try {
                 locationChose =  ((LobbyCommunicate) getActivity()).getChosenLocation();
 
-            } catch (Exception ex) {
-                Log.w("exceptionbla", ex.toString());
-            }
+
             if (locationChose != null && locationChose.getLatitude()>0 ) {
                 location.setText(String.valueOf(locationChose.getProvider()));
             }
+            } catch (Exception ex) {
+                Log.w("exceptionbla", ex.toString());
+            }
     }
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+//        super.onActivityResult(requestCode, resultCode, intent);
+//        Log.w("activityResultbla", "enter");
+//
+//        try {
+//          //  Bundle extras = intent.getExtras();
+//           // if (extras != null) {
+////                Double locationlat = extras.getDouble("LocationLat");
+////                Double locationlng = extras.getDouble("LocationLng");
+////                String  locationstr = extras.getString("LocationStr");
+////                location.setText(locationstr);
+//               // location = new Location(locationstr);
+//                //location.setLatitude(locationlat);
+//               // location.setLongitude(locationlng);
+//                //Log.w("activityResultbla", String.valueOf(position));
+//                //Bundle bundle = new Bundle();
+//                //bundle.putDouble("position", position);
+//                //createRunFragment.setArguments(bundle);
+//                //Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("createRun");
+//               // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, frag,"CreateRun").addToBackStack(null).commit();
+//
+//        }catch(Exception ex){
+//            Log.w("onActivityResultbla",ex.toString());
+//           // location=(Location) null;
+//
+//        }
+//    }
 
 
 }
