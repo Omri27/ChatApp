@@ -950,7 +950,7 @@ private void handlingDetailsAndPreferences(String which){
             }
             else {
                 runref = ref.child("runs").push();
-                insertNewRun(runref,runId,newRun,null);
+                insertNewRun(runref,runref.getKey(),newRun,null);
             }
 
 
@@ -959,26 +959,35 @@ private void handlingDetailsAndPreferences(String which){
             Log.w("createrunerr", ex.toString());
         }
     }
-    private void insertNewRun(final DatabaseReference ref, final String runId,Run run, final Object runners){
-        ref.setValue(run).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void insertNewRun(final DatabaseReference ref, final String runId,final Run run, final Object runners){
+
+        final DatabaseReference upComingRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRunsIds").child(runId);
+        upComingRunRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                ref.setValue(run).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
 
-                if(runners!=null){
-                    ref.child("runners").setValue(runners).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        if(runners!=null){
+                            ref.child("runners").setValue(runners).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
+                                    updateAverage(true,runId);
+                                    Log.w("runId",runId);
+                                    enterFeedPage();
+                                }
+                            });
+                        }else{
                             Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
-                            updateAverage(true,runId);
                             enterFeedPage();
                         }
-                    });
-                }else{
-                    Toast.makeText(getApplicationContext(), "New Run has Been Created", Toast.LENGTH_SHORT).show();
-                    enterFeedPage();
-                }
+                    }
+                });
             }
         });
+
     }
     private void postRequest(String token, String message) {
         Log.w("TAG",token);

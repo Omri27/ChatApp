@@ -1,5 +1,6 @@
 package com.example.omri.chatapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,7 +90,7 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
             feedBtn.setOnClickListener(this);
             linearLayoutManager = new LinearLayoutManager(getActivity());
             ref = FirebaseDatabase.getInstance().getReference();
-            String userId = getArguments().getString("userId");
+            final String userId = getArguments().getString("userId");
             emptyView = (LinearLayout) view.findViewById(R.id.history_run_empty_view);
 
             DatabaseReference runRef = ref.child(RUNS).child(userId).child("historyRuns");
@@ -103,7 +104,9 @@ public class HistoryRunListFragment extends Fragment implements View.OnClickList
                 protected void populateViewHolder(HistoryRunsViewHolder viewHolder, Run model, int position) {
                     try {
                         final String key = firebaseRecyclerAdapter.getRef(position).getKey();
-
+                        if (model.getCreatorId().toString().contains(userId)) {
+                            viewHolder.runLayout.setBackgroundColor(Color.GREEN);
+                        }
                         viewHolder.runNameText.setText(model.getName());
                         viewHolder.locationText.setText(model.getLocation().getName());
                         viewHolder.creatorText.setText(model.getCreator());
