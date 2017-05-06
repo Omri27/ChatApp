@@ -117,16 +117,6 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
                                     }
                                 });
                           }
-                         // else {
-//                                cancelBtn.setText("Be There");
-//                                cancelBtn.setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View view) {
-//                                        ((LobbyCommunicate) (getActivity())).signToARun(true,runId);
-//                                        ((LobbyCommunicate) (getActivity())).enterComingupRunList();
-//                                    }
-//                                });
-//                            }
                         }else{
                             cancelBtn.setText("Delete Run");
                             cancelBtn.setOnClickListener(new View.OnClickListener() {
