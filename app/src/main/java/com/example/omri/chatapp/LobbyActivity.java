@@ -118,6 +118,7 @@ public class LobbyActivity extends AppCompatActivity
         getCurrentUserPic();
         RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
         // progressBar = (ProgressBar) findViewById(R.id.lobby_progress_bar);
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this,
                         this /* OnConnectionFailedListener */)
@@ -126,6 +127,7 @@ public class LobbyActivity extends AppCompatActivity
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
+
         dotLoader = (DotLoader) findViewById(R.id.dot_loader);
         //stopProgressBar();
         if (findViewById(R.id.fragment_container_lobby) != null) {
@@ -133,34 +135,6 @@ public class LobbyActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_lobby, runFeedListFragment).commit();
             enterFeedPage();
         }
-    //mGoogleApiClient.connect();
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-//
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//
-//            } else {
-//
-//                // No explanation needed, we can request the permission.
-//
-//                ActivityCompat.requestPermissions(this,
-//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                        MY_PERMISSIONS_REQUEST_LOCATION);
-//
-//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-//                // app-defined int constant. The callback method gets the
-//                // result of the request.
-//            }
-//        }else{
-//            mMap.setMyLocationEnabled(true);
-//        }
 
     }
 
@@ -180,66 +154,20 @@ public class LobbyActivity extends AppCompatActivity
         }
     }
 
-    //    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-//        if (id == R.id.active_chats) {
-//            ChatListFragment chatListFragment = new ChatListFragment();
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatListFragment).commit();
-//
-//        } else if (id == R.id.find_people) {
-//            PeopleFragment peopleFragment = new PeopleFragment();
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, peopleFragment).commit();
-//
-//        }   else
         stopProgressBar();
         if (id == R.id.prefernces_button) {
+            enterRunPreferences();
 
-            DatabaseReference checkRef = ref.child("users").child(CurrentUserId);
-            checkRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Bundle args = new Bundle();
-                    if(dataSnapshot.hasChild("preferences"))
-                        args.putString("existUser", "1");
-                        else
-                        args.putString("existUser", "0");
-
-
-                    PreferencesListFragment preferencesFragment = new PreferencesListFragment();
-                    preferencesFragment.setArguments(args);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
 
 
         } else if (id == R.id.run_list) {
          enterFeedPage();
-           // RunFeedListFragment runFeedListFragment = new RunFeedListFragment();
-           // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, runFeedListFragment).commit();
 
         } else if (id == R.id.create_run) {
             createRunFragment = new CreateRunFragment();
@@ -259,8 +187,7 @@ public class LobbyActivity extends AppCompatActivity
             finish();
 
         } else if (id == R.id.user_details_button) {
-            UserDetailsFragment userDetailsFragment= new UserDetailsFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, userDetailsFragment,"UserDetails").addToBackStack(null).commit();
+            enterUserDetails();
     }
 
 
@@ -268,7 +195,40 @@ public class LobbyActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void enterUserDetails(){
+        UserDetailsFragment userDetailsFragment= new UserDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString("userId",CurrentUserId);
+        args.putString("userName",getCurrentUserName());
+        userDetailsFragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, userDetailsFragment,"UserDetails").addToBackStack(null).commit();
+    }
+private void enterRunPreferences(){
+    DatabaseReference checkRef = ref.child("users").child(CurrentUserId);
+    checkRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            Bundle args = new Bundle();
+            if(dataSnapshot.hasChild("preferences")) {
+                args.putString("existUser", "1");
+            }
+            else {
+                args.putString("existUser", "0");
+            }
+            args.putString("Activity", "Lobby");
+            args.putString("userId",CurrentUserId);
+            args.putString("userName",getCurrentUserName());
+            PreferencesListFragment preferencesFragment = new PreferencesListFragment();
+            preferencesFragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, preferencesFragment).commit();
+        }
 
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    });
+}
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
@@ -316,54 +276,7 @@ public class LobbyActivity extends AppCompatActivity
         }
     }
 
-//    @Override
-//    public void startChat(final String receiverId, final String receiverName) {
-//
-//        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        //final DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(senderId).child("name");
-//        final DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
-//
-//        senderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.getValue() != null) {
-//                    accessChat(receiverId);
-//                } else {
-//
-//                    createChatNodes(receiverName, currentUserName, receiverId);
-//                    accessChat(receiverId);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//
-//        });
-//
-//    }
 
-//    private void createChatNodes(String receiverName, String currentUserName, String receiverId) {
-//
-//        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(receiverId);
-//        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(receiverId).child(senderId);
-//
-//        senderRef.setValue(new Chat(receiverName));
-//        receiverRef.setValue(new Chat(currentUserName));
-//
-//    }
-//    @Override
-//    public void accessChat(String chatId) {
-//        currentChatId = chatId;
-//        currentRecevierId = chatId;
-//        ChatFragment chatFragment = new ChatFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("chatId", chatId);
-//        chatFragment.setArguments(bundle);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, chatFragment).addToBackStack(null).commit();
-//    }
     @Override
     public void setChosenLocation(Location chosenLocation){
     location =chosenLocation;
@@ -378,38 +291,6 @@ public class LobbyActivity extends AppCompatActivity
         dotLoader.setVisibility(View.VISIBLE);
     }
 
-//    @Override
-//    public void sendMessage(String messageText, String token) {
-//        String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("chats").child(senderId).child(currentRecevierId);
-//        DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
-//        String key = senderRef.push().getKey();
-//        com.example.omri.chatapp.Message message = new com.example.omri.chatapp.Message(messageText, currentUserName, senderId);
-////        senderRef.child("messages").child(key).setValue(message);
-////        receiverRef.child("messages").child(key).setValue(message);
-////        senderRef.child("lastMessage").setValue(messageText);
-////        receiverRef.child("lastMessage").setValue(messageText);
-////        senderRef.child("timeStamp").setValue(message.getTime());
-////        receiverRef.child("timeStamp").setValue(message.getTime());
-//        Map senderFanOut = new HashMap();
-//        Map receiverFanOut = new HashMap();
-//        senderFanOut.put("/messages/" + key,message);
-//        senderFanOut.put("/lastMessage",messageText);
-//        senderFanOut.put("/timeStamp",message.getTime());
-//        receiverFanOut.put("/messages/" + key,message);
-//        receiverFanOut.put("/lastMessage",messageText);
-//        receiverFanOut.put("/timeStamp",message.getTime());
-//
-//        senderRef.updateChildren(senderFanOut);
-//        receiverRef.updateChildren(receiverFanOut);
-//
-//
-//
-//
-//
-//        if(!token.equals(""))
-//            postRequest(token, messageText);
-//    }
 private void setCurrentUserId() {
     try {
         CurrentUserId= FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -506,6 +387,8 @@ private void setCurrentUserId() {
                     Ref.child("radiosDistance").setValue(radiosDistance).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+
+                            enterFeedPage();
                             Toast.makeText(getApplicationContext(), "Preferences Submitted successfully", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -753,15 +636,15 @@ private void setCurrentUserId() {
     }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        try {
-            Log.w("onConnected","onConnected");
-            updateLocationUI();
+            try {
+                Log.w("onConnected", "onConnected");
+                updateLocationUI();
 
-            getDeviceLocation();
-        }catch(Exception ex){
-            Toast.makeText(getApplicationContext(),"Error On GPS Connection",Toast.LENGTH_SHORT).show();
-            Log.w("onConnectedexception",ex.getMessage());
-        }
+                getDeviceLocation();
+            } catch (Exception ex) {
+                Toast.makeText(getApplicationContext(), "Error On GPS Connection", Toast.LENGTH_SHORT).show();
+                Log.w("onConnectedexception", ex.getMessage());
+            }
 
     }
 
@@ -780,11 +663,13 @@ private void setCurrentUserId() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String needed="";
-                    if (!dataSnapshot.hasChild("Details"))
-                        needed= "User Details is needed, Please fill it up\n";
-
-                        if (!dataSnapshot.hasChild("preferences"))
-                            needed+= "User Preferences is needed, Please fill it up";
+                    String which="";
+                    if (!dataSnapshot.hasChild("Details")) {
+                        needed = "User Details is needed, Please fill it up\n";
+                    }
+                        if (!dataSnapshot.hasChild("preferences")) {
+                            needed += "User Preferences is needed, Please fill it up";
+                        }
 
                         if(needed!="") {
 
@@ -796,7 +681,17 @@ private void setCurrentUserId() {
                         }
 
                 }
+private void handlingDetailsAndPreferences(String which){
 
+    switch(which){
+        case "Preferences":
+            enterRunPreferences();
+            break;
+        case "Details":
+            enterUserDetails();
+            break;
+    }
+}
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -866,6 +761,7 @@ private void setCurrentUserId() {
 
                     } else {
                         Toast.makeText(getApplicationContext(), "User Preferences is needed, Please fill it up", Toast.LENGTH_LONG).show();
+                        enterRunPreferences();
                     }
                 }
 
@@ -876,6 +772,7 @@ private void setCurrentUserId() {
             });
         }
         else{
+            Log.w("preferences","else");
             isSmart = false;
             mGoogleApiClient.connect();
         }

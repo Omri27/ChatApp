@@ -51,6 +51,8 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
     private ArrayAdapter<CharSequence> statusAdapter;
     private ArrayAdapter<CharSequence> genderAdapter;
     private String CurrentUserId;
+    private String activity;
+    private String CurrentUserName;
     Button Submit;
     public UserDetailsFragment() {
         // Required empty public constructor
@@ -62,8 +64,11 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_details, container, false);
         setDateTimePickerDialog();
-        getActivity().setTitle((((LobbyCommunicate) getActivity()).getCurrentUserName()) + " Details");
-        CurrentUserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
+
+        CurrentUserId =  getArguments().getString("userId");
+        Log.w("CurrentUserId",CurrentUserId);
+        CurrentUserName = getArguments().getString("userName");
+        getActivity().setTitle(CurrentUserName + " Details");
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         //statusSpinner = (Spinner)view.findViewById(R.id.status_spinner);
         birthDate = (EditText) view.findViewById(R.id.birth_date);
@@ -98,12 +103,32 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     if(dataSnapshot.hasChild("weight")) {
+
+                        Submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(validateInput()) {
+                                    ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),heightTxt.getText().toString(), birthDate.getText().toString());
+                                    // ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),String.valueOf(statusSpinner.getSelectedItemPosition()), String.valueOf(relationStatusSpinner.getSelectedItemPosition()), birthDate.getText().toString(), String.valueOf(genderSpinner.getSelectedItemPosition()));
+                                }
+                            }
+                        });
                        // statusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("generalStatus").getValue().toString()));
                         //relationStatusSpinner.setSelection(Integer.valueOf(dataSnapshot.child("relationStatus").getValue().toString()));
                        // genderSpinner.setSelection(Integer.valueOf(dataSnapshot.child("gender").getValue().toString()));
                         heightTxt.setText((String) dataSnapshot.child("height").getValue());
                         weightTxt.setText((String) dataSnapshot.child("weight").getValue());
                         birthDate.setText((String) dataSnapshot.child("birthDate").getValue());
+                    }else{
+                        Submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(validateInput()) {
+                                    ((MainCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),heightTxt.getText().toString(), birthDate.getText().toString());
+                                    // ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),String.valueOf(statusSpinner.getSelectedItemPosition()), String.valueOf(relationStatusSpinner.getSelectedItemPosition()), birthDate.getText().toString(), String.valueOf(genderSpinner.getSelectedItemPosition()));
+                                }
+                            }
+                        });
                     }
                 }catch(Exception ex){
                     Log.w("exception",ex.toString());
@@ -136,12 +161,6 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
         switch(view.getId()){
             case R.id.birth_date:
                 dateDialog.show();
-                break;
-            case R.id.submit_details_btn:
-                if(validateInput()) {
-                    ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),heightTxt.getText().toString(), birthDate.getText().toString());
-                   // ((LobbyCommunicate) getActivity()).updateUserDetails(weightTxt.getText().toString(),String.valueOf(statusSpinner.getSelectedItemPosition()), String.valueOf(relationStatusSpinner.getSelectedItemPosition()), birthDate.getText().toString(), String.valueOf(genderSpinner.getSelectedItemPosition()));
-                }
                 break;
         }
     }

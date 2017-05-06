@@ -41,6 +41,7 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
     private String existUser;
     private String CurrentuserId;
     private SeekBar seekBar;
+    private String activity;
     private int seekValue = 10;
     private TextView seekText;
     @Override
@@ -84,6 +85,7 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_preferences_list, container, false);
+
         getActivity().setTitle("Preferences");
         seekBar = (SeekBar) view.findViewById(R.id.mySeekBar);
         seekText= (TextView) view.findViewById(R.id.seek_text);
@@ -97,11 +99,14 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ref = FirebaseDatabase.getInstance().getReference();
         existUser = getArguments().getString("existUser");
+        activity = getArguments().getString("Activity");
+        CurrentuserId = getArguments().getString("userId");
         seekBar.setMax(100);
         seekBar.setProgress(seekValue);
         seekBar.setOnSeekBarChangeListener(this);
         Log.w("existuserbla",existUser);
-        CurrentuserId = ((LobbyCommunicate) getActivity()).getCurrentUserId();
+
+
         DatabaseReference userRef;
         DatabaseReference distanceRef= ref.child(USERS).child(CurrentuserId);
         if(existUser.equals(YES))
@@ -195,7 +200,14 @@ public class PreferencesListFragment extends Fragment implements View.OnClickLis
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.submit_button:
-                ((LobbyCommunicate) getActivity()).submitUserPreferences(questionList,seekText.getText().toString() );
+                switch(activity){
+                    case "Main":
+                        ((MainCommunicate) getActivity()).submitUserPreferences(questionList,seekText.getText().toString() );
+                        break;
+                    case "Lobby":
+                        ((LobbyCommunicate) getActivity()).submitUserPreferences(questionList,seekText.getText().toString() );
+                        break;
+                }
                 break;
         }
     }

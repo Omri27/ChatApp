@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 
 public class API {
 
-    public static final String API_URL = "http://192.168.18.15:8080";
+    public static final String API_URL = "http://10.100.102.13:8080";
     public class RunItem{
         private String id;
         public RunItem(){

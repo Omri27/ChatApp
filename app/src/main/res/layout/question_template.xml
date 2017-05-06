@@ -25,7 +25,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="Yes"
-                android:background="@color/white"
                 android:button="@null"
                 android:drawablePadding="30dp"
                 android:drawableRight="@android:drawable/btn_radio"
