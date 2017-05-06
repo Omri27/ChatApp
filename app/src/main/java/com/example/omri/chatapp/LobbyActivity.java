@@ -357,6 +357,7 @@ private void setCurrentUserId() {
                     userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRuns").child(runId);
                     break;
             }
+            final DatabaseReference upComingRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRunsIds").child(runId);
             final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             userRunRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -364,7 +365,13 @@ private void setCurrentUserId() {
                     runRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    updateAverage(false,runId);
+                                    upComingRunRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            updateAverage(false,runId);
+                                        }
+                                    });
+
                                 }
                             });
                         }
@@ -448,14 +455,19 @@ private void setCurrentUserId() {
             }
 
             final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
-            //final DatabaseReference upComingRunRef = FirebaseDatabase.getInstance().getReference().child("users").child("comingUpRuns").child(runId);
+            final DatabaseReference upComingRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRunsIds").child(runId);
             userRunRef.setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     runRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                            upComingRunRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
                                     updateAverage(true,runId);
+                                }
+                            });
                                 }
                             });
 
@@ -850,7 +862,7 @@ private void handlingDetailsAndPreferences(String which){
         runref.child("historyRuns").child(runId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                runref.child("feedRuns").child(runId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                runref.child("comingUpRunsIds").child(runId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getApplicationContext(), "Run from history has been Deleted", Toast.LENGTH_SHORT).show();

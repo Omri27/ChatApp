@@ -40,7 +40,6 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
 
         private TextView distancetxt;
         private TextView suitxt;
-        private TextView leveltxt;
         private EditText textMessage;
         private LinearLayoutManager linearLayoutManager;
         private Button cancelBtn;
@@ -86,14 +85,13 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
             runLocationtxt= (TextView)view.findViewById(R.id.upcoming_location_txt);
             distancetxt= (TextView)view.findViewById(R.id.upcoming_distance_txt);
             suitxt= (TextView)view.findViewById(R.id.upcoming_suit_txt);
-            leveltxt= (TextView)view.findViewById(R.id.upcoming_level_txt);
             cancelBtn = (Button)view.findViewById(R.id.upcoming_Cancell);
             linearLayoutManager = new LinearLayoutManager(getActivity());
             messageRecyclerView = (RecyclerView) view.findViewById(R.id.group_chat_recycler_view);
            // cancelBtn.setOnClickListener(this);
             final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             String runRef = RUNS+ "/"+runId+"/messages";
-            FirebaseDatabase.getInstance().getReference().child("runs").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("users").child(currentUserId).child("comingUpRuns").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     try {
@@ -103,6 +101,11 @@ public class ComingUpRunPageFragment extends Fragment implements View.OnClickLis
 
                         runLocationtxt.setText((String)dataSnapshot.child("location").child("name").getValue());
                         dateTimetxt.setText((String)dataSnapshot.child("date").getValue()+ " "+(String)dataSnapshot.child("time").getValue());
+                        if(dataSnapshot.hasChild("runPropertyMatch")){
+                            suitxt.setText((String) dataSnapshot.child("runPropertyMatch").getValue().toString()+"%");
+                        }else{
+                            suitxt.setVisibility(View.INVISIBLE);
+                        }
                         if(!dataSnapshot.child("creatorId").getValue().equals(currentUserId)) {
                             if (dataSnapshot.child("runners").hasChild(currentUserId)) {
                                 cancelBtn.setText("Won't Be There");
