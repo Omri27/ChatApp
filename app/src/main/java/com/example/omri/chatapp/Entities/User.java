@@ -12,9 +12,6 @@ public class User {
     private String email;
     private String picUrl;
     private ArrayList<Question> Preferences;
-    private String relationStatus;
-    private String genderStatus;
-    private String generalStatus;
     public String getPicUrl() {
         return picUrl;
     }
@@ -62,27 +59,7 @@ public class User {
         Preferences = preferences;
     }
 
-    public String getRelationStatus() {
-        return relationStatus;
-    }
 
-    public void setRelationStatus(String relationStatus) {
-        this.relationStatus = relationStatus;
-    }
 
-    public String getGenderStatus() {
-        return genderStatus;
-    }
 
-    public void setGenderStatus(String genderStatus) {
-        this.genderStatus = genderStatus;
-    }
-
-    public String getGeneralStatus() {
-        return generalStatus;
-    }
-
-    public void setGeneralStatus(String generalStatus) {
-        this.generalStatus = generalStatus;
-    }
 }

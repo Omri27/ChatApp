@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -342,21 +343,25 @@ private void setCurrentUserId() {
         //receiverRef.updateChildren(receiverFanOut);
     }
     @Override
-   public  void  signOutOfARun(String whichList,final String runId){
+   public  void  signOutOfARun(final String whichList,final String runId){
         try {
             String senderId = CurrentUserId;
             DatabaseReference userRunRef= null;
+            DatabaseReference generalUserRunRef= null;
             switch(whichList){
                 case FEEDLIST:
                     userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+                    generalUserRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId);
                     break;
                 case SMARTSEARCHLIST:
                     userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
+                    generalUserRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId);
                     break;
                 case COMINGUPLIST:
                     userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRuns").child(runId);
                     break;
             }
+            final DatabaseReference userRunSignRef = generalUserRunRef.child("sign");
             final DatabaseReference upComingRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRunsIds").child(runId);
             final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             userRunRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -368,7 +373,17 @@ private void setCurrentUserId() {
                                     upComingRunRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            updateAverage(false,runId);
+                                            if(whichList!=COMINGUPLIST) {
+                                                userRunSignRef.setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        updateAverage(false,runId);
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                updateAverage(false, runId);
+                                            }
                                         }
                                     });
 
@@ -444,19 +459,19 @@ private void setCurrentUserId() {
             String senderId = CurrentUserId;
             switch(whichList){
                 case FEEDLIST:
-                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId).child("runners").child(CurrentUserId);
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("feedRuns").child(runId)/*.child("runners").child(CurrentUserId)*/;
                     break;
                 case SMARTSEARCHLIST:
-                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId).child("runners").child(CurrentUserId);
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("recommendedRuns").child(runId)/*.child("runners").child(CurrentUserId)*/;
                     break;
                 case COMINGUPLIST:
-                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRuns").child(runId).child("runners").child(CurrentUserId);
+                    userRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRuns").child(runId)/*.child("runners").child(CurrentUserId)*/;
                     break;
             }
-
+            final DatabaseReference userRunRefSign = userRunRef.child("sign");
             final DatabaseReference runRef = FirebaseDatabase.getInstance().getReference().child("runs").child(runId).child("runners").child(CurrentUserId);
             final DatabaseReference upComingRunRef = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("comingUpRunsIds").child(runId);
-            userRunRef.setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+            userRunRef.child("runners").child(CurrentUserId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     runRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -465,7 +480,13 @@ private void setCurrentUserId() {
                             upComingRunRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    updateAverage(true,runId);
+                                    userRunRefSign.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            updateAverage(true,runId);
+                                        }
+                                    });
+
                                 }
                             });
                                 }
@@ -989,6 +1010,15 @@ private void handlingDetailsAndPreferences(String which){
         });
 
     }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Log.w("lobbyresume","lobbyresume");
+//        FragmentManager fm = getSupportFragmentManager();
+//        for(int i=0;i<fm.getBackStackEntryCount();i++){
+//            Log.w("backstack",String.valueOf(fm.getBackStackEntryAt(i).getName()));
+//        }
+//    }
     private void postRequest(String token, String message) {
         Log.w("TAG",token);
         Retrofit retrofit = new Retrofit.Builder()
@@ -1029,7 +1059,7 @@ private void handlingDetailsAndPreferences(String which){
                 //Bundle bundle = new Bundle();
                 //bundle.putDouble("position", position);
                 //createRunFragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, createRunFragment).commit();
+
             }
         }catch(Exception ex){
             Log.w("onActivityResultbla",ex.toString());
