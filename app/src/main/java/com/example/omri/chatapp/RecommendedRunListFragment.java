@@ -162,10 +162,6 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
                         });
                     }
                     else{
-//                        ViewGroup.LayoutParams params =  viewHolder.runLayout.getLayoutParams();
-//                        params.height = 0;
-//                        //params.width = 100;
-//                        viewHolder.runLayout.setLayoutParams(params);
                         viewHolder.runLayout.setVisibility(View.GONE);
                     }
                 }catch(Exception ex){

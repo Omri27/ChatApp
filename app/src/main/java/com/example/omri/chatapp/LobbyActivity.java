@@ -627,7 +627,6 @@ private void setCurrentUserId() {
 
                 @Override
                 public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
-                    Log.w("responseblafail", call.toString());
                     Log.w("enterfeedListPageerr", String.valueOf(t));
                 }
             });
@@ -665,17 +664,16 @@ private void setCurrentUserId() {
                 @Override
                 public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
                     Log.w("responseblafail", call.toString());
-                    Log.w("enterHistoryListPageerr", String.valueOf(t));
+                    Log.w("entersmartListPageerr", String.valueOf(t));
                 }
             });
         }
     }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.w("onConnectedcall", String.valueOf(this.needed));
+        Log.w("onConnected", String.valueOf(this.needed));
             try {
                 if(this.needed) {
-                    Log.w("onConnected", String.valueOf(this.needed));
                     updateLocationUI();
 
                     getDeviceLocation();
@@ -812,7 +810,6 @@ private void handlingDetailsAndPreferences(String which){
             });
         }
         else{
-            Log.w("preferences","else");
             isSmart = false;
             mGoogleApiClient.reconnect();
         }
@@ -909,44 +906,7 @@ private void handlingDetailsAndPreferences(String which){
             }
         });
     }
-//    @Override
-//    public void updateLike(String runId, boolean isLike) {
-//        try {
-//            Log.w("updateLike",String.valueOf(isLike));
-//            DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(CurrentUserId).child("historyRuns").child(runId);
-//            Ref.child("like").setValue(isLike);
-//            Ref.child("marked").setValue(true);
-//            Retrofit retrofit = new Retrofit.Builder()
-//                    .baseUrl(API.API_URL)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build();
-//            API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-//            Call<API.getRegularResponse> call = service.postUpdateAverage(new API.UpdateAverageRequest(CurrentUserId));
-//            call.enqueue(new Callback<API.getRegularResponse>() {
-//
-//                @Override
-//                public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
-//                    if(response.isSuccessful() &&  ((API.getRegularResponse)response.body()).isOk)
-//                    {
-//                      Log.w("response", String.valueOf(response.isSuccessful()));
-//                        Toast.makeText(getApplicationContext(), "Your Like has been received", Toast.LENGTH_SHORT).show();
-//                    }else{
-//                        Toast.makeText(getApplicationContext(), ((API.getRegularResponse)response.body()).err, Toast.LENGTH_SHORT).show();
-//                        Log.w("updateLikePostErr",  ((API.getRegularResponse)response.body()).err);
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<API.getRegularResponse> call, Throwable t) {
-//                    Log.w("responseblafail",call.toString());
-//                    Log.w("enterHistoryListPageerr",String.valueOf(t));
-//                }
-//            });
-//        }catch(Exception ex){
-//            Log.w("updateErr",ex.toString());
-//        }
-//    }
-//
+
     @Override
     public void enterUpComingRunPage(String runId) {
         ComingUpRunPageFragment upComingRunPageFragment = new ComingUpRunPageFragment();
@@ -1023,37 +983,6 @@ private void handlingDetailsAndPreferences(String which){
         });
 
     }
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Log.w("lobbyresume","lobbyresume");
-//        FragmentManager fm = getSupportFragmentManager();
-//        for(int i=0;i<fm.getBackStackEntryCount();i++){
-//            Log.w("backstack",String.valueOf(fm.getBackStackEntryAt(i).getName()));
-//        }
-//    }
-    private void postRequest(String token, String message) {
-        Log.w("TAG",token);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-      //  API.HttpBinService service = retrofit.create(API.HttpBinService.class);
-//        Call<API.HttpBinResponse> call = service.postWithJson(new API.MessageData("blabla", "c-rL0xO2lJE:APA91bFD_IhrRx8iOtmc_WOYlLEJYd_tkwUFrwgaZVbkI2VfRTTCNYLg5gMYyNfkcVYQpiO6uArGD-N6_NrgLGTEI-AMMnwRq-Xo_aOimw24oPVah4W0vH7eJ9tc2_TZ12EWzWchrVCH",currentUserName));
-//        call.enqueue(new Callback<API.HttpBinResponse>() {
-//
-//            @Override
-//            public void onResponse(Call<API.HttpBinResponse> call, Response<API.HttpBinResponse> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<API.HttpBinResponse> call, Throwable t) {
-//
-//            }
-//        });
-
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
@@ -1068,10 +997,6 @@ private void handlingDetailsAndPreferences(String which){
                 location = new Location(locationstr);
                 location.setLatitude(locationlat);
                 location.setLongitude(locationlng);
-                //Log.w("activityResultbla", String.valueOf(position));
-                //Bundle bundle = new Bundle();
-                //bundle.putDouble("position", position);
-                //createRunFragment.setArguments(bundle);
 
             }
         }catch(Exception ex){
