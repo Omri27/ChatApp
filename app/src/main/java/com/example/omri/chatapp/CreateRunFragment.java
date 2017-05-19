@@ -193,7 +193,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 timeDialog.show();
             }
         else if(view == locationBtn){
-
+                ((LobbyCommunicate) getActivity()).setLocationNeeded(false);
                 ((LobbyCommunicate) getActivity()).activateLocation();
                 //Intent pickLocationIntent = new Intent(getActivity(),LocationMapActivity.class);
 
@@ -202,6 +202,7 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
             }
         else if(view==nextBtn){
                 if(validateInput()) {
+
                     ((LobbyCommunicate) getActivity()).createRunPreference(editRun, runName.getText().toString(), runDate.getText().toString(), runTime.getText().toString(), distance.getText().toString());
                 }
             }

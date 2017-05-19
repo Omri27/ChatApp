@@ -62,6 +62,7 @@ public class LobbyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LobbyCommunicate, ActivityCompat.OnRequestPermissionsResultCallback,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     private String currentUserPic = null;
     public String currentUserName;
+    private boolean needed = true;
     public final String FEEDLIST="feedList";
     public final String COMINGUPLIST="comingUpList";
     public final String SMARTSEARCHLIST="smartSearch";
@@ -160,6 +161,7 @@ public class LobbyActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Log.w("navigate", String.valueOf(this.needed));
         int id = item.getItemId();
         stopProgressBar();
         if (id == R.id.prefernces_button) {
@@ -204,6 +206,7 @@ public class LobbyActivity extends AppCompatActivity
         userDetailsFragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, userDetailsFragment,"UserDetails").addToBackStack(null).commit();
     }
+
 private void enterRunPreferences(){
     DatabaseReference checkRef = ref.child("users").child(CurrentUserId);
     checkRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -606,7 +609,7 @@ private void setCurrentUserId() {
 
                 @Override
                 public void onResponse(Call<API.getRegularResponse> call, Response<API.getRegularResponse> response) {
-                    Log.w("responsefeed", String.valueOf(((API.getRegularResponse)response.body()).isOk));
+                    Log.w("locationknown", String.valueOf(((API.getRegularResponse)response.body()).isOk));
 
                     if (response.isSuccessful() && ((API.getRegularResponse)response.body()).isOk) {
 
@@ -669,11 +672,15 @@ private void setCurrentUserId() {
     }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.w("onConnectedcall", String.valueOf(this.needed));
             try {
-                Log.w("onConnected", "onConnected");
-                updateLocationUI();
+                if(this.needed) {
+                    Log.w("onConnected", String.valueOf(this.needed));
+                    updateLocationUI();
 
-                getDeviceLocation();
+                    getDeviceLocation();
+                }
+                    this.needed=true;
             } catch (Exception ex) {
                 Toast.makeText(getApplicationContext(), "Error On GPS Connection", Toast.LENGTH_SHORT).show();
                 Log.w("onConnectedexception", ex.getMessage());
@@ -807,7 +814,7 @@ private void handlingDetailsAndPreferences(String which){
         else{
             Log.w("preferences","else");
             isSmart = false;
-            mGoogleApiClient.connect();
+            mGoogleApiClient.reconnect();
         }
     }
 
@@ -852,6 +859,12 @@ private void handlingDetailsAndPreferences(String which){
        // pickContactIntent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
         startActivityForResult(pickLocationIntent, PICK_LOCATION_REQUEST);
     }
+
+    @Override
+    public void setLocationNeeded(Boolean locationNeeded) {
+        this.needed = locationNeeded;
+    }
+
     @Override
     public Location getChosenLocation() {
             return location;
