@@ -164,7 +164,13 @@ public class UserDetailsFragment extends Fragment implements View.OnClickListene
                 break;
         }
     }
+    private void resetErr(){
+        birthDate.setError(null);
+        weightTxt.setError(null);
+        heightTxt.setError(null);
+    }
     private boolean validateInput() {
+        resetErr();
         if (birthDate.getText().toString().equals("")) {
             birthDate.setError("Please Submit Your Birth Date");
             return false;

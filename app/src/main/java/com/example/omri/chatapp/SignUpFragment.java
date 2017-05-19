@@ -74,8 +74,14 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 break;
         }
     }
+    private void resetErr(){
+        nameText.setError(null);
+        emailText.setError(null);
+        passwordText.setError(null);
 
+    }
     private boolean validateInput() {
+        resetErr();
         if (nameText.getText().toString().equals("")) {
             nameText.setError("Please enter name!");
             return false;

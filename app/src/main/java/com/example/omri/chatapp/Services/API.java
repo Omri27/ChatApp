@@ -1,6 +1,5 @@
 package com.example.omri.chatapp.Services;
 
-import com.example.omri.chatapp.Entities.Item;
 import com.example.omri.chatapp.Entities.Question;
 
 import java.util.ArrayList;
@@ -18,16 +17,7 @@ import retrofit2.http.Query;
 
 public class API {
 
-    public static final String API_URL = "http://10.100.102.10:8080";
-    public class RunItem{
-        private String id;
-        public RunItem(){
-
-        }
-        public String getId() {
-            return id;
-        }
-    }
+    public static final String API_URL = "http://10.100.102.13:8080";
 
     public static class getRegularResponse {
         public boolean isOk;
@@ -67,15 +57,6 @@ public class API {
         public UpComingListRequest(String userId) {
 
             this.userId = userId;
-        }
-    }
-    public static class RecommendRunsRequest {
-        public String userId;
-        public  String langlat;
-
-        public RecommendRunsRequest(String userId, String langlat) {
-            this.userId = userId;
-            this.langlat = langlat;
         }
     }
     public static class FeedRunsRequest {

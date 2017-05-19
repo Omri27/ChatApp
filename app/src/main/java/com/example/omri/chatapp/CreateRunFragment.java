@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LogWriter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +53,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import static android.R.attr.fragment;
@@ -115,6 +118,9 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         nextBtn= (Button) view.findViewById(R.id.next_btn);
         timeBtn= (Button) view.findViewById(R.id.time_btn);
         runTime = (EditText)view.findViewById(R.id.time_txt);
+        runDate.setInputType(InputType.TYPE_NULL);
+        location.setInputType(InputType.TYPE_NULL);
+        runTime.setInputType(InputType.TYPE_NULL);
         dateBtn.setOnClickListener(this);
         nextBtn.setOnClickListener(this);
         timeBtn.setOnClickListener(this);
@@ -195,9 +201,57 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 //startActivityForResult(pickLocationIntent, PICK_LOCATION_REQUEST);
             }
         else if(view==nextBtn){
-                ((LobbyCommunicate) getActivity()).createRunPreference(editRun,runName.getText().toString(),runDate.getText().toString(),runTime.getText().toString(),distance.getText().toString());
+                if(validateInput()) {
+                    ((LobbyCommunicate) getActivity()).createRunPreference(editRun, runName.getText().toString(), runDate.getText().toString(), runTime.getText().toString(), distance.getText().toString());
+                }
             }
         }
+        private void resetErr(){
+            runDate.setError(null);
+            runName.setError(null);
+            location.setError(null);
+            runTime.setError(null);
+            distance.setError(null);
+        }
+    private boolean validateInput() {
+        resetErr();
+        if (runDate.getText().toString().equals("")) {
+            runDate.setError("Please Submit Your Run Date");
+            return false;
+        } else {
+            try {
+                DateFormat formattercheck =  new SimpleDateFormat("dd-MM-yyyy");
+                formattercheck.setLenient(false);
+                Date dob = formattercheck.parse(runDate.getText().toString());
+                if(dob.before((new Date()))){
+                    runDate.setError("Please type Run Date In the Future");
+                    return false;
+                }
+            } catch (Exception e) {
+                runDate.setError("Please type correct Run Date");
+                return false;
+            }
+        }
+        if (runName.getText().toString().equals("")) {
+            runName.setError("Please Submit Your Run Name");
+            return false;
+        }
+        if (location.getText().toString().equals("")) {
+            location.setError("Please Submit Your Run Location");
+            return false;
+        }
+        if (runTime.getText().toString().equals("")) {
+            runTime.setError("Please Submit Your Run Time");
+            return false;
+        }
+        if (distance.getText().toString().equals("")) {
+            distance.setError("Please Submit Your Run Distance");
+            return false;
+        }
+        return true;
+
+
+    }
     @Override
     public void onResume() {
         super.onResume();

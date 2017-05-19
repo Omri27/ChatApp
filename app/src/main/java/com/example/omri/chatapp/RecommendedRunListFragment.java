@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.omri.chatapp.Entities.HistoryRun;
 import com.example.omri.chatapp.Entities.Run;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +41,6 @@ public class RecommendedRunListFragment extends Fragment  implements View.OnClic
     private Button feedBtn;
     private Date nowDate = new Date();
     private String currentUserId;
-    private HistoryRun history;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

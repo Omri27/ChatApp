@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.omri.chatapp.Entities.HistoryRun;
+
 import com.example.omri.chatapp.Entities.Run;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -55,7 +55,6 @@ public class RunFeedListFragment extends Fragment  implements View.OnClickListen
     private Button smartSearchBtn;
     private Date nowDate = new Date();
     public Location deviceLocation;
-    private HistoryRun history;
     ArrayList<Run> runList = new ArrayList<Run>();
 
     @Override
