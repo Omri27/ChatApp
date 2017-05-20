@@ -151,36 +151,9 @@
             </TextView>
 
         </TableRow>
+
         <TableRow
-
-            android:id="@+id/tableRow2"
-            android:paddingTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textSize="18dp"
-                android:id="@+id/run_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large">
-
-            </TextView>
-
-            <TextView
-                android:textSize="18dp"
-                android:id="@+id/date_time_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Large">
-
-            </TextView>
-        </TableRow
-            >
-        <TableRow
-            android:id="@+id/tableRow3"
+            android:id="@+id/tableRow6"
             android:paddingTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
