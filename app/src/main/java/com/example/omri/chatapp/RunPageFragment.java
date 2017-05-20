@@ -41,6 +41,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     private TextView runLocationtxt;
     private TextView distancetxt;
     private TextView suitxt;
+    private TextView participantsTxt;
     private EditText textMessage;
     private LinearLayoutManager linearLayoutManager;
     private Button beTherebtn;
@@ -87,6 +88,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
     runId = getArguments().getString("runId");
     whichList = getArguments().getString("whichList");
     trainerNametxt = (TextView) view.findViewById(R.id.trainer_name_txt);
+        participantsTxt=  (TextView) view.findViewById(R.id.participants_txt);
     dateTimetxt = (TextView) view.findViewById(R.id.date_time_txt);
     runLocationtxt = (TextView) view.findViewById(R.id.location_txt);
     distancetxt = (TextView) view.findViewById(R.id.distance_txt);
@@ -104,6 +106,7 @@ public class RunPageFragment extends Fragment implements View.OnClickListener {
                  trainerNametxt.setText((String)dataSnapshot.child("creator").getValue());
                 distancetxt.setText((String)dataSnapshot.child("distance").getValue());
                 runLocationtxt.setText((String)dataSnapshot.child("location").child("name").getValue());
+                participantsTxt.setText(String.valueOf(dataSnapshot.child("runners").getChildrenCount()));
                 dateTimetxt.setText(((String)dataSnapshot.child("date").getValue()+ " "+(String)dataSnapshot.child("time").getValue()));
                 if(dataSnapshot.hasChild("runPropertyMatch")){
                     suitxt.setText((String) dataSnapshot.child("runPropertyMatch").getValue().toString()+"%");
