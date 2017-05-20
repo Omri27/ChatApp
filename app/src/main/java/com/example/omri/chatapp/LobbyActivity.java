@@ -324,26 +324,17 @@ private void setCurrentUserId() {
     public void sendLobbyMessage(String Id,String messageText) {
         String senderId =CurrentUserId;
         DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("runs").child(Id).child("messages");
-        // DatabaseReference receiverRef = FirebaseDatabase.getInstance().getReference().child("chats").child(currentRecevierId).child(senderId);
+
         String key = Ref.push().getKey();
         Message message = new Message(messageText, currentUserName, senderId);
-//        senderRef.child("messages").child(key).setValue(message);
-//        receiverRef.child("messages").child(key).setValue(message);
-//        senderRef.child("lastMessage").setValue(messageText);
-//        receiverRef.child("lastMessage").setValue(messageText);
-//        senderRef.child("timeStamp").setValue(message.getTime());
-//        receiverRef.child("timeStamp").setValue(message.getTime());
+
         Map senderFanOut = new HashMap();
         //Map receiverFanOut = new HashMap();
         senderFanOut.put(key, message);
-      //  senderFanOut.put("/lastMessage", messageText);
-       // senderFanOut.put("/timeStamp", message.getTime());
-//        receiverFanOut.put("/messages/" + key,message);
-//        receiverFanOut.put("/lastMessage",messageText);
-//        receiverFanOut.put("/timeStamp",message.getTime());
+
 
         Ref.updateChildren(senderFanOut);
-        //receiverRef.updateChildren(receiverFanOut);
+
     }
     @Override
    public  void  signOutOfARun(final String whichList,final String runId){
@@ -575,18 +566,8 @@ private void setCurrentUserId() {
                     .getLastLocation(mGoogleApiClient);
         }
 
-        // Set the map's camera position to the current location of the device.
-//        if (mCameraPosition != null) {
-//            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-//        } else if (mLastKnownLocation != null) {
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                    new LatLng(mLastKnownLocation.getLatitude(),
-//                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-        // } else {
         Log.d("TAG", "Current location is null. Using defaults.");
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        // }
+
         Log.w("locationknown", String.valueOf(mLastKnownLocation.getLatitude()));
         mGoogleApiClient.disconnect();
         if(isSmart)

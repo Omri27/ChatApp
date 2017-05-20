@@ -49,7 +49,6 @@ public class CreateRunPreferenceFragment extends Fragment implements View.OnClic
     }
 
     public static class CreateRunPreferencesViewHolder extends RecyclerView.ViewHolder {
-        //public LinearLayout QuestionLayout;
         public TextView question;
         public RadioGroup radioGroup;
         public RadioButton buttonYes;

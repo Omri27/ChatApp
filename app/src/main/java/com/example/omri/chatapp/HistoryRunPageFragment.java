@@ -31,16 +31,13 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
     private TextView runLocationtxt;
     private TextView distancetxt;
     private TextView suitxt;
-    private TextView leveltxt;
-    private LinearLayoutManager linearLayoutManager;
+
     private Button deleteBtn;
     private String runId;
     private String userId;
-    private RadioButton yesBtn;
-    private RadioButton noBtn;
-    private Button updateBtn;
+
     private DatabaseReference ref;
-    private boolean isLike;
+
     public HistoryRunPageFragment() {
     }
 
@@ -56,19 +53,11 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
         runLocationtxt = (TextView) view.findViewById(R.id.history_location_txt);
         distancetxt = (TextView) view.findViewById(R.id.history_distance_txt);
         suitxt = (TextView) view.findViewById(R.id.history_suit_txt);
-       // leveltxt = (TextView) view.findViewById(R.id.history_level_txt);
         deleteBtn = (Button) view.findViewById(R.id.history_run_page_delete);
-        //yesBtn = (RadioButton) view.findViewById(R.id.history_radio_button_yes);
-        //noBtn = (RadioButton)view.findViewById(R.id.history_radio_button_no);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
         deleteBtn.setOnClickListener(this);
-        //updateBtn = (Button) view.findViewById(R.id.history_run_page_update);
-       // updateBtn.setOnClickListener(this);
-        //final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("historyRuns").child(runId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-               // getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
                 getActivity().setTitle(((String) dataSnapshot.child("name").getValue()));
                 trainerNametxt.setText((String)dataSnapshot.child("creator").getValue());
                 distancetxt.setText((String)dataSnapshot.child("distance").getValue());
@@ -79,16 +68,6 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
                 }else{
                     suitxt.setVisibility(View.INVISIBLE);
                 }
-               // HistoryYesnoOnClickListener yesNoListener = new HistoryYesnoOnClickListener();
-               // noBtn.setOnClickListener(yesNoListener);
-              //  yesBtn.setOnClickListener(yesNoListener);
-//                if(dataSnapshot.child("like").getValue().equals(false)){
-//                    isLike= false;
-//                    noBtn.setChecked(true);
-//                }else {
-//                    isLike=true;
-//                    yesBtn.setChecked(true);
-//                }
             }
 
             @Override
@@ -102,9 +81,7 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-           // case R.id.history_run_page_update:
-               // ((LobbyCommunicate) getActivity()).updateLike(runId,isLike);
-                //break;
+
             case R.id.feed_coming_up_btn:
                 ((LobbyCommunicate) getActivity()).enterComingupRunList();
                 break;
@@ -113,21 +90,4 @@ public class HistoryRunPageFragment extends Fragment implements View.OnClickList
                 break;
         }
     }
-//    public class HistoryYesnoOnClickListener implements View.OnClickListener{
-//
-//        public HistoryYesnoOnClickListener() {
-//
-//        }
-//        @Override
-//        public void onClick(View view) {
-//            switch (view.getId()) {
-//                case R.id.history_radio_button_no:
-//                    isLike=false;
-//                    break;
-//                case R.id.history_radio_button_yes:
-//                    isLike=true;
-//                    break;
-//            }
-//        }
-//    }
 }

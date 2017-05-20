@@ -81,7 +81,6 @@ public class LocationMapActivity  extends AppCompatActivity implements OnMapRead
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         mGoogleApiClient.connect();
-        //searchBtn.setOnClickListener(this);
         autocompleteFragment.setOnPlaceSelectedListener(this);
         AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)

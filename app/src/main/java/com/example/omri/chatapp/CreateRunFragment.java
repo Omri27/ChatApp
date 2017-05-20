@@ -77,20 +77,11 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
     public EditText distance;
     public Button nextBtn;
     public Button locationBtn;
-    private static final int PICK_LOCATION_REQUEST = 1;
     private String runId=null;
-    //public MapView mMapView;
-
-    private GoogleMap googleMap;
     private DatePickerDialog dateDialog;
     private TimePickerDialog timeDialog;
     private SimpleDateFormat dateFormatter;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mRequestingLocationUpdates;
-    private int mYear, mMonth, mDay, mHour, mMinute;
-    private  Intent intent=null;
     private String editRun= "";
-    static final int PICK_CONTACT_REQUEST = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,8 +92,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.fragment_create_run, container, false);
 
         getActivity().setTitle("Create Run");
-        //mMapView = (MapView) view.findViewById(R.id.mapView);
-        //mMapView.onCreate(savedInstanceState);
         try {
             runId = getArguments().getString("runId");
         }catch(Exception ex){
@@ -154,8 +143,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 }
             });
         }
-        //mMapView.getMapAsync(this);
-
 
         return view;
     }
@@ -195,10 +182,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
         else if(view == locationBtn){
                 ((LobbyCommunicate) getActivity()).setLocationNeeded(false);
                 ((LobbyCommunicate) getActivity()).activateLocation();
-                //Intent pickLocationIntent = new Intent(getActivity(),LocationMapActivity.class);
-
-                // pickContactIntent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
-                //startActivityForResult(pickLocationIntent, PICK_LOCATION_REQUEST);
             }
         else if(view==nextBtn){
                 if(validateInput()) {
@@ -269,34 +252,6 @@ public class CreateRunFragment extends Fragment implements View.OnClickListener 
                 Log.w("exceptionbla", ex.toString());
             }
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
-//        super.onActivityResult(requestCode, resultCode, intent);
-//        Log.w("activityResultbla", "enter");
-//
-//        try {
-//          //  Bundle extras = intent.getExtras();
-//           // if (extras != null) {
-////                Double locationlat = extras.getDouble("LocationLat");
-////                Double locationlng = extras.getDouble("LocationLng");
-////                String  locationstr = extras.getString("LocationStr");
-////                location.setText(locationstr);
-//               // location = new Location(locationstr);
-//                //location.setLatitude(locationlat);
-//               // location.setLongitude(locationlng);
-//                //Log.w("activityResultbla", String.valueOf(position));
-//                //Bundle bundle = new Bundle();
-//                //bundle.putDouble("position", position);
-//                //createRunFragment.setArguments(bundle);
-//                //Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("createRun");
-//               // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_lobby, frag,"CreateRun").addToBackStack(null).commit();
-//
-//        }catch(Exception ex){
-//            Log.w("onActivityResultbla",ex.toString());
-//           // location=(Location) null;
-//
-//        }
-//    }
 
 
 }
