@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <!--<item-->
+            <!--android:id="@+id/find_people"-->
+            <!--android:icon="@mipmap/ic_account_circle_black_24dp"-->
+            <!--android:title="Find People" />-->
+        <!--<item-->
+            <!--android:id="@+id/active_chats"-->
+            <!--android:icon="@mipmap/ic_send_black_24dp"-->
+            <!--android:title="Chats" />-->
+        <item
+            android:id="@+id/run_list"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="Run List" />
+        <item
+            android:id="@+id/create_run"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="Create Run" />
+        <item
+            android:id="@+id/run"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="Start a Run" />
+        <item
+            android:id="@+id/prefernces_button"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="Preferences" />
+        <item
+            android:id="@+id/user_details_button"
+            android:icon="@mipmap/ic_send_black_24dp"
+            android:title="User Details" />
+        <item
+            android:id="@+id/logout_button"
+            android:icon="@mipmap/ic_input_black_24dp"
+            android:title="Logout" />
+
+    </group>
+
+
+
+</menu>

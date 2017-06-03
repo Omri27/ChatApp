@@ -1,0 +1,7 @@
+#Sun May 21 11:32:37 IDT 2017
+base.0=C\:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_1c8d05fab486b70f50da535c2047bca583978344
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=C\:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_5e886e242a808caf5822acd6aa0b65315b010d8b\\classes.dex
+base.1=C\:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_5e886e242a808caf5822acd6aa0b65315b010d8b
+file.0=C\:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_1c8d05fab486b70f50da535c2047bca583978344\\classes.dex

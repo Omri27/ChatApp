@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "C:\\Users\\Omri\\.android\\build-cache\\4bd8a537c31627222f53bb141c4607c0a067a321\\output\\res\\layout-v21\\notification_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\Omri\\.android\\build-cache\\4bd8a537c31627222f53bb141c4607c0a067a321\\output\\res\\layout-v21\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\Omri\\.android\\build-cache\\4bd8a537c31627222f53bb141c4607c0a067a321\\output\\res\\layout-v21\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\place_autocomplete_fragment.xml",
+        "source": "C:\\Users\\Omri\\.android\\build-cache\\8bc6e86d2aa54fc286346b0d50ef192c59d4f8b1\\output\\res\\layout-v21\\place_autocomplete_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\Omri\\.android\\build-cache\\4bd8a537c31627222f53bb141c4607c0a067a321\\output\\res\\layout-v21\\notification_action_tombstone.xml"
+    }
+]

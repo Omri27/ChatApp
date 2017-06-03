@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_launcher.png",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_account_circle_black_24dp.png",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_account_circle_black_24dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_add_a_photo_black_36dp.png",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_add_a_photo_black_36dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_send_white_24dp.png",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_send_white_24dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_forum_black_24dp.png",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_forum_black_24dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_input_black_24dp.png",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_input_black_24dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_send_black_24dp.png",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_send_black_24dp.png"
+    }
+]

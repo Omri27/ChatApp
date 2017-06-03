@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_drawer_lobby_drawer.xml",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\menu\\activity_drawer_lobby_drawer.xml"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_location.xml",
+        "source": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\src\\main\\res\\menu\\activity_location.xml"
+    },
+    {
+        "merged": "C:\\Users\\Omri\\Desktop\\Project\\SYSTEM\\FindMeRunApp\\app\\build\\intermediates\\res\\merged\\debug\\menu\\crop_image_menu.xml",
+        "source": "C:\\Users\\Omri\\.android\\build-cache\\69fa5577b9cca866dc7ccfc43c901779641f1190\\output\\res\\menu\\crop_image_menu.xml"
+    }
+]

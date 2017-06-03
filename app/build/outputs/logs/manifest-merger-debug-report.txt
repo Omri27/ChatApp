@@ -1,0 +1,493 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:1:39-39:12
+	package
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:2:48-84
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:2:1-47
+	xmlns:android
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:1:49-107
+	android:versionCode
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:4:1-77
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:4:18-74
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:5:1-75
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:5:18-72
+application
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:7:1-38:15
+MERGED from [com.android.support:cardview-v7:25.1.1] C:\Users\Omri\.android\build-cache\fd9577548fd694fb3ce5a429836ec91ba0200032\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:25.1.1] C:\Users\Omri\.android\build-cache\27394a3614c463415a563c16049df607ce338205\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:transition:25.1.1] C:\Users\Omri\.android\build-cache\14710247a0469e8eb46069507bfcdad96b7aa12c\output\AndroidManifest.xml:22:5-20
+MERGED from [com.google.firebase:firebase-core:10.2.0] C:\Users\Omri\.android\build-cache\347385913aa3338d0d3e0b39685f4dcb13529605\output\AndroidManifest.xml:5:5-20
+MERGED from [com.firebaseui:firebase-ui-database:1.0.0] C:\Users\Omri\.android\build-cache\8c2a5bf6e29a4eb961f873794e11f6f0204620d4\output\AndroidManifest.xml:13:5-17:19
+MERGED from [de.hdodenhof:circleimageview:2.1.0] C:\Users\Omri\.android\build-cache\d5c171f1649d41fc24d0e3a8b1e630de7af9e5e3\output\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bhargavms:DotLoader:1.0.1] C:\Users\Omri\.android\build-cache\8ff4401ee8248b3a1f10a01a0bbaff87a7c3e780\output\AndroidManifest.xml:11:5-14:19
+MERGED from [com.google.android.gms:play-services:10.2.0] C:\Users\Omri\.android\build-cache\28e6a4938aa587d87ae6c1e121438f442de0dc7b\output\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:23:5-27:19
+MERGED from [com.google.android.gms:play-services-analytics:10.2.0] C:\Users\Omri\.android\build-cache\53ae02b0f6fe3d6cc078318ecd476029544cc03c\output\AndroidManifest.xml:26:5-19
+MERGED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:19:5-26:19
+MERGED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:19:5-25:19
+MERGED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:4:5-8:19
+MERGED from [com.google.android.gms:play-services-cast:10.2.0] C:\Users\Omri\.android\build-cache\33fbd8f4cd04143e387ce75fb9e3204e9c91765b\output\AndroidManifest.xml:18:5-19
+MERGED from [com.android.support:mediarouter-v7:24.0.0] C:\Users\Omri\.android\build-cache\348a1e6979d11888887aeaccfa34c842cc70b97e\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:palette-v7:24.0.0] C:\Users\Omri\.android\build-cache\619cfeab9e9e5ca82b9d4e3cf81fede61df3f0fd\output\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-clearcut:10.2.0] C:\Users\Omri\.android\build-cache\8d9e8ab16f85b97b52f780a8ea99ed885ac5902d\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.firebase:firebase-config:10.2.0] C:\Users\Omri\.android\build-cache\88ff38a28b6e500c61aea2ad0f919e6c023de755\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-awareness:10.2.0] C:\Users\Omri\.android\build-cache\aac86b6dee8338133efc1d5372400d54c14bda58\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.firebase:firebase-crash:10.2.0] C:\Users\Omri\.android\build-cache\e36996c0643da6010d22bd767c7840139093b736\output\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-auth:10.2.0] C:\Users\Omri\.android\build-cache\53dff581c35f27cf810dfc109d5c45e74524421b\output\AndroidManifest.xml:19:5-20:19
+MERGED from [com.google.firebase:firebase-messaging:10.2.0] C:\Users\Omri\.android\build-cache\2378961c3d4ea240b6c16e24581f535b183aec03\output\AndroidManifest.xml:19:5-29:19
+MERGED from [com.google.android.gms:play-services-fitness:10.2.0] C:\Users\Omri\.android\build-cache\c432e384330add4f0a7b3751265c147a53d3b559\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-games:10.2.0] C:\Users\Omri\.android\build-cache\f6df250fbb26e2e18cac7baab50c46c3ba5a8e3d\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-drive:10.2.0] C:\Users\Omri\.android\build-cache\78eacc308fca5984c2d55dcf8159a4aa828eadcd\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-gass:10.2.0] C:\Users\Omri\.android\build-cache\531f2fae822e9173ad372d0352cf9aa3f929e6d0\output\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-gcm:10.2.0] C:\Users\Omri\.android\build-cache\c8abcac3fa8f6ac63854bc40cb16ab577f86c75c\output\AndroidManifest.xml:23:5-19
+MERGED from [com.google.firebase:firebase-appindexing:10.2.0] C:\Users\Omri\.android\build-cache\365ca815ef8c5acbce91452059f3157d4e80d725\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-iid:10.2.0] C:\Users\Omri\.android\build-cache\e05a585e58ee362ac92b5bcf82d6acee68f3bb12\output\AndroidManifest.xml:23:5-19
+MERGED from [com.google.android.gms:play-services-location:10.2.0] C:\Users\Omri\.android\build-cache\6da7f326e58cede0d92420c742da757e2b20b3a4\output\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-nearby:10.2.0] C:\Users\Omri\.android\build-cache\f6c92d3d621cc189978451cc169dbb9990addc25\output\AndroidManifest.xml:5:5-19
+MERGED from [com.google.android.gms:play-services-panorama:10.2.0] C:\Users\Omri\.android\build-cache\da099a39595e2bccf9e2431bdf7e8814d34433fa\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-places:10.2.0] C:\Users\Omri\.android\build-cache\8bc6e86d2aa54fc286346b0d50ef192c59d4f8b1\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-plus:10.2.0] C:\Users\Omri\.android\build-cache\4d9544f14aa5950e51f4769a35d2a35a239bb331\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-safetynet:10.2.0] C:\Users\Omri\.android\build-cache\2009699be7a098ef90ba4a767e3e98f6ecb81006\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:23:5-33:19
+MERGED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:24:5-33:19
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c1b188816dc63e6c26a46cdcc4c555e49c9f50a3\output\AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:28:5-50:19
+MERGED from [com.google.firebase:firebase-common:10.2.0] C:\Users\Omri\.android\build-cache\e46255d2f5b3236f62d17127932072e27e9c5a22\output\AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:10.2.0] C:\Users\Omri\.android\build-cache\a80c52137bad2072fced247e5f16bd2abb31082a\output\AndroidManifest.xml:19:5-19
+MERGED from [com.google.android.gms:play-services-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c40dcc09b9579793002ffd1560c1e9d3e6490dd2\output\AndroidManifest.xml:26:5-19
+MERGED from [com.google.android.gms:play-services-vision:10.2.0] C:\Users\Omri\.android\build-cache\0f391ef41913a6cd39770e0c78089884604be3f2\output\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-identity:10.2.0] C:\Users\Omri\.android\build-cache\a7474d7327ee882de4a6852bf40178397dca8b78\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-maps:10.2.0] C:\Users\Omri\.android\build-cache\8828e1acdd295b7c35844b5bb3e26b6124c2d769\output\AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-wearable:10.2.0] C:\Users\Omri\.android\build-cache\7d264af129e212d47f911c830d5f785d3b317fb1\output\AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-base:10.2.0] C:\Users\Omri\.android\build-cache\6a78c5a2a688a6428c6e7797b22c036f75b479c1\output\AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-tasks:10.2.0] C:\Users\Omri\.android\build-cache\a4b00019da87d0938e9f5067435ef58fde6cd14e\output\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:10.2.0] C:\Users\Omri\.android\build-cache\8353d508e88ef3404eb15d4fe2ae47f27b2c2362\output\AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:appcompat-v7:25.2.0] C:\Users\Omri\.android\build-cache\4bd8a537c31627222f53bb141c4607c0a067a321\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Omri\.android\build-cache\e590d3bf18d17a55ceabfab626d2e4328f70488d\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Omri\.android\build-cache\abe3b465941b273a91be3d63da2e9b2d89dd380a\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Omri\.android\build-cache\4291d3e33c1fe3faebe2c12194e3453d7832b468\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Omri\.android\build-cache\47c7cd3b299be8eac35d0c8b38390b4a1f40aad2\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Omri\.android\build-cache\e337fe76c8d442f161e32a708185d7597b3f5624\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] C:\Users\Omri\.android\build-cache\8b818e8b5889133b9c5087f4163877c67d0a24ca\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.2.0] C:\Users\Omri\.android\build-cache\aaeaa50f5cdb32a961cd5d0156294ae9363e2b31\output\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Omri\.android\build-cache\c269c5eb3680df1498e9737d1f6de08e17c3d20a\output\AndroidManifest.xml:25:5-20
+	android:label
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:7:76-108
+	android:supportsRtl
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:8:5-32
+		REJECTED from [com.github.bhargavms:DotLoader:1.0.1] C:\Users\Omri\.android\build-cache\8ff4401ee8248b3a1f10a01a0bbaff87a7c3e780\output\AndroidManifest.xml:13:9-35
+	android:allowBackup
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:7:14-40
+	android:icon
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:7:41-75
+	android:theme
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:8:61-92
+	tools:replace
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:8:33-60
+activity#com.example.omri.findmerun.MainActivity
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:9:5-16:16
+	android:screenOrientation
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:10:9-45
+	android:theme
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:9:70-106
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:9:15-69
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:11:9-15:25
+action#android.intent.action.MAIN
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:12:13-65
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:12:21-62
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:14:13-73
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:14:23-70
+activity#com.example.omri.findmerun.LobbyActivity
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:17:5-18:101
+	android:screenOrientation
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:18:53-89
+	android:label
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:17:71-121
+	android:theme
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:18:9-52
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:17:15-70
+service#com.example.omri.findmerun.Services.FirebaseMessagingService
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:19:5-23:15
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:19:14-89
+intent-filter#com.google.firebase.MESSAGING_EVENT
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:20:9-22:25
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:21:13-74
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:21:21-71
+service#com.example.omri.findmerun.Services.FirebaseIDService
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:24:5-28:15
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:24:14-82
+intent-filter#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:25:9-27:25
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:26:13-76
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:26:21-73
+activity#com.theartofdev.edmodo.cropper.CropImageActivity
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:30:5-31:55
+	android:theme
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:31:9-52
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:30:15-78
+activity#com.example.omri.findmerun.RunActivity
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:32:5-71
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:32:15-68
+activity#com.example.omri.findmerun.LocationMapActivity
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:33:5-79
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:33:15-76
+meta-data#com.google.android.gms.version
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:34:5-118
+MERGED from [com.firebaseui:firebase-ui-database:1.0.0] C:\Users\Omri\.android\build-cache\8c2a5bf6e29a4eb961f873794e11f6f0204620d4\output\AndroidManifest.xml:14:9-16:69
+MERGED from [com.google.android.gms:play-services-basement:10.2.0] C:\Users\Omri\.android\build-cache\8353d508e88ef3404eb15d4fe2ae47f27b2c2362\output\AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:34:62-115
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:34:16-61
+meta-data#com.google.android.geo.API_KEY
+ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:35:5-36:51
+	android:value
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:36:9-48
+	android:name
+		ADDED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml:35:16-61
+uses-sdk
+INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:cardview-v7:25.1.1] C:\Users\Omri\.android\build-cache\fd9577548fd694fb3ce5a429836ec91ba0200032\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:design:25.1.1] C:\Users\Omri\.android\build-cache\27394a3614c463415a563c16049df607ce338205\output\AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:transition:25.1.1] C:\Users\Omri\.android\build-cache\14710247a0469e8eb46069507bfcdad96b7aa12c\output\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-core:10.2.0] C:\Users\Omri\.android\build-cache\347385913aa3338d0d3e0b39685f4dcb13529605\output\AndroidManifest.xml:4:5-43
+MERGED from [com.firebaseui:firebase-ui-database:1.0.0] C:\Users\Omri\.android\build-cache\8c2a5bf6e29a4eb961f873794e11f6f0204620d4\output\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:recyclerview-v7:25.1.1] C:\Users\Omri\.android\build-cache\91fc1af3aca09a01f05a5934db5ff416a4bddb7f\output\AndroidManifest.xml:20:5-43
+MERGED from [de.hdodenhof:circleimageview:2.1.0] C:\Users\Omri\.android\build-cache\d5c171f1649d41fc24d0e3a8b1e630de7af9e5e3\output\AndroidManifest.xml:5:5-7:41
+MERGED from [com.theartofdev.edmodo:android-image-cropper:2.3.1] C:\Users\Omri\.android\build-cache\69fa5577b9cca866dc7ccfc43c901779641f1190\output\AndroidManifest.xml:8:5-10:41
+MERGED from [com.yqritc:recyclerview-flexibledivider:1.4.0] C:\Users\Omri\.android\build-cache\24ef3a8436f0b9944c397e5fb8fa9c75c0381214\output\AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.bhargavms:DotLoader:1.0.1] C:\Users\Omri\.android\build-cache\8ff4401ee8248b3a1f10a01a0bbaff87a7c3e780\output\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services:10.2.0] C:\Users\Omri\.android\build-cache\28e6a4938aa587d87ae6c1e121438f442de0dc7b\output\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-ads:10.2.0] C:\Users\Omri\.android\build-cache\c60393edb17e8257ba650749f5bd5aca7c9d0986\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:22:5-43
+MERGED from [com.google.android.gms:play-services-analytics:10.2.0] C:\Users\Omri\.android\build-cache\53ae02b0f6fe3d6cc078318ecd476029544cc03c\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-auth-base:10.2.0] C:\Users\Omri\.android\build-cache\3391a1b5f53efe3b6fc9c47568ddb56fd6f6fb78\output\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-cast:10.2.0] C:\Users\Omri\.android\build-cache\33fbd8f4cd04143e387ce75fb9e3204e9c91765b\output\AndroidManifest.xml:17:5-43
+MERGED from [com.android.support:mediarouter-v7:24.0.0] C:\Users\Omri\.android\build-cache\348a1e6979d11888887aeaccfa34c842cc70b97e\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:palette-v7:24.0.0] C:\Users\Omri\.android\build-cache\619cfeab9e9e5ca82b9d4e3cf81fede61df3f0fd\output\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-clearcut:10.2.0] C:\Users\Omri\.android\build-cache\8d9e8ab16f85b97b52f780a8ea99ed885ac5902d\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-config:10.2.0] C:\Users\Omri\.android\build-cache\88ff38a28b6e500c61aea2ad0f919e6c023de755\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-awareness:10.2.0] C:\Users\Omri\.android\build-cache\aac86b6dee8338133efc1d5372400d54c14bda58\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-crash:10.2.0] C:\Users\Omri\.android\build-cache\e36996c0643da6010d22bd767c7840139093b736\output\AndroidManifest.xml:20:5-43
+MERGED from [com.google.firebase:firebase-auth:10.2.0] C:\Users\Omri\.android\build-cache\53dff581c35f27cf810dfc109d5c45e74524421b\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-database:10.2.0] C:\Users\Omri\.android\build-cache\1f24fd753fb6c9cde8f30735f5995a404b011608\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.firebase:firebase-database-connection:10.2.0] C:\Users\Omri\.android\build-cache\2e43dd2aa88199684f45ad4d3a821d433ec2e2d7\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.firebase:firebase-messaging:10.2.0] C:\Users\Omri\.android\build-cache\2378961c3d4ea240b6c16e24581f535b183aec03\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-storage:10.2.0] C:\Users\Omri\.android\build-cache\983bd0e7afbd8e904842c49e0bce83d806151063\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.firebase:firebase-storage-common:10.2.0] C:\Users\Omri\.android\build-cache\2407bc7b4fffbb5a18b3c012f89e55169929e4a7\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-fitness:10.2.0] C:\Users\Omri\.android\build-cache\c432e384330add4f0a7b3751265c147a53d3b559\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-games:10.2.0] C:\Users\Omri\.android\build-cache\f6df250fbb26e2e18cac7baab50c46c3ba5a8e3d\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-drive:10.2.0] C:\Users\Omri\.android\build-cache\78eacc308fca5984c2d55dcf8159a4aa828eadcd\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-gass:10.2.0] C:\Users\Omri\.android\build-cache\531f2fae822e9173ad372d0352cf9aa3f929e6d0\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-gcm:10.2.0] C:\Users\Omri\.android\build-cache\c8abcac3fa8f6ac63854bc40cb16ab577f86c75c\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-appindexing:10.2.0] C:\Users\Omri\.android\build-cache\365ca815ef8c5acbce91452059f3157d4e80d725\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-iid:10.2.0] C:\Users\Omri\.android\build-cache\e05a585e58ee362ac92b5bcf82d6acee68f3bb12\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-instantapps:10.2.0] C:\Users\Omri\.android\build-cache\d01391a93d06cbee1ba033808594b9849f983861\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-location:10.2.0] C:\Users\Omri\.android\build-cache\6da7f326e58cede0d92420c742da757e2b20b3a4\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-nearby:10.2.0] C:\Users\Omri\.android\build-cache\f6c92d3d621cc189978451cc169dbb9990addc25\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-panorama:10.2.0] C:\Users\Omri\.android\build-cache\da099a39595e2bccf9e2431bdf7e8814d34433fa\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-places:10.2.0] C:\Users\Omri\.android\build-cache\8bc6e86d2aa54fc286346b0d50ef192c59d4f8b1\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-plus:10.2.0] C:\Users\Omri\.android\build-cache\4d9544f14aa5950e51f4769a35d2a35a239bb331\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-safetynet:10.2.0] C:\Users\Omri\.android\build-cache\2009699be7a098ef90ba4a767e3e98f6ecb81006\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-tagmanager:10.2.0] C:\Users\Omri\.android\build-cache\08c8f757522068c33a330128cf9c8d22d981e011\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c1b188816dc63e6c26a46cdcc4c555e49c9f50a3\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-common:10.2.0] C:\Users\Omri\.android\build-cache\e46255d2f5b3236f62d17127932072e27e9c5a22\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:10.2.0] C:\Users\Omri\.android\build-cache\a80c52137bad2072fced247e5f16bd2abb31082a\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c40dcc09b9579793002ffd1560c1e9d3e6490dd2\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-vision:10.2.0] C:\Users\Omri\.android\build-cache\0f391ef41913a6cd39770e0c78089884604be3f2\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-wallet:10.2.0] C:\Users\Omri\.android\build-cache\cc5c50a6ead6e231928b023e1b32657f66e3aa11\output\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-identity:10.2.0] C:\Users\Omri\.android\build-cache\a7474d7327ee882de4a6852bf40178397dca8b78\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-maps:10.2.0] C:\Users\Omri\.android\build-cache\8828e1acdd295b7c35844b5bb3e26b6124c2d769\output\AndroidManifest.xml:23:5-43
+MERGED from [com.google.android.gms:play-services-wearable:10.2.0] C:\Users\Omri\.android\build-cache\7d264af129e212d47f911c830d5f785d3b317fb1\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-base:10.2.0] C:\Users\Omri\.android\build-cache\6a78c5a2a688a6428c6e7797b22c036f75b479c1\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.android.gms:play-services-tasks:10.2.0] C:\Users\Omri\.android\build-cache\a4b00019da87d0938e9f5067435ef58fde6cd14e\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-basement:10.2.0] C:\Users\Omri\.android\build-cache\8353d508e88ef3404eb15d4fe2ae47f27b2c2362\output\AndroidManifest.xml:17:5-43
+MERGED from [com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:0.7.2] C:\Users\Omri\.android\build-cache\73e1c6a53b2304f6469cd8fd4312df85ffb1319e\output\AndroidManifest.xml:23:5-25:41
+MERGED from [com.android.support:appcompat-v7:25.2.0] C:\Users\Omri\.android\build-cache\4bd8a537c31627222f53bb141c4607c0a067a321\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Omri\.android\build-cache\e590d3bf18d17a55ceabfab626d2e4328f70488d\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Omri\.android\build-cache\abe3b465941b273a91be3d63da2e9b2d89dd380a\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Omri\.android\build-cache\4291d3e33c1fe3faebe2c12194e3453d7832b468\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Omri\.android\build-cache\47c7cd3b299be8eac35d0c8b38390b4a1f40aad2\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Omri\.android\build-cache\e337fe76c8d442f161e32a708185d7597b3f5624\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] C:\Users\Omri\.android\build-cache\8b818e8b5889133b9c5087f4163877c67d0a24ca\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.2.0] C:\Users\Omri\.android\build-cache\aaeaa50f5cdb32a961cd5d0156294ae9363e2b31\output\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Omri\.android\build-cache\c269c5eb3680df1498e9737d1f6de08e17c3d20a\output\AndroidManifest.xml:21:5-23:58
+	tools:overrideLibrary
+		ADDED from [com.android.support:design:25.1.1] C:\Users\Omri\.android\build-cache\27394a3614c463415a563c16049df607ce338205\output\AndroidManifest.xml:23:9-59
+	android:targetSdkVersion
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Omri\Desktop\Project\SYSTEM\FindMeRunApp\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from [com.firebaseui:firebase-ui-database:1.0.0] C:\Users\Omri\.android\build-cache\8c2a5bf6e29a4eb961f873794e11f6f0204620d4\output\AndroidManifest.xml:11:5-67
+MERGED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:19:5-66
+MERGED from [com.google.android.gms:play-services-analytics:10.2.0] C:\Users\Omri\.android\build-cache\53ae02b0f6fe3d6cc078318ecd476029544cc03c\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:18:5-66
+MERGED from [com.google.firebase:firebase-crash:10.2.0] C:\Users\Omri\.android\build-cache\e36996c0643da6010d22bd767c7840139093b736\output\AndroidManifest.xml:18:5-66
+MERGED from [com.google.android.gms:play-services-gcm:10.2.0] C:\Users\Omri\.android\build-cache\c8abcac3fa8f6ac63854bc40cb16ab577f86c75c\output\AndroidManifest.xml:21:5-66
+MERGED from [com.google.android.gms:play-services-iid:10.2.0] C:\Users\Omri\.android\build-cache\e05a585e58ee362ac92b5bcf82d6acee68f3bb12\output\AndroidManifest.xml:21:5-66
+MERGED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c1b188816dc63e6c26a46cdcc4c555e49c9f50a3\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c40dcc09b9579793002ffd1560c1e9d3e6490dd2\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-maps:10.2.0] C:\Users\Omri\.android\build-cache\8828e1acdd295b7c35844b5bb3e26b6124c2d769\output\AndroidManifest.xml:20:5-66
+	android:name
+		ADDED from [com.firebaseui:firebase-ui-database:1.0.0] C:\Users\Omri\.android\build-cache\8c2a5bf6e29a4eb961f873794e11f6f0204620d4\output\AndroidManifest.xml:11:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:20:5-78
+MERGED from [com.google.android.gms:play-services-analytics:10.2.0] C:\Users\Omri\.android\build-cache\53ae02b0f6fe3d6cc078318ecd476029544cc03c\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.android.gms:play-services-nearby:10.2.0] C:\Users\Omri\.android\build-cache\f6c92d3d621cc189978451cc169dbb9990addc25\output\AndroidManifest.xml:4:5-78
+MERGED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c1b188816dc63e6c26a46cdcc4c555e49c9f50a3\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:19:5-78
+MERGED from [com.google.android.gms:play-services-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c40dcc09b9579793002ffd1560c1e9d3e6490dd2\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.android.gms:play-services-maps:10.2.0] C:\Users\Omri\.android\build-cache\8828e1acdd295b7c35844b5bb3e26b6124c2d769\output\AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:20:22-76
+activity#com.google.android.gms.ads.AdActivity
+ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:25:9-232
+	android:configChanges
+		ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:25:72-181
+	android:theme
+		ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:25:182-230
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:25:19-71
+activity#com.google.android.gms.ads.purchase.InAppPurchaseActivity
+ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:26:9-131
+	android:theme
+		ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:26:92-129
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads-lite:10.2.0] C:\Users\Omri\.android\build-cache\23b76920bb7819c04db70441e4a8ff5d197a4567\output\AndroidManifest.xml:26:19-91
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.android.gms:play-services-analytics:10.2.0] C:\Users\Omri\.android\build-cache\53ae02b0f6fe3d6cc078318ecd476029544cc03c\output\AndroidManifest.xml:24:5-67
+MERGED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c1b188816dc63e6c26a46cdcc4c555e49c9f50a3\output\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:21:5-67
+MERGED from [com.google.android.gms:play-services-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c40dcc09b9579793002ffd1560c1e9d3e6490dd2\output\AndroidManifest.xml:24:5-67
+	android:name
+		ADDED from [com.google.android.gms:play-services-analytics:10.2.0] C:\Users\Omri\.android\build-cache\53ae02b0f6fe3d6cc078318ecd476029544cc03c\output\AndroidManifest.xml:24:22-65
+activity#com.google.android.gms.appinvite.PreviewActivity
+ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:20:9-25:20
+	android:exported
+		ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:20:51-74
+	android:theme
+		ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:20:75-121
+	android:name
+		ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:20:19-50
+intent-filter#android.intent.category.DEFAULT+com.google.android.gms.appinvite.ACTION_PREVIEW
+ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:21:13-24:29
+action#com.google.android.gms.appinvite.ACTION_PREVIEW
+ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:22:17-89
+	android:name
+		ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:22:25-87
+category#android.intent.category.DEFAULT
+ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:23:17-75
+	android:name
+		ADDED from [com.google.android.gms:play-services-appinvite:10.2.0] C:\Users\Omri\.android\build-cache\f5babe70d895f3b4e0be5082977e26c9e4f313bf\output\AndroidManifest.xml:23:27-73
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:20:9-189
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:20:129-162
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:20:163-187
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:20:69-128
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:20:19-68
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:24:9-184
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:24:64-87
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:24:88-182
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:10.2.0] C:\Users\Omri\.android\build-cache\7ed0aa68745dce22d003918cfea42086bb159c5d\output\AndroidManifest.xml:24:18-63
+receiver#com.google.android.gms.cast.framework.media.MediaIntentReceiver
+ADDED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:5:9-99
+	android:name
+		ADDED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:5:19-97
+service#com.google.android.gms.cast.framework.media.MediaNotificationService
+ADDED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:6:9-103
+	android:name
+		ADDED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:6:18-101
+service#com.google.android.gms.cast.framework.ReconnectionService
+ADDED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:7:9-92
+	android:name
+		ADDED from [com.google.android.gms:play-services-cast-framework:10.2.0] C:\Users\Omri\.android\build-cache\4674b12d94d6635bfc9306b329f4ae521e9b17a5\output\AndroidManifest.xml:7:18-90
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:10.2.0] C:\Users\Omri\.android\build-cache\2378961c3d4ea240b6c16e24581f535b183aec03\output\AndroidManifest.xml:23:9-27:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:10.2.0] C:\Users\Omri\.android\build-cache\2378961c3d4ea240b6c16e24581f535b183aec03\output\AndroidManifest.xml:23:88-111
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:10.2.0] C:\Users\Omri\.android\build-cache\2378961c3d4ea240b6c16e24581f535b183aec03\output\AndroidManifest.xml:23:18-87
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.android.gms:play-services-gcm:10.2.0] C:\Users\Omri\.android\build-cache\c8abcac3fa8f6ac63854bc40cb16ab577f86c75c\output\AndroidManifest.xml:20:5-81
+MERGED from [com.google.android.gms:play-services-iid:10.2.0] C:\Users\Omri\.android\build-cache\e05a585e58ee362ac92b5bcf82d6acee68f3bb12\output\AndroidManifest.xml:20:5-81
+MERGED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:22:5-81
+	android:name
+		ADDED from [com.google.android.gms:play-services-gcm:10.2.0] C:\Users\Omri\.android\build-cache\c8abcac3fa8f6ac63854bc40cb16ab577f86c75c\output\AndroidManifest.xml:20:22-79
+service#com.google.android.gms.tagmanager.TagManagerService
+ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:24:9-134
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:24:110-132
+	android:exported
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:24:85-109
+	android:name
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:24:18-84
+activity#com.google.android.gms.tagmanager.TagManagerPreviewActivity
+ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:25:9-32:20
+	android:noHistory
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:25:94-118
+	android:name
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:25:19-93
+intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
+ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:26:13-31:29
+data
+ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:27:17-71
+	android:scheme
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:27:23-69
+action#android.intent.action.VIEW
+ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:28:17-68
+	android:name
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:28:25-66
+category#android.intent.category.BROWSABLE
+ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:30:17-77
+	android:name
+		ADDED from [com.google.android.gms:play-services-tagmanager-api:10.2.0] C:\Users\Omri\.android\build-cache\63c1f9c240cdaaf344908c4517f67bcc41d49b83\output\AndroidManifest.xml:30:27-75
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c1b188816dc63e6c26a46cdcc4c555e49c9f50a3\output\AndroidManifest.xml:25:7-26:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:25:90-112
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:25:113-137
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:25:17-89
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:27:7-31:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:27:162-184
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:27:105-161
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:27:17-104
+intent-filter#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:28:11-30:27
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:29:15-76
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:29:23-74
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:32:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.0] C:\Users\Omri\.android\build-cache\c1b188816dc63e6c26a46cdcc4c555e49c9f50a3\output\AndroidManifest.xml:27:7-137
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:32:88-110
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:32:111-135
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.0] C:\Users\Omri\.android\build-cache\024587ef495e3f25f01fba22149e5ff17bb12475\output\AndroidManifest.xml:32:16-87
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:24:5-109
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:24:72-107
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:24:17-71
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:26:22-76
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:30:9-36:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:30:85-108
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:30:109-169
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:30:19-84
+intent-filter#${applicationId}+com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:31:13-35:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:32:17-80
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:32:25-78
+action#com.google.android.c2dm.intent.REGISTRATION
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:33:17-85
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:33:25-83
+category#${applicationId}
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:34:17-60
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:34:27-58
+receiver#com.google.firebase.iid.FirebaseInstanceIdInternalReceiver
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:40:9-119
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:40:93-117
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:40:19-92
+service#com.google.firebase.iid.FirebaseInstanceIdService
+ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:44:9-48:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:44:83-106
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.0] C:\Users\Omri\.android\build-cache\6071616f39dc40660e3ee4bda59f42d455ea9516\output\AndroidManifest.xml:44:18-82
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:10.2.0] C:\Users\Omri\.android\build-cache\e46255d2f5b3236f62d17127932072e27e9c5a22\output\AndroidManifest.xml:6:9-194
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:10.2.0] C:\Users\Omri\.android\build-cache\e46255d2f5b3236f62d17127932072e27e9c5a22\output\AndroidManifest.xml:6:19-78
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:10.2.0] C:\Users\Omri\.android\build-cache\e46255d2f5b3236f62d17127932072e27e9c5a22\output\AndroidManifest.xml:6:144-168
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:10.2.0] C:\Users\Omri\.android\build-cache\e46255d2f5b3236f62d17127932072e27e9c5a22\output\AndroidManifest.xml:6:169-192
+	android:name
+		ADDED from [com.google.firebase:firebase-common:10.2.0] C:\Users\Omri\.android\build-cache\e46255d2f5b3236f62d17127932072e27e9c5a22\output\AndroidManifest.xml:6:79-143
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:10.2.0] C:\Users\Omri\.android\build-cache\8828e1acdd295b7c35844b5bb3e26b6124c2d769\output\AndroidManifest.xml:21:5-77
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:10.2.0] C:\Users\Omri\.android\build-cache\8828e1acdd295b7c35844b5bb3e26b6124c2d769\output\AndroidManifest.xml:21:19-51
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:10.2.0] C:\Users\Omri\.android\build-cache\8828e1acdd295b7c35844b5bb3e26b6124c2d769\output\AndroidManifest.xml:21:52-75
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:10.2.0] C:\Users\Omri\.android\build-cache\6a78c5a2a688a6428c6e7797b22c036f75b479c1\output\AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:10.2.0] C:\Users\Omri\.android\build-cache\6a78c5a2a688a6428c6e7797b22c036f75b479c1\output\AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:10.2.0] C:\Users\Omri\.android\build-cache\6a78c5a2a688a6428c6e7797b22c036f75b479c1\output\AndroidManifest.xml:19:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:10.2.0] C:\Users\Omri\.android\build-cache\6a78c5a2a688a6428c6e7797b22c036f75b479c1\output\AndroidManifest.xml:19:19-85

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="2dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/history_run_layout"
+        android:background="@color/primary_light">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/history_run_name_text"
+            android:text="Nike Run"
+
+            ></TextView>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/history_run_location_text"
+            android:text="Location: Petah Tikva"
+            ></TextView>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/history_run_creator_text"
+            android:text="Created By: Omri"
+            ></TextView>
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:text="Delete"
+            ></Button>
+
+    </LinearLayout>
+</LinearLayout>

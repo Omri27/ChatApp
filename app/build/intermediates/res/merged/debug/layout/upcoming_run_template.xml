@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/upcoming_run_layout"
+        android:background="@color/primary_light">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/upcoming_run_name_text"
+            android:text="Nike Run"
+
+            ></TextView>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/upcoming_run_location_text"
+            android:text="Location: Petah Tikva"
+            ></TextView>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/upcoming_run_creator_text"
+            android:text="Created By: Omri"
+            ></TextView>
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+          >
+        <Button
+            android:id="@+id/upcoming_Cancell"
+            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:text="Cancel"
+            android:layout_alignParentRight="true"
+            ></Button>
+        <Button
+            android:id="@+id/upcoming_edit"
+            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:text="Edit"
+            android:visibility="invisible"
+            android:layout_alignParentLeft="true"
+            ></Button>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

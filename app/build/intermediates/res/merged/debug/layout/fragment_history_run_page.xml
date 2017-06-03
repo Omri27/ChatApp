@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/table"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+
+                android:text="Trainer:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/history_trainer_name_txt"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+
+            android:id="@+id/tableRow2"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_run_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_date_time_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+        </TableRow
+            >
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_location_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <!--<Button-->
+
+                <!--android:id="@+id/location_page_btn"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Google Maps"-->
+                <!--&gt;-->
+            <!--</Button>-->
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_distance_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_distance_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+            </TextView>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_suits_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suits You:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                >
+
+            </TextView>
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/history_suit_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+               >
+
+            </TextView>
+
+        </TableRow>
+        <!--<TableRow-->
+            <!--android:id="@+id/tableRow6"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--&gt;-->
+
+            <!--<TextView-->
+                <!--android:textSize="18dp"-->
+                <!--android:id="@+id/history_level_lbl"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="Liked The Run?"-->
+                <!--android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingRight="10dp"-->
+                <!--&gt;-->
+
+            <!--</TextView>-->
+            <!--<RadioGroup-->
+                <!--android:id="@+id/radios_group"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+
+                <!--android:inputType="text"-->
+                <!--android:orientation="horizontal" >-->
+
+                <!--<RadioButton-->
+                    <!--android:id="@+id/history_radio_button_yes"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="right"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:button="@null"-->
+                    <!--android:text="Yes"-->
+                    <!--android:drawablePadding="30dp"-->
+                    <!--android:drawableRight="@android:drawable/btn_radio"-->
+                    <!--android:textSize="20dp"-->
+                    <!--/>-->
+
+                <!--<RadioButton-->
+                    <!--android:id="@+id/history_radio_button_no"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:button="@null"-->
+                    <!--android:text="No"-->
+                    <!--android:drawablePadding="30dp"-->
+                    <!--android:drawableRight="@android:drawable/btn_radio"-->
+                    <!--android:textSize="20dp"-->
+                    <!--/>-->
+
+
+            <!--</RadioGroup>-->
+
+        <!--</TableRow>-->
+        <Button
+            android:id="@+id/history_run_page_delete"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Delete"
+            >
+        </Button>
+        <!--<Button-->
+            <!--android:id="@+id/history_run_page_update"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Update"-->
+            <!--&gt;-->
+        <!--</Button>-->
+    </TableLayout>
+
+    </LinearLayout>
